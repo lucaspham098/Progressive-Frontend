@@ -21,7 +21,7 @@ const LoginSignupForm = () => {
             .post(`${API_URL}/login`, item)
             .then((res) => {
                 console.log(res.data)
-                sessionStorage.setItem("JKTtoken", res.data.token)
+                sessionStorage.setItem("JWTtoken", res.data.token)
             })
             .catch(err => {
                 console.log(err)
