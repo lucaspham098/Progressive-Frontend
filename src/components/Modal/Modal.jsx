@@ -6,7 +6,8 @@ import LineChart from '../LineChart/LineChart';
 
 const Modal = ({ id, name }) => {
 
-    const [exerciseData, setExerciseData] = useState(null)
+    const [chartData, setChartData] = useState(null)
+    const [exerciseData, setExerciseData] = useState([])
     const [recentWeight, setRecentWeight] = useState(0)
     const [recentSet1, setRecentSet1] = useState('')
     const [recentSet2, setRecentSet2] = useState('')
@@ -46,10 +47,15 @@ const Modal = ({ id, name }) => {
             })
             .then((res) => {
 
-                const dataSortedByDate =
-                    res.data.sort((a, b) => {
-                        return new Date(b.created_at) - new Date(a.created_at)
-                    })
+                const dataSortedByDate = [...res.data].sort((a, b) => {
+                    return new Date(b.created_at) - new Date(a.created_at)
+                })
+
+                const dataChronological = [...res.data].sort((a, b) => {
+                    return new Date(a.created_at) - new Date(b.created_at)
+                })
+
+                setExerciseData(dataSortedByDate)
 
                 const dates = dataSortedByDate.map(item => {
                     return {
@@ -57,11 +63,11 @@ const Modal = ({ id, name }) => {
                     }
                 })
 
-                dataSortedByDate && setExerciseData({
-                    labels: dataSortedByDate.map(item => formatDate(item.created_at)),
+                dataSortedByDate && setChartData({
+                    labels: dataChronological.map(item => formatDate(item.created_at)),
                     datasets: [{
                         label: "Training Volume (lbs)",
-                        data: dataSortedByDate.map(item => item.training_volume)
+                        data: dataChronological.map(item => item.training_volume)
                     }]
                 })
 
@@ -97,7 +103,6 @@ const Modal = ({ id, name }) => {
                 },
             })
             .then(res => {
-                console.log(res.data)
                 setPreviousWorkout(res.data)
                 setPreviousWeight(res.data[0].weight_lbs)
                 setPreviousSet1(res.data[0].set_1)
@@ -113,7 +118,7 @@ const Modal = ({ id, name }) => {
 
     useEffect(() => {
         if (!!previousWorkout)
-            if ((recentWeight * (recentSet1 + recentSet2 + recentSet3)) < (previousWeight * (previousSet1 + previousSet2 + previousSet3))) {
+            if ((recentWeight * (recentSet1 + recentSet2 + recentSet3)) > (previousWeight * (previousSet1 + previousSet2 + previousSet3))) {
                 setProgress('progress');
             } else {
                 setProgress('revert');
@@ -158,8 +163,34 @@ const Modal = ({ id, name }) => {
                 })}
             </div>
 
-            {exerciseData && <LineChart chartdata={exerciseData} />}
+            {chartData && <LineChart chartdata={chartData} />}
 
+            {exerciseData && <table id='input-table'>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Weight (lbs)</th>
+                        <th>Set 1</th>
+                        <th>Set 2</th>
+                        <th>Set 3</th>
+                        <th>Training Volume</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {exerciseData.map(item => {
+                        return (
+                            <tr key={item.created_at}>
+                                <td>{formatDate(item.created_at)}</td>
+                                <td>{item.weight_lbs}</td>
+                                <td>{item.set_1}</td>
+                                <td>{item.set_2}</td>
+                                <td>{item.set_3}</td>
+                                <td>{item.training_volume}</td>
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </table>}
 
         </div>
     );
