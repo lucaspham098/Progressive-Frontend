@@ -1,0 +1,18 @@
+@use '../../styles/partials/colours' as *;
+@use '../../styles/partials/spacing' as *;
+
+.button {
+    height: 3.25rem;
+    background-color: $blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: $button-radius ;
+    margin-left: $mobile-padding ;
+    margin-right: $mobile-padding;
+    width: 90%;
+
+    &:hover {
+        background-color: rgb(63, 147, 147);
+    }
+}

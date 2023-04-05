@@ -3,9 +3,8 @@ import './App.scss'
 import LoginOrSignup from './pages/LoginOrSignup'
 import WorkoutInputPage from './pages/WorkoutInputPage'
 import ComparisonPage from './pages/ComparisonPage'
-import LineChart from './components/LineChart/LineChart'
-import { useState } from 'react'
 import Footer from './components/Footer/Footer'
+import HomePage from './pages/HomePage'
 
 function App() {
 
@@ -16,7 +15,7 @@ function App() {
     <BrowserRouter>
       <Footer />
       <Routes>
-        <Route path='/' />
+        <Route path='/' element={<HomePage />} />
         <Route path='/login-or-signup' element={<LoginOrSignup />} />
         <Route path='/workout-input' element={<WorkoutInputPage />} />
         <Route path='/comparison' element={<ComparisonPage />} />
