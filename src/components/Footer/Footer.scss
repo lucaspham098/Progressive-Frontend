@@ -1,0 +1,22 @@
+@use '../../styles/partials/colours' as *;
+
+.footer {
+    height: 4rem;
+    background-color: $blue;
+    display: flex;
+    align-items: center;
+
+    &__logo {
+        text-align: center;
+        font-size: 1.5625rem;
+        margin-right: auto;
+        margin-left: 110px;
+    }
+
+    &__icon {
+        height: 2rem;
+        margin-left: 0.75rem;
+    }
+
+
+}

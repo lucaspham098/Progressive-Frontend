@@ -5,22 +5,18 @@ import WorkoutInputPage from './pages/WorkoutInputPage'
 import ComparisonPage from './pages/ComparisonPage'
 import LineChart from './components/LineChart/LineChart'
 import { useState } from 'react'
+import Footer from './components/Footer/Footer'
 
 function App() {
 
-  const [exerciseData, setExerciseData] = useState({
-    labels: [1, 2, 3, 4],
-    datasets: [{
-      label: 'ya',
-      data: [6, 7, 8, 3]
-    }]
-  })
+
 
 
   return (
     <BrowserRouter>
+      <Footer />
       <Routes>
-        <Route path='/' element={exerciseData && <LineChart chartdata={exerciseData} />} />
+        <Route path='/' />
         <Route path='/login-or-signup' element={<LoginOrSignup />} />
         <Route path='/workout-input' element={<WorkoutInputPage />} />
         <Route path='/comparison' element={<ComparisonPage />} />
