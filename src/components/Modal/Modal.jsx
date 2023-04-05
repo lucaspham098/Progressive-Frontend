@@ -12,6 +12,7 @@ const Modal = ({ id, name }) => {
     const [recentSet2, setRecentSet2] = useState('')
     const [recentSet3, setRecentSet3] = useState('')
     const [recentDate, setRecentDate] = useState('')
+    const [recentTrainingVolume, setRecentTrainingVolume] = useState('')
     const [dateArray, setDateArray] = useState([])
     const [previousWorkout, setPreviousWorkout] = useState(null)
     const [previousWeight, setPreviousWeight] = useState('')
@@ -59,8 +60,8 @@ const Modal = ({ id, name }) => {
                 dataSortedByDate && setExerciseData({
                     labels: dataSortedByDate.map(item => formatDate(item.created_at)),
                     datasets: [{
-                        label: "Weight",
-                        data: dataSortedByDate.map(item => item.weight_lbs)
+                        label: "Training Volume (lbs)",
+                        data: dataSortedByDate.map(item => item.training_volume)
                     }]
                 })
 
@@ -72,6 +73,7 @@ const Modal = ({ id, name }) => {
                     setRecentSet2(dataSortedByDate[0].set_2)
                     setRecentSet3(dataSortedByDate[0].set_3)
                     setRecentDate(formatDate(dataSortedByDate[0].created_at))
+                    setRecentTrainingVolume(dataSortedByDate[0].training_volume)
                 }
 
             })
@@ -131,6 +133,7 @@ const Modal = ({ id, name }) => {
                 <div>{recentSet1}</div>
                 <div>{recentSet2}</div>
                 <div>{recentSet3}</div>
+                <div>{recentTrainingVolume}</div>
             </div>
 
             <div>
