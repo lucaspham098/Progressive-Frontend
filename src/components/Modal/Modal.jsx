@@ -2,10 +2,11 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { API_URL } from '../../utils/utils';
 import './Modal.scss'
+import LineChart from '../LineChart/LineChart';
 
 const Modal = ({ id, name }) => {
 
-    const [exerciseData, setExerciseData] = useState([])
+    const [exerciseData, setExerciseData] = useState(null)
     const [recentWeight, setRecentWeight] = useState(0)
     const [recentSet1, setRecentSet1] = useState('')
     const [recentSet2, setRecentSet2] = useState('')
@@ -43,8 +44,6 @@ const Modal = ({ id, name }) => {
                 },
             })
             .then((res) => {
-                // console.log(res.data)
-                setExerciseData(res.data)
 
                 const dataSortedByDate =
                     res.data.sort((a, b) => {
@@ -56,6 +55,15 @@ const Modal = ({ id, name }) => {
                         date: formatDate(item.created_at)
                     }
                 })
+
+                dataSortedByDate && setExerciseData({
+                    labels: dataSortedByDate.map(item => formatDate(item.created_at)),
+                    datasets: [{
+                        label: "Weight",
+                        data: dataSortedByDate.map(item => item.weight_lbs)
+                    }]
+                })
+
                 setDateArray(dates.slice(1))
 
                 if (dataSortedByDate.length > 0) {
@@ -136,18 +144,18 @@ const Modal = ({ id, name }) => {
                 </select>
                 {previousWorkout && previousWorkout.map(workout => {
                     return (
-                        <>
+                        <div key={workout.user_id}>
                             <div>{formatDate(workout.created_at)}</div>
                             <div>{workout.weight_lbs}</div>
                             <div>{workout.set_1}</div>
                             <div>{workout.set_2}</div>
                             <div>{workout.set_3}</div>
-                        </>
+                        </div>
                     )
                 })}
             </div>
 
-
+            {exerciseData && <LineChart chartdata={exerciseData} />}
 
 
         </div>
