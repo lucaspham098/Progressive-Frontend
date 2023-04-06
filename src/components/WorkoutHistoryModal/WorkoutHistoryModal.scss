@@ -1,0 +1,12 @@
+@use '../../styles/partials/colours' as *;
+@use '../../styles/partials/spacing' as *;
+@use '../../styles/partials/sizing' as *;
+
+.history-modal {
+    background-color: aquamarine;
+}
+
+th {
+    background-color: aqua;
+    border: 1px red solid;
+}

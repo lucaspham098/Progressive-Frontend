@@ -97,7 +97,7 @@ const Modal = ({ id, name }) => {
         const token = sessionStorage.getItem('JWTtoken')
 
         axios
-            .get(`${API_URL}/exercise-data/${id}/${revertedDateFormat}`, {
+            .get(`${API_URL}/exercise-data/exercise/${id}/${revertedDateFormat}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

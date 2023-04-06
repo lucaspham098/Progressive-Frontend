@@ -1,11 +1,39 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { API_URL } from '../../utils/utils';
+import './WorkoutCard.scss'
 
-const WorkoutCard = () => {
+const ExerciseCard = ({ name, id, handleClick }) => {
+
+    const [loadWorkout, setLoadWorkout] = useState([])
+
+
+    useEffect(() => {
+        const token = sessionStorage.getItem('JWTtoken');
+
+        axios
+            .get(`${API_URL}/preset-workouts/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then((res) => {
+                setLoadWorkout(res.data)
+            })
+            .catch(err => {
+                console.log(err.response)
+            })
+    }, [])
+
+
     return (
-        <div>
-
+        <div className='exercise-card' onClick={handleClick} data-name={name} id={id}>
+            {name}
+            {loadWorkout && loadWorkout.map(item => {
+                return <div key={item.exercise_id}>{item.exercise_name}</div>
+            })}
         </div>
     );
 };
 
-export default WorkoutCard;
+export default ExerciseCard;

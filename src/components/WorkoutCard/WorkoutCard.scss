@@ -1,0 +1,7 @@
+@use '../../styles/partials/colours' as *;
+@use '../../styles/partials/spacing' as *;
+@use '../../styles/partials/sizing' as *;
+
+.exercise-card {
+    border: 1px solid black;
+}
