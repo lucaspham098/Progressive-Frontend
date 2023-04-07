@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { API_URL } from '../utils/utils';
 import Modal from '../components/Modal/Modal';
+import AdditionModal from '../components/AdditionModal/AdditionModal';
 
 const ComparisonPage = () => {
 
@@ -9,6 +10,8 @@ const ComparisonPage = () => {
     const [exerciseID, setExerciseID] = useState('')
     const [exerciseName, setExerciseName] = useState('')
     const [modal, setModal] = useState(false)
+    const [additionModal, setAdditiionModal] = useState(false)
+
 
     useEffect(() => {
         const token = sessionStorage.getItem('JWTtoken');
@@ -34,6 +37,31 @@ const ComparisonPage = () => {
         setModal(true)
     }
 
+    const handleAdd = () => {
+        setAdditiionModal(true)
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        setAdditiionModal(false)
+        console.log(event.target.name.value)
+        const token = sessionStorage.getItem('JWTtoken');
+
+
+        axios
+            .post(`${API_URL}/exercises`, { exercise: event.target.name.value }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => {
+                console.log(err.response.data)
+            })
+    }
+
 
     return (
         <div>
@@ -42,6 +70,8 @@ const ComparisonPage = () => {
                 return (<div key={exercise.id} id={exercise.id} data-name={exercise.exercise_name} onClick={handleClick}>{exercise.exercise_name}</div>
                 )
             })}
+            <button onClick={handleAdd}>add new exercise</button>
+            {additionModal && <AdditionModal heading='Exercise' handleSubmit={handleSubmit} />}
         </div>
     );
 };
