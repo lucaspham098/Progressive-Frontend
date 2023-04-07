@@ -44,9 +44,8 @@ const ComparisonPage = () => {
     const handleSubmit = (event) => {
         event.preventDefault()
         setAdditiionModal(false)
-        console.log(event.target.name.value)
-        const token = sessionStorage.getItem('JWTtoken');
 
+        const token = sessionStorage.getItem('JWTtoken');
 
         axios
             .post(`${API_URL}/exercises`, { exercise: event.target.name.value }, {
@@ -60,7 +59,10 @@ const ComparisonPage = () => {
             .catch(err => {
                 console.log(err.response.data)
             })
+
+        window.location.reload()
     }
+
 
 
     return (
