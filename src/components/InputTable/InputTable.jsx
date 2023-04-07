@@ -40,10 +40,9 @@ const InputTable = ({ workout_id }) => {
             const set_1 = formData.get(`set1-${exercise_id}`);
             const set_2 = formData.get(`set2-${exercise_id}`);
             const set_3 = formData.get(`set3-${exercise_id}`);
-            const comments = formData.get(`comments-${exercise_id}`);
             const total_reps = parseInt(set_1) + parseInt(set_2) + parseInt(set_3);
             const training_volume = weight_lbs * total_reps;
-            data.push({ exercise_id, weight_lbs, set_1, set_2, set_3, training_volume, comments });
+            data.push({ exercise_id, weight_lbs, set_1, set_2, set_3, training_volume });
         }
         console.log(data)
         const token = sessionStorage.getItem('JWTtoken');
@@ -74,7 +73,6 @@ const InputTable = ({ workout_id }) => {
                         <th>Set 1</th>
                         <th>Set 2</th>
                         <th>Set 3</th>
-                        <th>Comments</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -86,7 +84,6 @@ const InputTable = ({ workout_id }) => {
                                 <td><input type="number" name={`set1-${workout.exercise_id}`} /></td>
                                 <td><input type="number" name={`set2-${workout.exercise_id}`} /></td>
                                 <td><input type="number" name={`set3-${workout.exercise_id}`} /></td>
-                                <td><input type="text" name={`comments-${workout.exercise_id}`} /></td>
                             </tr>
                         )
                     })}

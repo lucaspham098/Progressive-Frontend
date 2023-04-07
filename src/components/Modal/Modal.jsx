@@ -28,12 +28,14 @@ const Modal = ({ id, name }) => {
         return date.toLocaleDateString('en-US', options);
     }
 
-    function revertDateFormat(dateStr) {
-        const date = new Date(dateStr);
-        const year = date.getFullYear();
-        const month = ('0' + (date.getMonth() + 1)).slice(-2);
-        const day = ('0' + date.getDate()).slice(-2);
-        return `${year}-${month}-${day}`;
+    function revertDateFormat(dateString) {
+        const dateObject = new Date(dateString);
+        const year = dateObject.getFullYear();
+        const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+        const day = String(dateObject.getDate()).padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day}`;
+
+        return formattedDate;
     }
 
     useEffect(() => {
@@ -48,37 +50,40 @@ const Modal = ({ id, name }) => {
             .then((res) => {
 
                 const dataSortedByDate = [...res.data].sort((a, b) => {
-                    return new Date(b.created_at) - new Date(a.created_at)
+                    return new Date(b.date) - new Date(a.date)
                 })
 
                 const dataChronological = [...res.data].sort((a, b) => {
-                    return new Date(a.created_at) - new Date(b.created_at)
+                    return new Date(a.date) - new Date(b.date)
                 })
 
                 setExerciseData(dataSortedByDate)
 
+
                 const dates = dataSortedByDate.map(item => {
                     return {
-                        date: formatDate(item.created_at)
+                        date: formatDate(item.date)
                     }
                 })
 
+                setDateArray(dates.slice(1))
+
+
                 dataSortedByDate && setChartData({
-                    labels: dataChronological.map(item => formatDate(item.created_at)),
+                    labels: dataChronological.map(item => formatDate(item.date)),
                     datasets: [{
                         label: "Training Volume (lbs)",
                         data: dataChronological.map(item => item.training_volume)
                     }]
                 })
 
-                setDateArray(dates.slice(1))
 
                 if (dataSortedByDate.length > 0) {
                     setRecentWeight(dataSortedByDate[0].weight_lbs)
                     setRecentSet1(dataSortedByDate[0].set_1)
                     setRecentSet2(dataSortedByDate[0].set_2)
                     setRecentSet3(dataSortedByDate[0].set_3)
-                    setRecentDate(formatDate(dataSortedByDate[0].created_at))
+                    setRecentDate(formatDate(dataSortedByDate[0].date))
                     setRecentTrainingVolume(dataSortedByDate[0].training_volume)
                 }
 
@@ -153,7 +158,7 @@ const Modal = ({ id, name }) => {
                 {previousWorkout && previousWorkout.map(workout => {
                     return (
                         <div key={workout.user_id}>
-                            <div>{formatDate(workout.created_at)}</div>
+                            <div>{formatDate(workout.date)}</div>
                             <div>{workout.weight_lbs}</div>
                             <div>{workout.set_1}</div>
                             <div>{workout.set_2}</div>
@@ -179,8 +184,8 @@ const Modal = ({ id, name }) => {
                 <tbody>
                     {exerciseData.map(item => {
                         return (
-                            <tr key={item.created_at}>
-                                <td>{formatDate(item.created_at)}</td>
+                            <tr key={item.date}>
+                                <td>{formatDate(item.date)}</td>
                                 <td>{item.weight_lbs}</td>
                                 <td>{item.set_1}</td>
                                 <td>{item.set_2}</td>

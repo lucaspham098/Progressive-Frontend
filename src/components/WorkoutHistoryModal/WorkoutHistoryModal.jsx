@@ -9,15 +9,13 @@ const WorkoutHistoryModal = ({ workoutName, workoutID }) => {
     const [loading, setLoading] = useState(true);
 
     function formatDate(dateString) {
-        const date = new Date(dateString);
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
-        const hours = date.getHours();
-        const minutes = date.getMinutes();
-        const seconds = date.getSeconds();
+        const dateObject = new Date(dateString);
 
-        const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')} ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        const year = dateObject.getFullYear();
+        const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+        const day = String(dateObject.getDate()).padStart(2, '0');
+
+        const formattedDate = `${year}-${month}-${day}`;
 
         return formattedDate;
     }
@@ -34,7 +32,7 @@ const WorkoutHistoryModal = ({ workoutName, workoutID }) => {
 
     useEffect(() => {
         const token = sessionStorage.getItem('JWTtoken');
-        const Arr = []
+
         axios
             .get(`${API_URL}/exercise-data/dates/${workoutID}`, {
                 headers: {
@@ -44,11 +42,13 @@ const WorkoutHistoryModal = ({ workoutName, workoutID }) => {
             .then(res => {
 
                 const dates = res.data.filter((obj, index, self) =>
-                    index === self.findIndex((t) => t.created_at === obj.created_at)
+                    index === self.findIndex((t) => t.date === obj.date)
                 );
+                console.log(dates)
                 const dateArr = (dates.map(item => {
-                    return formatDate(item.created_at)
+                    return formatDate(item.date)
                 })).reverse()
+                console.log(dateArr)
 
                 const requests = dateArr.map(item => axios.get(`${API_URL}/exercise-data/workouts/${workoutID}/${item}`, {
                     headers: {
@@ -58,7 +58,7 @@ const WorkoutHistoryModal = ({ workoutName, workoutID }) => {
                 Promise.all(requests)
                     .then((responses) => {
                         const data = responses.map((response) => response.data)
-                        setWorkoutArr(data)
+                        setWorkoutArr(data.reverse())
                         setLoading(false);
                     })
                     .catch(err => {
@@ -76,9 +76,6 @@ const WorkoutHistoryModal = ({ workoutName, workoutID }) => {
     }
 
 
-
-
-
     return (
         <div className='history-modal'>
             {workoutName}
@@ -86,7 +83,7 @@ const WorkoutHistoryModal = ({ workoutName, workoutID }) => {
             {workoutArr && workoutArr.map((item, index) => {
                 return (
                     <div key={index}>
-                        <div>{displayDateFormat(item[0].created_at)}</div>
+                        <div>{displayDateFormat(item[0].date)}</div>
                         <table >
                             <thead>
                                 <tr>
