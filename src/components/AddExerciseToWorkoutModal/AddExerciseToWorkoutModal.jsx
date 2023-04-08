@@ -59,6 +59,8 @@ const AddExerciseToWorkoutModal = ({ workoutID }) => {
                 console.log(err.response.data)
             })
 
+        window.location.reload()
+
     }
 
     return (
