@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { API_URL } from '../../utils/utils';
 import './WorkoutCard.scss'
 
-const ExerciseCard = ({ name, id, handleClick }) => {
+const ExerciseCard = ({ name, id, handleClick, handleAddExerciseClick }) => {
 
     const [loadWorkout, setLoadWorkout] = useState([])
 
@@ -32,6 +32,7 @@ const ExerciseCard = ({ name, id, handleClick }) => {
             {loadWorkout && loadWorkout.map(item => {
                 return <div key={item.exercise_id}>{item.exercise_name}</div>
             })}
+            <button id={id} onClick={handleAddExerciseClick}>add exercise</button>
         </div>
     );
 };

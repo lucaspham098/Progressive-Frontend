@@ -4,6 +4,7 @@ import { API_URL } from '../../utils/utils';
 import WorkoutCard from '../../components/WorkoutCard/WorkoutCard';
 import WorkoutHistoryModal from '../../components/WorkoutHistoryModal/WorkoutHistoryModal';
 import AdditionModal from '../../components/AdditionModal/AdditionModal';
+import AddExerciseToWorkoutModal from '../../components/AddExerciseToWorkoutModal/AddExerciseToWorkoutModal';
 
 
 const WorkoutsPage = () => {
@@ -13,6 +14,8 @@ const WorkoutsPage = () => {
     const [workoutName, setWorkoutName] = useState('')
     const [workoutID, setWorokoutID] = useState('')
     const [additonModal, setAdditionModal] = useState(false)
+    const [addToWorkoutModal, setAddToWorkoutModal] = useState(false)
+    const [workoutIDExerciseAdd, setWorkoutIDExerciseAdd] = useState('')
 
     useEffect(() => {
         const token = sessionStorage.getItem('JWTtoken');
@@ -35,6 +38,12 @@ const WorkoutsPage = () => {
         setModal(true)
         setWorkoutName(event.target.dataset.name)
         setWorokoutID(event.target.id)
+    }
+
+    const handleAddExerciseClick = (event) => {
+        setAddToWorkoutModal(true)
+        setWorkoutIDExerciseAdd(event.target.id)
+        console.log(event.target.id)
     }
 
     const handleSubmit = (event) => {
@@ -65,9 +74,10 @@ const WorkoutsPage = () => {
             <button onClick={() => { setAdditionModal(true) }}>add new workout</button>
             {additonModal && <AdditionModal heading='Workout' handleSubmit={handleSubmit} />}
             {workouts && workouts.map(workout => {
-                return <WorkoutCard name={workout.workout_name} id={workout.id} key={workout.id} handleClick={handleClick} />
+                return <WorkoutCard name={workout.workout_name} id={workout.id} key={workout.id} handleClick={handleClick} handleAddExerciseClick={handleAddExerciseClick} />
             })}
             {modal && <WorkoutHistoryModal workoutName={workoutName} workoutID={workoutID} />}
+            {addToWorkoutModal && <AddExerciseToWorkoutModal workoutID={workoutIDExerciseAdd} />}
         </div>
     );
 
