@@ -26,6 +26,22 @@ const ExerciseCard = ({ name, id, handleClick, handleAddExerciseClick, handleRem
     }, [])
 
     const handleDelete = () => {
+        const token = sessionStorage.getItem('JWTtoken');
+
+        axios
+            .delete(`${API_URL}/preset-workouts/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then(res => {
+                console.log(res.data)
+            })
+            .catch(err => {
+                console.log(err.response.data)
+            })
+
+        window.location.reload()
 
     }
 
