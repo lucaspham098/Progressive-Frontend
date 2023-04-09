@@ -4,9 +4,8 @@ import LoginOrSignup from './pages/LoginOrSignup'
 import WorkoutInputPage from './pages/WorkoutInputPage'
 import ComparisonPage from './pages/ComparisonPage'
 import Footer from './components/Footer/Footer'
-import HomePage from './pages/HomePage'
-import WorkoutsPage from './pages/WorkoutsPage/WorkoutsPage'
-
+import HomePage from './pages/HomePage/HomePage'
+import WorkoutsPage from './pages/HomePage/HomePage'
 function App() {
 
 
@@ -17,7 +16,7 @@ function App() {
       <Footer />
       <Routes>
         <Route path='/' element={<HomePage />} />
-        <Route path='/login-or-signup' element={<LoginOrSignup />} />
+        <Route path='/login-signup' element={<LoginOrSignup />} />
         <Route path='/workout-input' element={<WorkoutInputPage />} />
         <Route path='/comparison' element={<ComparisonPage />} />
         <Route path='/workouts' element={<WorkoutsPage />} />

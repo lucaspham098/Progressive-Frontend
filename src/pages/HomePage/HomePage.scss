@@ -1,0 +1,36 @@
+@use '../../styles/partials/colours' as *;
+@use '../../styles/partials/sizing' as *;
+@use '../../styles/partials/spacing' as *;
+@use '../../styles/mixins/mixins' as *;
+
+.home {
+    // padding: 0 $mobile-padding;s
+
+    &__date {
+        margin-top: 2rem;
+        margin-left: $mobile-padding;
+    }
+
+    &__title {
+        margin-top: .3rem;
+        margin-left: $mobile-padding;
+    }
+
+    &__text {
+        font-size: 2rem;
+        text-align: center;
+        width: 75%;
+        margin: 4rem auto 0
+    }
+
+    &__btn-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+
+    &__btn {
+        @include button;
+        width: 100%;
+    }
+}

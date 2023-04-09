@@ -1,6 +1,7 @@
 @use '../../styles/partials/colours' as *;
 @use '../../styles/partials/spacing' as *;
 @use '../../styles/partials/sizing' as *;
+@use '../../styles/mixins/mixins' as *;
 
 .form {
 
@@ -64,12 +65,7 @@
     }
 
     &__btn {
-        border-radius: 20px;
-        height: 2.5rem;
-        margin: 0 3rem;
-        border: none;
-        background-color: $blue;
-        cursor: pointer;
+        @include button;
 
         &--disabled {
             background-color: #9ba4ba;

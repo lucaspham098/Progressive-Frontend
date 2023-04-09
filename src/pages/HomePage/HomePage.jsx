@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { API_URL } from '../utils/utils';
-import Button from '../components/Button/Button';
-import WorkoutModal from '../components/WorkoutModal/WorkoutModal';
+import { API_URL } from '../../utils/utils';
+import WorkoutModal from '../../components/WorkoutModal/WorkoutModal';
+import './HomePage.scss'
+import Overlay from '../../components/Overlay/Overlay';
 
 const HomePage = () => {
 
     const [user, setUser] = useState('')
     const [date, setDate] = useState('')
-    const [buttonClick, setButtonClick] = useState(false)
+    const [modal, setModal] = useState(false)
 
     useEffect(() => {
         const token = sessionStorage.getItem('JWTtoken');
@@ -41,21 +42,28 @@ const HomePage = () => {
 
 
     const handleClick = () => {
-        setButtonClick(true)
+        setModal(true)
+        if (modal) {
+            setModal(false)
+        }
     }
 
 
 
 
     return (
-        <div>
-            <h1>Hello {user}</h1>
-            <p>Today is {date}</p>
+        <div className='home'>
+            <p className='home__date'>{date}</p>
+            <h1 className='home__title'>Hello {user}</h1>
 
-            <p>No Workout Completed Today</p>
-            <Button text='Do a Workout Today?' func={handleClick} />
+            <p className='home__text'>No Workout Completed Today</p>
+            <div className="home__btn-container">
+                <button className='home__btn' onClick={handleClick}>Do a Workout Today</button>
+            </div>
 
-            {buttonClick && <WorkoutModal heading='Choose Workout' />}
+            {modal && <WorkoutModal func={handleClick} />}
+            {modal && <Overlay />}
+
 
         </div>
     );

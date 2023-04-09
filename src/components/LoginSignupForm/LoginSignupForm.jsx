@@ -3,9 +3,11 @@ import React, { useState } from 'react';
 import { API_URL } from '../../utils/utils';
 import './LoginSignupForm.scss'
 import ErrorText from '../ErrorText/ErrorText';
+import { useNavigate } from 'react-router-dom';
 
 
 const LoginSignupForm = () => {
+    const navigate = useNavigate()
 
     const [formTitle, setFormTitle] = useState('Login')
     const [loginUser, setLoginUser] = useState('')
@@ -82,6 +84,9 @@ const LoginSignupForm = () => {
                 setLoginError(true)
                 setLoginErrorMessage('Invalid Username or Password')
             })
+
+        navigate('/')
+
     }
 
 
