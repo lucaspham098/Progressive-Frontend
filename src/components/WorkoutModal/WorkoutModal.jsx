@@ -5,7 +5,7 @@ import axios from 'axios';
 import closeBtn from '../../assets/icons/close.svg'
 import CloseBtn from '../CloseBtn/CloseBtn';
 
-const WorkoutModal = ({ func }) => {
+const WorkoutModal = ({ func, handleChooseWorkout }) => {
 
     const [workoutList, setWorkoutList] = useState([])
 
@@ -35,7 +35,7 @@ const WorkoutModal = ({ func }) => {
             <p className='workout-modal__heading'>Choose Workout</p>
             <div className="workout-modal__btn-container">
                 {workoutList && workoutList.map(item => {
-                    return <button className='workout-modal__btn' id={item.id}>{item.workout_name}</button>
+                    return <button className='workout-modal__btn' key={item.id} id={item.id} onClick={handleChooseWorkout}>{item.workout_name}</button>
                 })}
             </div>
         </div>

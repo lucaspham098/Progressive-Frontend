@@ -34,7 +34,6 @@ const WorkoutInputPage = () => {
 
     return (
         <div>
-            <h1>{(new Date().getFullYear())}</h1>
             <h2>Workout</h2>
             <select name="" id="" onChange={handleWorkoutChange}>
                 <option value="" >please select workout</option>

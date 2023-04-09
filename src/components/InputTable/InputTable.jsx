@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { API_URL } from '../../utils/utils';
+import './InputTable.scss'
 
 
 const InputTable = ({ workout_id }) => {
-
 
     const [workout, setWorkout] = useState([])
 
@@ -64,11 +64,11 @@ const InputTable = ({ workout_id }) => {
 
 
     return (
-        <form className='input-form' onSubmit={handleSubmit}>
-            <table id='input-table'>
-                <thead>
-                    <tr>
-                        <th>Exercise</th>
+        <form onSubmit={handleSubmit}>
+            <table className='input-table'>
+                <thead className='input-table__head'>
+                    <tr >
+                        <th className='cell'>Exercise</th>
                         <th>Weight (lbs)</th>
                         <th>Set 1</th>
                         <th>Set 2</th>
@@ -80,10 +80,10 @@ const InputTable = ({ workout_id }) => {
                         return (
                             <tr key={workout.exercise_id} exercise_id={workout.exercise_id}>
                                 <td>{workout.exercise_name}</td>
-                                <td><input type="number" name={`weight-${workout.exercise_id}`} /></td>
-                                <td><input type="number" name={`set1-${workout.exercise_id}`} /></td>
-                                <td><input type="number" name={`set2-${workout.exercise_id}`} /></td>
-                                <td><input type="number" name={`set3-${workout.exercise_id}`} /></td>
+                                <td><input className='input-table__input' type="number" name={`weight-${workout.exercise_id}`} /></td>
+                                <td><input className='input-table__input' type="number" name={`set1-${workout.exercise_id}`} /></td>
+                                <td><input className='input-table__input' type="number" name={`set2-${workout.exercise_id}`} /></td>
+                                <td><input className='input-table__input' type="number" name={`set3-${workout.exercise_id}`} /></td>
                             </tr>
                         )
                     })}
