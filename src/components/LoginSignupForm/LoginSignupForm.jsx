@@ -1,21 +1,75 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useState } from 'react';
 import { API_URL } from '../../utils/utils';
+import './LoginSignupForm.scss'
+import ErrorText from '../ErrorText/ErrorText';
+
 
 const LoginSignupForm = () => {
 
+    const [formTitle, setFormTitle] = useState('Login')
+    const [loginUser, setLoginUser] = useState('')
+    const [loginPass, setLoginPass] = useState('')
+    const [signupUser, setSignupUser] = useState('')
+    const [signupName, setSignupName] = useState('')
+    const [signupPass, setSignupPass] = useState('')
+    const [signupConfirmPass, setSignupConfirmPass] = useState('')
+    const [loginUserError, setLoginUserError] = useState(false)
+    const [loginUserErrorMessage, setLoginUserErrorMessage] = useState('')
+    const [loginPassError, setLoginPassError] = useState(false)
+    const [loginPassErrorMessage, setLoginPassErrorMessage] = useState(false)
+    const [loginError, setLoginError] = useState('')
+    const [loginErrorMessage, setLoginErrorMessage] = useState('')
+    const [signupPassError, setSignupPassError] = useState(false)
 
     const handleSignup = (event) => {
-        event.preventDefault()
 
+        if (signupPass !== signupConfirmPass) {
+            event.preventDefault()
+            return setSignupPassError(true)
+        }
+
+        const token = sessionStorage.getItem('JWTtoken');
+
+        axios
+            .post(`${API_URL}/signup`, {
+                username: signupUser,
+                password: signupPass,
+                name: signupName
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     const handleLogin = (event) => {
+
+        setLoginError(false)
+
+        if (!loginUser || !loginPass) {
+            event.preventDefault()
+            if (!loginUser) {
+                setLoginUserError(true)
+                setLoginUserErrorMessage('Field Required')
+            }
+            if (!loginPass) {
+                setLoginPassError(true)
+                setLoginPassErrorMessage('Field Required')
+            }
+            return
+        }
+
         event.preventDefault()
-        console.log(API_URL)
         const item = {
-            username: event.target.username.value,
-            password: event.target.password.value
+            username: loginUser,
+            password: loginPass
         }
         axios
             .post(`${API_URL}/login`, item)
@@ -25,25 +79,86 @@ const LoginSignupForm = () => {
             })
             .catch(err => {
                 console.log(err)
+                setLoginError(true)
+                setLoginErrorMessage('Invalid Username or Password')
             })
     }
 
 
+    const handleFormChange = () => {
+        setFormTitle('Signup')
+        if (formTitle === 'Signup') {
+            setFormTitle('Login')
+        }
+        setSignupUser('')
+        setSignupName('')
+        setSignupPass('')
+        setSignupConfirmPass('')
+    }
+
+    const handleLoginUserChange = (event) => {
+        setLoginUser(event.target.value)
+        setLoginUserError(false)
+    }
+    const handleLoginPassChange = (event) => {
+        setLoginPass(event.target.value)
+        setLoginPassError(false)
+    }
+    const handleSignupUserChange = (event) => {
+        setSignupUser(event.target.value)
+    }
+    const handleSignupPassChange = (event) => {
+        setSignupPass(event.target.value)
+    }
+    const handleSignupConfirmPassChange = (event) => {
+        setSignupConfirmPass(event.target.value)
+        setSignupPassError(false)
+    }
+    const handleSignupNameChange = (event) => {
+        setSignupName(event.target.value)
+    }
+
+
     return (
-        <>
-            <h1>asdfasfsf</h1>
-            <form onSubmit={handleLogin}>
-                <input type="text" name='username' placeholder='username' />
-                <input type="text" name='password' placeholder='password' />
-                <button>login</button>
-            </form>
-            <h2>not wag</h2>
-            <form onSubmit={handleSignup}>
-                <input type="text" name='username' placeholder='username' />
-                <input type="text" name='password' placeholder='password' />
-                <button>signup</button>
-            </form>
-        </>
+        <div className='form-container'>
+            <div className="form__title-container">
+                <h1 className='form__title'>{formTitle}</h1>
+            </div>
+            <div className="form__radio-container">
+                <input className='form__radio' type="radio" name="slider" id="login" defaultChecked onChange={handleFormChange} />
+                <label className='form__radio-label' htmlFor="login" >Login</label>
+                <input className='form__radio' type="radio" name="slider" id="signup" onChange={handleFormChange} />
+                <label className='form__radio-label' htmlFor="signup" >Signup</label>
+            </div>
+
+            {formTitle === 'Login' &&
+                <form className='form' onSubmit={handleLogin}>
+                    <div className="form__input-container">
+                        {loginError && <ErrorText message={loginErrorMessage} style='error--login' />}
+                        <input className='form__input' type="text" name='username' placeholder='username' onChange={handleLoginUserChange} />
+                        {loginUserError && <ErrorText message={loginUserErrorMessage} />}
+                        <input className='form__input' type="password" name='password' placeholder='password' onChange={handleLoginPassChange} />
+                        {loginPassError && <ErrorText message={loginPassErrorMessage} />}
+                        <button className='form__btn'>Login</button>
+                    </div>
+                </form>}
+
+
+            {formTitle === 'Signup' &&
+                <form className='form' onSubmit={handleSignup}>
+                    <div className="form__input-container">
+                        <input className='form__input' type="text" name='username' placeholder='username' onChange={handleSignupUserChange} />
+                        <input className='form__input' type="text" name='name' placeholder='name' onChange={handleSignupNameChange} />
+                        <input className='form__input' type="password" name='password' placeholder='password' onChange={handleSignupPassChange} />
+                        <input className='form__input' type="password" name='confirmPassword' placeholder='confirmPassword' onChange={handleSignupConfirmPassChange} />
+                        {signupPassError && <ErrorText message='Passwords do not match' />}
+                        {!signupUser || !signupPass || !signupName ?
+                            <button className='form__btn form__btn--disabled' disabled>Signup</button> : <button className='form__btn'>Signup</button>}
+
+                    </div>
+                </form>}
+
+        </div>
     );
 };
 

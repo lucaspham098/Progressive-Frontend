@@ -1,0 +1,81 @@
+@use '../../styles/partials/colours' as *;
+@use '../../styles/partials/spacing' as *;
+@use '../../styles/partials/sizing' as *;
+
+.form {
+
+    &-container {
+        margin: 5rem 1rem 0;
+        border: 1px solid black;
+        border-radius: 20px;
+        z-index: 10;
+
+    }
+
+    &__title-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $blue;
+        height: 5rem;
+        overflow: hidden;
+    }
+
+    &__radio-container {
+        margin: 1.5rem 1rem;
+        border: 1px solid $light-grey;
+        display: flex;
+        overflow: hidden;
+        border-radius: 20px;
+
+    }
+
+    &__radio {
+        display: none;
+
+
+        &:checked+.form__radio-label {
+            background: $blue ;
+        }
+    }
+
+    &__radio-label {
+        padding: .75rem 3.5rem;
+        cursor: pointer;
+        transition: background 0.5s;
+        width: 50%;
+    }
+
+
+    &__input-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__input {
+        border-radius: 20px;
+        height: 2.5rem;
+        margin: 0 3rem;
+        border: 1px solid $light-grey;
+        padding: 0 1rem;
+        margin-bottom: 1rem;
+
+
+    }
+
+    &__btn {
+        border-radius: 20px;
+        height: 2.5rem;
+        margin: 0 3rem;
+        border: none;
+        background-color: $blue;
+        cursor: pointer;
+
+        &--disabled {
+            background-color: #9ba4ba;
+            color: black;
+        }
+    }
+
+    padding-bottom: 1rem;
+}
