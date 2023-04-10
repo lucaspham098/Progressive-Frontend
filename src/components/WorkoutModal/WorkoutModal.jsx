@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { API_URL } from '../../utils/utils';
 import './WorkoutModal.scss'
 import axios from 'axios';
-import closeBtn from '../../assets/icons/close.svg'
 import CloseBtn from '../CloseBtn/CloseBtn';
 
 const WorkoutModal = ({ func, handleChooseWorkout }) => {

@@ -1,7 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { API_URL } from '../../utils/utils';
-import './WorkoutCard.scss'
+import deleteicon from "../../assets/icons/delete.svg"
+import editicon from '../../assets/icons/edit.svg'
+import './WorkoutCard.scss';
 
 const ExerciseCard = ({ name, id, handleClick, handleAddExerciseClick, handleRemoveExerciseClick }) => {
 
@@ -47,14 +49,20 @@ const ExerciseCard = ({ name, id, handleClick, handleAddExerciseClick, handleRem
 
 
     return (
-        <div className='exercise-card' onClick={handleClick} data-name={name} id={id}>
-            {name}
-            {loadWorkout && loadWorkout.map(item => {
-                return <div key={item.exercise_id}>{item.exercise_name}</div>
-            })}
-            <button id={id} onClick={handleAddExerciseClick}>add exercise</button>
-            <button id={id} onClick={handleRemoveExerciseClick}>remove exercise</button>
-            <button onClick={handleDelete}>delete</button>
+        <div className='workout-card' onClick={handleClick} data-name={name} id={id}>
+            <p className='workout-card__title' onClick={handleClick}>{name}</p>
+            <img src={deleteicon} alt="delete icon" onClick={handleDelete} className='workout-card__delete' />
+            <ul className="workout-card__list" onClick={handleClick}>
+                {loadWorkout && loadWorkout.map(item => {
+                    return <li className='workout-card__list-item' key={item.exercise_id}>- {item.exercise_name}</li>
+                })}
+            </ul>
+            <div className="workout-card__btn-container">
+                <button className='workout-card__btn' id={id} onClick={handleAddExerciseClick}>
+                    <img className='workout-card__btn-icon' src={editicon} alt="edit icon" /> add exercise</button>
+                <button className='workout-card__btn' id={id} onClick={handleRemoveExerciseClick}>
+                    <img className='workout-card__btn-icon' src={editicon} alt="edit icon" /> remove exercise</button>
+            </div>
         </div>
     );
 };

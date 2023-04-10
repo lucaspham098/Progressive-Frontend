@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { API_URL } from '../../utils/utils';
 import axios from 'axios';
+import './RemoveExerciseFromWorkoutModal.scss'
+import CloseBtn from '../CloseBtn/CloseBtn';
 
-const RemoveExerciseFromWorkoutModal = ({ workoutID }) => {
+const RemoveExerciseFromWorkoutModal = ({ workoutID, func }) => {
 
     const [exerciseList, setExerciseList] = useState([])
     const [listToRemove, setListToRemove] = useState([])
@@ -31,6 +33,7 @@ const RemoveExerciseFromWorkoutModal = ({ workoutID }) => {
         } else {
             setListToRemove([...listToRemove, { id: id }]);
         }
+        event.target.classList.add('remove-exercise-modal__exercise--selected')
     }
 
     const handleRemove = () => {
@@ -61,13 +64,17 @@ const RemoveExerciseFromWorkoutModal = ({ workoutID }) => {
     }
 
     return (
-        <div>
-            {exerciseList && exerciseList.map(item => {
-                return (
-                    <div key={item.exercise_id} id={item.exercise_id} onClick={handleSelect}>{item.exercise_name}</div>
-                )
-            })}
-            <button onClick={handleRemove}>Remove</button>
+        <div className='remove-exercise-modal'>
+            <CloseBtn func={func} />
+            <p className='remove-exercise-modal__title'>Choose Which Exercises to Remove</p>
+            <div className="remove-exercise-modal__exercise-container">
+                {exerciseList && exerciseList.map(item => {
+                    return (
+                        <div key={item.exercise_id} id={item.exercise_id} onClick={handleSelect} className='remove-exercise-modal__exercise'>{item.exercise_name}</div>
+                    )
+                })}
+            </div>
+            <button onClick={handleRemove} className='add-exercise-modal__btn'>Remove</button>
         </div>
     );
 };

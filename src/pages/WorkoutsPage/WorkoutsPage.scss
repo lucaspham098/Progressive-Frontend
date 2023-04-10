@@ -1,0 +1,29 @@
+@use '../../styles/partials/colours' as *;
+@use '../../styles/partials/sizing' as *;
+@use '../../styles/partials/spacing' as *;
+@use '../../styles/mixins/mixins' as *;
+
+.workouts {
+    &__title {
+        margin: 2rem $mobile-padding 0;
+    }
+
+    &__btn {
+        background-color: white;
+        border: none;
+        margin: 0 $mobile-padding 0;
+        font-size: 0.875rem;
+        cursor: pointer;
+
+        &:hover {
+            border-bottom: 1px solid black;
+        }
+    }
+
+    &__cards-container {
+        margin: 0 $mobile-padding 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+}

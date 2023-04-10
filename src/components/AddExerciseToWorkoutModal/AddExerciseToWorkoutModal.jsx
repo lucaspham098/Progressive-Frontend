@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import './AddExerciseToWorkoutModal.scss'
 import { API_URL } from '../../utils/utils';
 import axios from 'axios';
+import CloseBtn from '../CloseBtn/CloseBtn';
 
-const AddExerciseToWorkoutModal = ({ workoutID }) => {
+const AddExerciseToWorkoutModal = ({ workoutID, func }) => {
 
     const [availableExercises, setAvailableExercises] = useState([])
     const [listOfExercises, setListOfExercises] = useState([])
@@ -33,6 +34,7 @@ const AddExerciseToWorkoutModal = ({ workoutID }) => {
         } else {
             setListOfExercises([...listOfExercises, { id: id }]);
         }
+        event.target.classList.add('add-exercise-modal__exercise--selected')
     }
 
     const handleAdd = () => {
@@ -64,13 +66,17 @@ const AddExerciseToWorkoutModal = ({ workoutID }) => {
     }
 
     return (
-        <div className='add-to-workout-modal'>
-            {availableExercises && availableExercises.map(item => {
-                return (
-                    <div key={item.id} id={item.id} onClick={handleSelect}>{item.exercise_name}</div>
-                )
-            })}
-            <button onClick={handleAdd}>add</button>
+        <div className='add-exercise-modal'>
+            <CloseBtn func={func} />
+            <p className='add-exercise-modal__title'>Choose Which Exercises to Add</p>
+            <div className="add-exercise-modal__exercise-container">
+                {availableExercises && availableExercises.map(item => {
+                    return (
+                        <p key={item.id} id={item.id} onClick={handleSelect} className='add-exercise-modal__exercise'>{item.exercise_name}</p>
+                    )
+                })}
+            </div>
+            <button onClick={handleAdd} className='add-exercise-modal__btn'>Add</button>
         </div>
     );
 };

@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './WorkoutHistoryModal.scss'
 import axios from 'axios';
 import { API_URL } from '../../utils/utils';
+import DisplayTable from '../DisplayTable/DisplayTable';
+import CloseBtn from '../CloseBtn/CloseBtn';
 
-const WorkoutHistoryModal = ({ workoutName, workoutID }) => {
+
+const WorkoutHistoryModal = ({ workoutName, workoutID, func }) => {
 
     const [workoutArr, setWorkoutArr] = useState([])
     const [loading, setLoading] = useState(true);
@@ -78,40 +81,11 @@ const WorkoutHistoryModal = ({ workoutName, workoutID }) => {
 
     return (
         <div className='history-modal'>
-            {workoutName}
+            <CloseBtn func={func} />
+            <p className="history-modal__heading">{workoutName}</p>
 
             {workoutArr && workoutArr.map((item, index) => {
-                return (
-                    <div key={index}>
-                        <div>{displayDateFormat(item[0].date)}</div>
-                        <table >
-                            <thead>
-                                <tr>
-                                    <th>Exercise</th>
-                                    <th>Weight (lbs)</th>
-                                    <th>Set 1</th>
-                                    <th>Set 2</th>
-                                    <th>Set 3</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {item.map(item => {
-                                    return (
-                                        <tr key={item.exercise_name}>
-                                            <td>{item.exercise_name}</td>
-                                            <td>{item.weight_lbs}</td>
-                                            <td>{item.set_1}</td>
-                                            <td>{item.set_2}</td>
-                                            <td>{item.set_3}</td>
-                                            <td>{item.training_volume}</td>
-                                        </tr>
-                                    )
-                                })}
-                            </tbody>
-                        </table>
-                    </div>
-                )
-
+                return <DisplayTable title={displayDateFormat(item[0].date)} arr={item} key={index} />
             })}
         </div>
     );

@@ -3,7 +3,7 @@
 @use '../../styles/partials/sizing' as *;
 @use '../../styles/mixins/mixins' as *;
 
-.add-exercise-modal {
+.remove-exercise-modal {
 
     position: absolute;
     border-radius: $modal-radius;
@@ -37,6 +37,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        text-align: center;
         width: 49%;
         border-radius: 20px;
         height: 2.5rem;

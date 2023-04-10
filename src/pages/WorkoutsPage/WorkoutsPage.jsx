@@ -6,6 +6,9 @@ import WorkoutHistoryModal from '../../components/WorkoutHistoryModal/WorkoutHis
 import AdditionModal from '../../components/AdditionModal/AdditionModal';
 import AddExerciseToWorkoutModal from '../../components/AddExerciseToWorkoutModal/AddExerciseToWorkoutModal';
 import RemoveExerciseFromWorkoutModal from '../../components/RemoveExerciseFromWorkoutModal/RemoveExerciseFromWorkoutModal';
+import './WorkoutsPage.scss'
+import Overlay from '../../components/Overlay/Overlay';
+
 
 
 
@@ -40,16 +43,19 @@ const WorkoutsPage = () => {
 
     const handleClick = (event) => {
         setModal(true)
-        setWorkoutName(event.target.dataset.name)
-        setWorokoutID(event.target.id)
+        setWorkoutName(event.currentTarget.dataset.name)
+        setWorokoutID(event.currentTarget.id)
+        console.log(event.currentTarget.id)
     }
 
     const handleAddExerciseClick = (event) => {
+        event.stopPropagation();
         setAddToWorkoutModal(true)
         setWorkoutIDExerciseAdd(event.target.id)
     }
 
     const handleRemoveExerciseClick = (event) => {
+        event.stopPropagation();
         setRemoveFromWorkoutModal(true)
         setWorkoutIDRemoveExercise(event.target.id)
 
@@ -77,18 +83,35 @@ const WorkoutsPage = () => {
         window.location.reload()
     }
 
+    const handleCloseModal = () => {
+        setModal(false)
+        setAddToWorkoutModal(false)
+        setRemoveFromWorkoutModal(false)
+        setAdditionModal(false)
+    }
+
     return (
         <div>
-            <h1>Your Workouts</h1>
-            <button onClick={() => { setAdditionModal(true) }}>add new workout</button>
-            {additonModal && <AdditionModal heading='Workout' handleSubmit={handleSubmit} />}
-            {workouts && workouts.map(workout => {
-                return <WorkoutCard name={workout.workout_name} id={workout.id} key={workout.id} handleClick={handleClick} handleAddExerciseClick={handleAddExerciseClick} handleRemoveExerciseClick={handleRemoveExerciseClick} />
-            })}
-            {modal && <WorkoutHistoryModal workoutName={workoutName} workoutID={workoutID} />}
-            {addToWorkoutModal && <AddExerciseToWorkoutModal workoutID={workoutIDExerciseAdd} />}
-            {removeFromWorkoutModal && <RemoveExerciseFromWorkoutModal workoutID={workoutIDRemoveExercise} />}
+            <h1 className='workouts__title'>Your Workouts</h1>
+            <button className='workouts__btn' onClick={() => { setAdditionModal(true) }}>+ Add Workout</button>
 
+            <div className="workouts__cards-container">
+                {workouts && workouts.map(workout => {
+                    return <WorkoutCard name={workout.workout_name} id={workout.id} key={workout.id} handleClick={handleClick} handleAddExerciseClick={handleAddExerciseClick} handleRemoveExerciseClick={handleRemoveExerciseClick} />
+                })}
+            </div>
+
+            {modal && <WorkoutHistoryModal workoutName={workoutName} workoutID={workoutID} func={handleCloseModal} />}
+            {modal && <Overlay />}
+
+            {addToWorkoutModal && <AddExerciseToWorkoutModal workoutID={workoutIDExerciseAdd} func={handleCloseModal} />}
+            {addToWorkoutModal && <Overlay />}
+
+            {removeFromWorkoutModal && <RemoveExerciseFromWorkoutModal workoutID={workoutIDRemoveExercise} func={handleCloseModal} />}
+            {removeFromWorkoutModal && <Overlay />}
+
+            {additonModal && <AdditionModal heading='Workout' handleSubmit={handleSubmit} func={handleCloseModal} />}
+            {additonModal && <Overlay />}
         </div>
     );
 
