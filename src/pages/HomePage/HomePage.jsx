@@ -5,6 +5,7 @@ import WorkoutModal from '../../components/WorkoutModal/WorkoutModal';
 import './HomePage.scss'
 import Overlay from '../../components/Overlay/Overlay';
 import InputTable from '../../components/InputTable/InputTable';
+import DisplayTable from '../../components/DisplayTable/DisplayTable';
 
 const HomePage = () => {
 
@@ -14,6 +15,7 @@ const HomePage = () => {
     const [workoutList, setWorkoutList] = useState([])
     const [workoutID, setWorkoutID] = useState('')
     const [inProgress, setInProgress] = useState(false)
+    const [completedWorkout, setCompletedWorkout] = useState([])
 
     useEffect(() => {
         const token = sessionStorage.getItem('JWTtoken');
@@ -42,6 +44,29 @@ const HomePage = () => {
         }
 
         setDate(getCurrentDate())
+
+        const currentDateSearchFormat = () => {
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = ('0' + (date.getMonth() + 1)).slice(-2);
+            const day = ('0' + date.getDate()).slice(-2);
+            const formattedDate = `${year}-${month}-${day}`;
+            return formattedDate;
+        }
+
+        axios
+            .get(`${API_URL}/exercise-data/current-day/${currentDateSearchFormat()}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then(res => {
+                setCompletedWorkout(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
     }, [])
 
 
@@ -83,7 +108,7 @@ const HomePage = () => {
             <p className='home__date'>{date}</p>
             <h1 className='home__title'>Hello {user}</h1>
 
-            {!inProgress &&
+            {!inProgress && completedWorkout.length === 0 &&
                 <>
                     <p className='home__text'>No Workout Completed Today</p>
                     <div className="home__btn-container">
@@ -97,14 +122,23 @@ const HomePage = () => {
             {inProgress &&
                 <>
                     <p className='home__text'>Workout In Progress</p>
-                    <select name="" id="" onChange={handleWorkoutChange} defaultValue=''>
-                        <option disabled value=''>Switch Workouts</option>
-                        {workoutList.map(workout => {
-                            return (<option key={workout.id} value={workout.id}>{workout.workout_name}</option>)
-                        })}
-                    </select>
+                    <div className="home__select-container">
+                        <select className='home__select' name="" id="" onChange={handleWorkoutChange} defaultValue=''>
+                            <option disabled value=''>Switch Workouts</option>
+                            {workoutList.map(workout => {
+                                return (<option key={workout.id} value={workout.id}>{workout.workout_name}</option>)
+                            })}
+                        </select>
+                    </div>
                     <InputTable workout_id={workoutID} />
                 </>}
+
+            {completedWorkout.length > 0 &&
+                <>
+                    <p className='home__text'>Workout Completed Today</p>
+                    <DisplayTable title={completedWorkout[0].workout_name} arr={completedWorkout} />
+                </>
+            }
 
         </div>
     );

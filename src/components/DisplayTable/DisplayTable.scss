@@ -1,9 +1,9 @@
 @use '../../styles/partials/colours' as *;
-@use '../../styles/partials/spacing' as *;
 @use '../../styles/partials/sizing' as *;
+@use '../../styles/partials/spacing' as *;
 @use '../../styles/mixins/mixins' as *;
 
-.input-table {
+.display-table {
 
     &__container {
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
@@ -24,19 +24,30 @@
     font-size: .9rem;
     overflow: hidden;
     margin: 0 0 1.5rem;
+    width: 100%;
 
-    & thead {
+    & thead tr {
         background-color: $blue;
         font-weight: bold;
         height: 3rem;
+        width: 100%;
     }
 
-    & tr td:first-child {
-        padding: 0 15px;
+    &__set-cell {
+        width: 16.33%;
+        height: 3rem;
+    }
+
+    &__weight-cell {
+        width: 21%;
     }
 
     & tr td {
         text-align: center;
+    }
+
+    & tr td:first-of-type {
+        width: 29%;
     }
 
     & tbody tr {
@@ -47,24 +58,4 @@
         background-color: #f3f3f3;
     }
 
-
-
-    &__input {
-        width: 100%;
-        height: 3rem;
-        text-align: center;
-        background-color: inherit;
-        border: none;
-    }
-
-    &__btn-container {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 2rem;
-    }
-
-    &__btn {
-        @include button;
-        width: 100%;
-    }
 }

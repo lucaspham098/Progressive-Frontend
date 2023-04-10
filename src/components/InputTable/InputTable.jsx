@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { API_URL } from '../../utils/utils';
 import './InputTable.scss'
+import ErrorText from '../ErrorText/ErrorText'
 
 
 const InputTable = ({ workout_id }) => {
 
     const [workout, setWorkout] = useState([])
+    const [submitError, setSubmitError] = useState(false)
 
     useEffect(() => {
 
@@ -22,7 +24,6 @@ const InputTable = ({ workout_id }) => {
             }
             )
             .then((res) => {
-                console.log(res.data)
                 setWorkout(res.data)
             })
             .catch((err) => {
@@ -44,7 +45,6 @@ const InputTable = ({ workout_id }) => {
             const training_volume = weight_lbs * total_reps;
             data.push({ exercise_id, weight_lbs, set_1, set_2, set_3, training_volume });
         }
-        console.log(data)
         const token = sessionStorage.getItem('JWTtoken');
 
         axios
@@ -54,10 +54,13 @@ const InputTable = ({ workout_id }) => {
                 },
             })
             .then((res) => {
-                console.log(res)
+                setSubmitError(false)
+                window.location.reload()
             })
             .catch((err) => {
                 console.log(err.response.data)
+                setSubmitError(true)
+                return
             })
     };
 
@@ -65,31 +68,37 @@ const InputTable = ({ workout_id }) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <table className='input-table'>
-                <thead className='input-table__head'>
-                    <tr >
-                        <th className='cell'>Exercise</th>
-                        <th>Weight (lbs)</th>
-                        <th>Set 1</th>
-                        <th>Set 2</th>
-                        <th>Set 3</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {workout.map(workout => {
-                        return (
-                            <tr key={workout.exercise_id} exercise_id={workout.exercise_id}>
-                                <td>{workout.exercise_name}</td>
-                                <td><input className='input-table__input' type="number" name={`weight-${workout.exercise_id}`} /></td>
-                                <td><input className='input-table__input' type="number" name={`set1-${workout.exercise_id}`} /></td>
-                                <td><input className='input-table__input' type="number" name={`set2-${workout.exercise_id}`} /></td>
-                                <td><input className='input-table__input' type="number" name={`set3-${workout.exercise_id}`} /></td>
-                            </tr>
-                        )
-                    })}
-                </tbody>
-            </table>
-            <button>Finish Workout</button>
+            <div className="input-table__container">
+                {workout.length > 0 && <div className='input-table__title'>{workout[0].workout_name}</div>}
+                <table className='input-table'>
+                    <thead className='input-table__head'>
+                        <tr >
+                            <th>Exercise</th>
+                            <th>Weight (lbs)</th>
+                            <th>Set 1</th>
+                            <th>Set 2</th>
+                            <th>Set 3</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {workout.map(workout => {
+                            return (
+                                <tr key={workout.exercise_id} exercise_id={workout.exercise_id}>
+                                    <td>{workout.exercise_name}</td>
+                                    <td><input className='input-table__input' type="number" name={`weight-${workout.exercise_id}`} /></td>
+                                    <td><input className='input-table__input' type="number" name={`set1-${workout.exercise_id}`} /></td>
+                                    <td><input className='input-table__input' type="number" name={`set2-${workout.exercise_id}`} /></td>
+                                    <td><input className='input-table__input' type="number" name={`set3-${workout.exercise_id}`} /></td>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </table>
+            </div>
+            {submitError && <ErrorText message='Make sure all fields are filled' />}
+            <div className="input-table__btn-container">
+                <button className='input-table__btn'>Finish Workout</button>
+            </div>
         </form>
     );
 };
