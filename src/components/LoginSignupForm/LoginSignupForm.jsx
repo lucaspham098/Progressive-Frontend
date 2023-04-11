@@ -4,6 +4,7 @@ import { API_URL } from '../../utils/utils';
 import './LoginSignupForm.scss'
 import ErrorText from '../ErrorText/ErrorText';
 import { useNavigate } from 'react-router-dom';
+import logo from '../../assets/icons/logo.svg'
 
 
 const LoginSignupForm = () => {
@@ -165,7 +166,12 @@ const LoginSignupForm = () => {
                         </div>
                     </form>}
             </div>
-            <div className='clear-background'></div>
+            <div className='clear-background'>
+                <div className="login-signup__logo-container">
+                    <img className='login-signup__logo' src={logo} alt="logo" />
+                    <p className='login-signup__logo-text'>PROGRESSIVE</p>
+                </div>
+            </div>
 
         </>
     );

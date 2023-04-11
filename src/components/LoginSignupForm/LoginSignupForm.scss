@@ -84,3 +84,20 @@
     right: 0;
 
 }
+
+.login-signup__logo {
+    height: 5rem;
+
+    &-text {
+        font-size: 2rem;
+        font-weight: bold;
+        font-style: italic;
+    }
+
+    &-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+}

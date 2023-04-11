@@ -113,7 +113,7 @@ const ExerciseProgressionPage = () => {
                     return (
                         <div key={exercise.id} id={exercise.id} className='exercises__card'>
                             <img src={deleteicon} alt="delete icon" className='exercises__delete' onClick={handleDelete} id={exercise.id} />
-                            <p className="exercises__card-text" onClick={handleClick}>{exercise.exercise_name}</p>
+                            <p className="exercises__card-text">{exercise.exercise_name}</p>
                             <div className='exercises__card-btn' onClick={handleClick} id={exercise.id} data-name={exercise.exercise_name}>
                                 <img className='exercises__card-icon' src={arm} alt="arm icon" />
                                 <p className='exercises__card-text--small'>View Progression</p>
