@@ -1,0 +1,45 @@
+@use '../../styles/partials/colours' as *;
+@use '../../styles/partials/spacing' as *;
+@use '../../styles/partials/sizing' as *;
+
+.nav-modal {
+    background-color: $blue;
+    position: fixed;
+    bottom: 0;
+    top: 0;
+    width: 45%;
+    z-index: 10;
+
+    &__btn {
+        height: 24px;
+        margin-left: 7.75rem;
+        margin-top: 1.5rem;
+        cursor: pointer;
+    }
+
+    &__flex-container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        gap: 23rem;
+        margin-top: 2rem;
+    }
+
+    &__link-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    &__link {
+        font-size: 1.125rem;
+        margin-left: 1.5rem;
+        width: fit-content;
+        color: white;
+        cursor: pointer;
+
+        &:hover {
+            border-bottom: 1px solid white;
+        }
+    }
+}
