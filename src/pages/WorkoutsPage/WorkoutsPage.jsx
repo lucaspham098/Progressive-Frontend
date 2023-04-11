@@ -8,11 +8,14 @@ import AddExerciseToWorkoutModal from '../../components/AddExerciseToWorkoutModa
 import RemoveExerciseFromWorkoutModal from '../../components/RemoveExerciseFromWorkoutModal/RemoveExerciseFromWorkoutModal';
 import './WorkoutsPage.scss'
 import Overlay from '../../components/Overlay/Overlay';
-
-
-
+import { useNavigate } from 'react-router-dom';
 
 const WorkoutsPage = () => {
+    const navigate = useNavigate()
+
+    if (!sessionStorage.getItem('JWTtoken')) {
+        navigate('/login-signup')
+    }
 
     const [workouts, setWorkouts] = useState([])
     const [modal, setModal] = useState(false)

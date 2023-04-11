@@ -7,9 +7,16 @@ import './ExerciseProgressionPage.scss'
 import deleteicon from "../../assets/icons/delete.svg"
 import Overlay from '../../components/Overlay/Overlay';
 import arm from '../../assets/icons/flex.svg'
+import { useNavigate } from 'react-router-dom';
 
 
 const ExerciseProgressionPage = () => {
+
+    const navigate = useNavigate()
+
+    if (!sessionStorage.getItem('JWTtoken')) {
+        navigate('/login-signup')
+    }
 
     const [exerciseList, setExerciseList] = useState([])
     const [exerciseID, setExerciseID] = useState('')

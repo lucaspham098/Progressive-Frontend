@@ -78,6 +78,8 @@ const LoginSignupForm = () => {
             .then((res) => {
                 console.log(res.data)
                 sessionStorage.setItem("JWTtoken", res.data.token)
+                navigate('/')
+
             })
             .catch(err => {
                 console.log(err)
@@ -85,7 +87,6 @@ const LoginSignupForm = () => {
                 setLoginErrorMessage('Invalid Username or Password')
             })
 
-        navigate('/')
 
     }
 
@@ -125,45 +126,48 @@ const LoginSignupForm = () => {
 
 
     return (
-        <div className='form-container'>
-            <div className="form__title-container">
-                <h1 className='form__title'>{formTitle}</h1>
+        <>
+            <div className='form-container'>
+                <div className="form__title-container">
+                    <h1 className='form__title'>{formTitle}</h1>
+                </div>
+                <div className="form__radio-container">
+                    <input className='form__radio' type="radio" name="slider" id="login" defaultChecked onChange={handleFormChange} />
+                    <label className='form__radio-label' htmlFor="login" >Login</label>
+                    <input className='form__radio' type="radio" name="slider" id="signup" onChange={handleFormChange} />
+                    <label className='form__radio-label' htmlFor="signup" >Signup</label>
+                </div>
+
+                {formTitle === 'Login' &&
+                    <form className='form' onSubmit={handleLogin}>
+                        <div className="form__input-container">
+                            {loginError && <ErrorText message={loginErrorMessage} style='error--login' />}
+                            <input className='form__input' type="text" name='username' placeholder='username' onChange={handleLoginUserChange} />
+                            {loginUserError && <ErrorText message={loginUserErrorMessage} />}
+                            <input className='form__input' type="password" name='password' placeholder='password' onChange={handleLoginPassChange} />
+                            {loginPassError && <ErrorText message={loginPassErrorMessage} />}
+                            <button className='form__btn'>Login</button>
+                        </div>
+                    </form>}
+
+
+                {formTitle === 'Signup' &&
+                    <form className='form' onSubmit={handleSignup}>
+                        <div className="form__input-container">
+                            <input className='form__input' type="text" name='username' placeholder='username' onChange={handleSignupUserChange} />
+                            <input className='form__input' type="text" name='name' placeholder='name' onChange={handleSignupNameChange} />
+                            <input className='form__input' type="password" name='password' placeholder='password' onChange={handleSignupPassChange} />
+                            <input className='form__input' type="password" name='confirmPassword' placeholder='confirmPassword' onChange={handleSignupConfirmPassChange} />
+                            {signupPassError && <ErrorText message='Passwords do not match' />}
+                            {!signupUser || !signupPass || !signupName ?
+                                <button className='form__btn form__btn--disabled' disabled>Signup</button> : <button className='form__btn'>Signup</button>}
+
+                        </div>
+                    </form>}
             </div>
-            <div className="form__radio-container">
-                <input className='form__radio' type="radio" name="slider" id="login" defaultChecked onChange={handleFormChange} />
-                <label className='form__radio-label' htmlFor="login" >Login</label>
-                <input className='form__radio' type="radio" name="slider" id="signup" onChange={handleFormChange} />
-                <label className='form__radio-label' htmlFor="signup" >Signup</label>
-            </div>
+            <div className='clear-background'></div>
 
-            {formTitle === 'Login' &&
-                <form className='form' onSubmit={handleLogin}>
-                    <div className="form__input-container">
-                        {loginError && <ErrorText message={loginErrorMessage} style='error--login' />}
-                        <input className='form__input' type="text" name='username' placeholder='username' onChange={handleLoginUserChange} />
-                        {loginUserError && <ErrorText message={loginUserErrorMessage} />}
-                        <input className='form__input' type="password" name='password' placeholder='password' onChange={handleLoginPassChange} />
-                        {loginPassError && <ErrorText message={loginPassErrorMessage} />}
-                        <button className='form__btn'>Login</button>
-                    </div>
-                </form>}
-
-
-            {formTitle === 'Signup' &&
-                <form className='form' onSubmit={handleSignup}>
-                    <div className="form__input-container">
-                        <input className='form__input' type="text" name='username' placeholder='username' onChange={handleSignupUserChange} />
-                        <input className='form__input' type="text" name='name' placeholder='name' onChange={handleSignupNameChange} />
-                        <input className='form__input' type="password" name='password' placeholder='password' onChange={handleSignupPassChange} />
-                        <input className='form__input' type="password" name='confirmPassword' placeholder='confirmPassword' onChange={handleSignupConfirmPassChange} />
-                        {signupPassError && <ErrorText message='Passwords do not match' />}
-                        {!signupUser || !signupPass || !signupName ?
-                            <button className='form__btn form__btn--disabled' disabled>Signup</button> : <button className='form__btn'>Signup</button>}
-
-                    </div>
-                </form>}
-
-        </div>
+        </>
     );
 };
 

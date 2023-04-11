@@ -6,8 +6,14 @@ import './HomePage.scss'
 import Overlay from '../../components/Overlay/Overlay';
 import InputTable from '../../components/InputTable/InputTable';
 import DisplayTable from '../../components/DisplayTable/DisplayTable';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
+    const navigate = useNavigate()
+
+    if (!sessionStorage.getItem('JWTtoken')) {
+        navigate('/login-signup')
+    }
 
     const [user, setUser] = useState('')
     const [date, setDate] = useState('')

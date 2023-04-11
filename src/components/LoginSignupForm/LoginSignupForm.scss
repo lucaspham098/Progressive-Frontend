@@ -7,10 +7,10 @@
 
     &-container {
         margin: 5rem 1rem 0;
-        border: 1px solid black;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
         border-radius: 20px;
         z-index: 10;
+        overflow: hidden;
 
     }
 
@@ -73,4 +73,14 @@
     }
 
     padding-bottom: 1rem;
+}
+
+.clear-background {
+    background-color: white;
+    position: absolute;
+    top: 0;
+    bottom: 35rem;
+    left: 0;
+    right: 0;
+
 }
