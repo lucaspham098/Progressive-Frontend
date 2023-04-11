@@ -43,15 +43,16 @@ const WorkoutHistoryModal = ({ workoutName, workoutID, func }) => {
                 },
             })
             .then(res => {
-
                 const dates = res.data.filter((obj, index, self) =>
                     index === self.findIndex((t) => t.date === obj.date)
                 );
 
+
                 const dateArr = (dates.map(item => {
                     return formatDate(item.date)
-                })).reverse()
+                }))
 
+                console.log(dateArr.sort())
 
                 const requests = dateArr.map(item => axios.get(`${API_URL}/exercise-data/workouts/${workoutID}/${item}`, {
                     headers: {
