@@ -1,10 +1,15 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { API_URL } from '../utils/utils';
-import Modal from '../components/Modal/Modal';
-import AdditionModal from '../components/AdditionModal/AdditionModal';
+import { API_URL } from '../../utils/utils';
+import ExerciseModal from '../../components/ExerciseModal/ExerciseModal';
+import AdditionModal from '../../components/AdditionModal/AdditionModal';
+import './ExerciseProgressionPage.scss'
+import deleteicon from "../../assets/icons/delete.svg"
+import Overlay from '../../components/Overlay/Overlay';
+import arm from '../../assets/icons/flex.svg'
 
-const ComparisonPage = () => {
+
+const ExerciseProgressionPage = () => {
 
     const [exerciseList, setExerciseList] = useState([])
     const [exerciseID, setExerciseID] = useState('')
@@ -32,8 +37,8 @@ const ComparisonPage = () => {
     }, [])
 
     const handleClick = (event) => {
-        setExerciseID(event.target.id)
-        setExerciseName(event.target.dataset.name)
+        setExerciseID(event.currentTarget.id)
+        setExerciseName(event.currentTarget.dataset.name)
         setModal(true)
     }
 
@@ -64,6 +69,7 @@ const ComparisonPage = () => {
     }
 
     const handleDelete = (event) => {
+        event.stopPropagation();
         const token = sessionStorage.getItem('JWTtoken');
         const id = event.target.id
         console.log(event.target.id)
@@ -83,20 +89,39 @@ const ComparisonPage = () => {
         window.location.reload()
     }
 
+    const handleCloseModal = () => {
+        setModal(false)
+        setAdditiionModal(false)
+    }
+
     return (
         <div>
-            {modal && <Modal id={exerciseID} name={exerciseName} />}
-            {exerciseList.map(exercise => {
-                return (<div key={exercise.id} id={exercise.id} data-name={exercise.exercise_name} onClick={handleClick}>
-                    {exercise.exercise_name}
-                    <button onClick={handleDelete} id={exercise.id}>delete</button>
-                </div>
-                )
-            })}
-            <button onClick={handleAdd}>add new exercise</button>
-            {additionModal && <AdditionModal heading='Exercise' handleSubmit={handleSubmit} />}
+            <h1 className='exercises__title'>Your Exercises</h1>
+            <button onClick={handleAdd} className='exercises__btn'>+ Add New Exercise</button>
+
+            {modal && <ExerciseModal id={exerciseID} name={exerciseName} func={handleCloseModal} />}
+
+            <div className="exercises__cards-container">
+                {exerciseList.map(exercise => {
+                    return (
+                        <div key={exercise.id} id={exercise.id} className='exercises__card'>
+                            <img src={deleteicon} alt="delete icon" className='exercises__delete' onClick={handleDelete} id={exercise.id} />
+                            <p className="exercises__card-text" onClick={handleClick}>{exercise.exercise_name}</p>
+                            <div className='exercises__card-btn' onClick={handleClick} id={exercise.id} data-name={exercise.exercise_name}>
+                                <img className='exercises__card-icon' src={arm} alt="arm icon" />
+                                <p className='exercises__card-text--small'>View Progression</p>
+                            </div>
+                        </div>
+                    )
+                })}
+            </div>
+
+            {additionModal && <AdditionModal heading='Exercise' handleSubmit={handleSubmit} func={handleCloseModal} />}
+            {modal && <Overlay />}
+            {additionModal && <Overlay />}
+
         </div>
     );
 };
 
-export default ComparisonPage;
+export default ExerciseProgressionPage;

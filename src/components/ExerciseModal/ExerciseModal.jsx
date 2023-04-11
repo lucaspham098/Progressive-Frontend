@@ -1,10 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { API_URL } from '../../utils/utils';
-import './Modal.scss'
+import './ExerciseModal.scss'
 import LineChart from '../LineChart/LineChart';
+import CloseBtn from '../CloseBtn/CloseBtn';
 
-const Modal = ({ id, name }) => {
+const ExerciseModal = ({ id, name, func }) => {
 
     const [chartData, setChartData] = useState(null)
     const [exerciseData, setExerciseData] = useState([])
@@ -135,70 +136,102 @@ const Modal = ({ id, name }) => {
 
 
     return (
-        <div>
-            <div className={progress}>
-                <h1>{name}</h1>
-                <div>{recentDate}</div>
-                <div>{recentWeight}</div>
-                <div>{recentSet1}</div>
-                <div>{recentSet2}</div>
-                <div>{recentSet3}</div>
-                <div>{recentTrainingVolume}</div>
-            </div>
-
-            <div>
-                <select name="" id="" onChange={handleDateChange}>
-                    <option value="">Please select date</option>
-                    {dateArray.map(date => {
-                        return (
-                            <option key={date.date} value={date.date}>{date.date}</option>
-                        )
-                    })}
-                </select>
-                {previousWorkout && previousWorkout.map(workout => {
-                    return (
-                        <div key={workout.user_id}>
-                            <div>{formatDate(workout.date)}</div>
-                            <div>{workout.weight_lbs}</div>
-                            <div>{workout.set_1}</div>
-                            <div>{workout.set_2}</div>
-                            <div>{workout.set_3}</div>
-                        </div>
-                    )
-                })}
-            </div>
-
-            {chartData && <LineChart chartdata={chartData} />}
-
-            {exerciseData && <table id='input-table'>
+        <div className='exercise-modal'>
+            <h1 className='exercise-modal__title'>{name}</h1>
+            <CloseBtn func={func} />
+            <p className='exercise-modal__text'>Compare Most Recent Data to Previous Dates</p>
+            <p className='exercise-modal__table-label'> Most Recent Data From {recentDate}:</p>
+            <table className='exercise-modal__table'>
                 <thead>
                     <tr>
-                        <th>Date</th>
                         <th>Weight (lbs)</th>
                         <th>Set 1</th>
                         <th>Set 2</th>
                         <th>Set 3</th>
-                        <th>Training Volume</th>
+                        <th>Training Volume (lbs)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {exerciseData.map(item => {
-                        return (
-                            <tr key={item.date}>
-                                <td>{formatDate(item.date)}</td>
-                                <td>{item.weight_lbs}</td>
-                                <td>{item.set_1}</td>
-                                <td>{item.set_2}</td>
-                                <td>{item.set_3}</td>
-                                <td>{item.training_volume}</td>
-                            </tr>
-                        )
-                    })}
+                    <tr className={progress}>
+                        <td >{recentWeight}</td>
+                        <td >{recentSet1}</td>
+                        <td >{recentSet2}</td>
+                        <td >{recentSet3}</td>
+                        <td >{recentTrainingVolume}</td>
+                    </tr>
                 </tbody>
-            </table>}
+            </table>
+            <div>
+                <div className="exercise-modal__select-container">
+                    <p>Data From: </p>
+                    <select name="" id="" onChange={handleDateChange} defaultValue=''>
+                        <option disabled value=''>Please select date</option>
+                        {dateArray.map(date => {
+                            return (
+                                <option key={date.date} value={date.date}>{date.date}</option>
+                            )
+                        })}
+                    </select>
+                </div>
+
+                {previousWorkout && previousWorkout.map(workout => {
+                    return (
+                        <table className='exercise-modal__table'>
+                            <thead>
+                                <tr>
+                                    <th>Weight (lbs)</th>
+                                    <th>Set 1</th>
+                                    <th>Set 2</th>
+                                    <th>Set 3</th>
+                                    <th>Training Volume (lbs)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td >{workout.weight_lbs}</td>
+                                    <td >{workout.set_1}</td>
+                                    <td >{workout.set_2}</td>
+                                    <td >{workout.set_3}</td>
+                                    <td >{workout.training_volume}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    )
+                })}
+            </div>
+
+            <div className="exercise-modal__chart-container">{chartData && <LineChart chartdata={chartData} />}</div>
+
+            {exerciseData &&
+                <table className='exercise-modal__table'>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Weight (lbs)</th>
+                            <th>Set 1</th>
+                            <th>Set 2</th>
+                            <th>Set 3</th>
+                            <th>Training Volume</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {exerciseData.map(item => {
+                            return (
+                                <tr key={item.date}>
+                                    <td>{formatDate(item.date)}</td>
+                                    <td>{item.weight_lbs}</td>
+                                    <td>{item.set_1}</td>
+                                    <td>{item.set_2}</td>
+                                    <td>{item.set_3}</td>
+                                    <td>{item.training_volume}</td>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </table>}
 
         </div>
     );
 };
 
-export default Modal;
+export default ExerciseModal;

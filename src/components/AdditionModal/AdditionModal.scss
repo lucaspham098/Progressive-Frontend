@@ -33,9 +33,6 @@
         width: 100%
     }
 
-    &__btn-container {
-        margin: 0 3rem
-    }
 
     &__btn {
         @include button;

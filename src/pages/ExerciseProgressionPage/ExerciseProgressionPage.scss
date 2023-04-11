@@ -1,0 +1,82 @@
+@use '../../styles/partials/colours' as *;
+@use '../../styles/partials/spacing' as *;
+@use '../../styles/partials/sizing' as *;
+
+.exercises {
+    &__title {
+        margin: 2rem $mobile-padding 0;
+    }
+
+    &__btn {
+        background-color: white;
+        border: none;
+        margin: 0 $mobile-padding 0;
+        font-size: 0.875rem;
+        cursor: pointer;
+
+        &:hover {
+            border-bottom: 1px solid black;
+        }
+    }
+
+    &__cards-container {
+        margin: 0 $mobile-padding 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    &__card {
+        position: relative;
+        border-radius: 15px;
+        overflow: hidden;
+        background-color: rgba(84, 185, 241, 0.5);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+        width: 48%;
+        margin-top: 1rem;
+        padding: 0.5rem;
+        height: fit-content;
+        cursor: pointer;
+
+        &:nth-of-type(even) {
+            background-color: rgba(84, 185, 241, 0.4);
+        }
+    }
+
+    &__card-text {
+        padding-right: 1.5rem;
+        font-weight: bold;
+
+        &--small {
+            font-size: 14px;
+        }
+    }
+
+    &__card-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        margin-top: 1rem;
+        margin-bottom: .5rem;
+
+        &:hover {
+            border-bottom: 1px solid black;
+        }
+    }
+
+    &__card-icon {
+        height: 16px;
+    }
+
+    &__delete {
+        position: absolute;
+        height: 1.1rem;
+        top: 8px;
+        right: 8px;
+
+        &:hover {
+            border-bottom: 1px solid black;
+        }
+    }
+}
