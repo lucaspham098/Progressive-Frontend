@@ -7,7 +7,7 @@
 
     &__container {
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
-        border-radius: 15px 15px 0 0;
+        border-radius: 15px;
         margin: 0 $mobile-padding;
     }
 
@@ -24,6 +24,7 @@
     font-size: .9rem;
     overflow: hidden;
     margin: 0 0 1.5rem;
+    border-radius: 0 0 15px 15px;
 
     & thead {
         background-color: $blue;

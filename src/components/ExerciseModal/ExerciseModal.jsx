@@ -39,6 +39,13 @@ const ExerciseModal = ({ id, name, func }) => {
         return formattedDate;
     }
 
+    function displayDate(dateString) {
+        const date = new Date(dateString);
+        const options = { month: 'long', day: 'numeric' };
+        return date.toLocaleDateString('en-US', options);
+    }
+
+
     useEffect(() => {
         const token = sessionStorage.getItem('JWTtoken')
 
@@ -71,7 +78,7 @@ const ExerciseModal = ({ id, name, func }) => {
 
 
                 dataSortedByDate && setChartData({
-                    labels: dataChronological.map(item => formatDate(item.date)),
+                    labels: dataChronological.map(item => displayDate(item.date)),
                     datasets: [{
                         label: "Training Volume (lbs)",
                         data: dataChronological.map(item => item.training_volume)
@@ -218,7 +225,7 @@ const ExerciseModal = ({ id, name, func }) => {
                         {exerciseData.map(item => {
                             return (
                                 <tr key={item.date}>
-                                    <td>{formatDate(item.date)}</td>
+                                    <td>{displayDate(item.date)}</td>
                                     <td>{item.weight_lbs}</td>
                                     <td>{item.set_1}</td>
                                     <td>{item.set_2}</td>
