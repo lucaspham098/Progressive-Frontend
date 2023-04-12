@@ -13,6 +13,15 @@ The tech stack that was used was;
 - Express
 - Knex.js
 
+Backend Instructions:
+- in terminal type "npm i"
+- create .env file following sample file
+- then in terminal type "npx knex migrations:latest"
+    - if that doesn't work migrate the files in this order; users, preset-workouts, exercises, exercise-data
+- if you decide to seed the data to see how the app would look like for a existing user, in terminal type "npx knex seed:run"
+    - if that doesn't work, seed the data in the same order as the migrations
+- npm run dev to start server
+
 Frontend Instructions:
 - in terminal type "npm i"
 - set up .env file following the sample file
