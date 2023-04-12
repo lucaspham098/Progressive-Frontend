@@ -9,6 +9,29 @@
     top: 0;
     width: 45%;
     z-index: 10;
+    transform: translateX(-100%);
+
+    @keyframes moveRight {
+        to {
+            transform: translateX(0px);
+        }
+    }
+
+    @keyframes moveLeft {
+        to {
+            transform: translateX(-100%);
+        }
+    }
+
+    &--open {
+        animation: moveRight 0.25s ease-in-out 0s forwards;
+    }
+
+    &--close {
+        transform: translateX(0px);
+        animation: moveLeft 0.15s ease-in-out 0s forwards;
+    }
+
 
     &__btn {
         height: 24px;

@@ -1,34 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './NavModal.scss'
 import backbtn from '../../assets/icons/backbtn.svg'
 import { useNavigate } from 'react-router-dom';
 
-const NavModal = ({ close }) => {
+const NavModal = ({ open, func }) => {
     const navigate = useNavigate()
 
     const handleSignout = () => {
         sessionStorage.clear()
         navigate('/login-signup')
-        close()
+        func()
     }
 
     return (
 
-        <div className='nav-modal'>
-            <img className='nav-modal__btn' src={backbtn} alt="back button" onClick={close} />
+        <div className={`nav-modal ${open}`}>
+            <img className='nav-modal__btn' src={backbtn} alt="back button" onClick={() => { func() }} />
             <div className="nav-modal__flex-container">
                 <div className='nav-modal__link-container'>
                     <p className='nav-modal__link' onClick={() => {
                         navigate('/')
-                        close()
+                        func()
                     }}>Home</p>
                     <p className='nav-modal__link' onClick={() => {
                         navigate('/workouts')
-                        close()
+                        func()
                     }}>Workouts</p>
                     <p className='nav-modal__link' onClick={() => {
                         navigate('/exercises')
-                        close()
+                        func()
                     }}>Exercises</p>
                 </div>
                 <div className='nav-modal__link-container'>

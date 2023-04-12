@@ -7,12 +7,15 @@ import logo from '../../assets/icons/logo.svg'
 
 const Header = () => {
     const [navModal, setnavModal] = useState(false)
+    const [open, setOpen] = useState('')
 
     const handleClick = () => {
         setnavModal(true)
+        setOpen('nav-modal--open')
     }
     const handleClose = () => {
         setnavModal(false)
+        setOpen('nav-modal--close')
     }
 
 
@@ -23,7 +26,7 @@ const Header = () => {
                 <img className='header__logo' src={logo} alt="logo" />
                 <p className='header__logo-text'>PROGRESSIVE</p>
             </div>
-            {navModal && <NavModal close={handleClose} />}
+            <NavModal func={handleClose} open={open} />
             {navModal && <Overlay />}
         </div>
     );
