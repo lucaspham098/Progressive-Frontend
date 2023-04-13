@@ -59,9 +59,9 @@ const ExerciseCard = ({ name, id, handleClick, handleAddExerciseClick, handleRem
             </ul>
             <div className="workout-card__btn-container">
                 <button className='workout-card__btn' id={id} onClick={handleAddExerciseClick}>
-                    <img className='workout-card__btn-icon' src={editicon} alt="edit icon" /> add exercise</button>
+                    <img className='workout-card__btn-icon' src={editicon} alt="edit icon" /> Add Exercise</button>
                 <button className='workout-card__btn' id={id} onClick={handleRemoveExerciseClick}>
-                    <img className='workout-card__btn-icon' src={editicon} alt="edit icon" /> remove exercise</button>
+                    <img className='workout-card__btn-icon' src={editicon} alt="edit icon" /> Remove Exercise</button>
             </div>
         </div>
     );

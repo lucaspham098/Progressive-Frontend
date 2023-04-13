@@ -22,6 +22,8 @@ const HomePage = () => {
     const [workoutID, setWorkoutID] = useState('')
     const [inProgress, setInProgress] = useState(false)
     const [completedWorkout, setCompletedWorkout] = useState([])
+    const [closeModal, setCloseModal] = useState('')
+
 
     useEffect(() => {
         const token = sessionStorage.getItem('JWTtoken');
@@ -76,11 +78,16 @@ const HomePage = () => {
     }, [])
 
 
-    const handleClick = () => {
+    const handleOpenModal = () => {
         setModal(true)
-        if (modal) {
+        setCloseModal('')
+    }
+
+    const handleCloseModal = () => {
+        setCloseModal('workout-modal--close')
+        setTimeout(() => {
             setModal(false)
-        }
+        }, 200);
     }
 
     const handleChooseWorkout = (event) => {
@@ -118,11 +125,11 @@ const HomePage = () => {
                 <>
                     <p className='home__text'>No Workout Completed Today</p>
                     <div className="home__btn-container">
-                        <button className='home__btn' onClick={handleClick}>Do a Workout Today</button>
+                        <button className='home__btn' onClick={handleOpenModal}>Do a Workout Today</button>
                     </div>
                 </>}
 
-            {modal && <WorkoutModal func={handleClick} handleChooseWorkout={handleChooseWorkout} />}
+            {modal && <WorkoutModal func={handleCloseModal} handleChooseWorkout={handleChooseWorkout} closeModal={closeModal} />}
             {modal && <Overlay />}
 
             {inProgress &&

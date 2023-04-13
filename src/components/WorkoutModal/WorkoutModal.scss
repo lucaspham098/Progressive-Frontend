@@ -4,15 +4,36 @@
 @use '../../styles/mixins/mixins' as *;
 
 .workout-modal {
-    position: absolute;
+    position: fixed;
     border-top-right-radius: $modal-radius;
     border-top-left-radius: $modal-radius;
     height: 100%;
     top: 10rem;
     width: 100vw;
     z-index: 999;
+    transform: translatey(80%);
     background-color: white;
+    animation: moveUp 0.25s ease-in-out 0s forwards;
 
+    @keyframes moveUp {
+        to {
+            transform: translateY(0px);
+        }
+    }
+
+    @keyframes moveDown {
+        to {
+            transform: translateY(80%);
+        }
+    }
+
+    &--close {
+        transform: translateY(0px);
+        animation-name: moveDown;
+        animation-duration: 0.2s;
+        animation-timing-function: ease-in-out;
+        animation-fill-mode: forwards;
+    }
 
     &__heading {
         font-size: $modal-heading;

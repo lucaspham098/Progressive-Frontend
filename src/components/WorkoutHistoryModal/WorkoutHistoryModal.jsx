@@ -6,7 +6,7 @@ import DisplayTable from '../DisplayTable/DisplayTable';
 import CloseBtn from '../CloseBtn/CloseBtn';
 
 
-const WorkoutHistoryModal = ({ workoutName, workoutID, func }) => {
+const WorkoutHistoryModal = ({ workoutName, workoutID, func, closeHistoryModal }) => {
 
     const [workoutArr, setWorkoutArr] = useState([])
     const [loading, setLoading] = useState(true);
@@ -81,7 +81,7 @@ const WorkoutHistoryModal = ({ workoutName, workoutID, func }) => {
 
 
     return (
-        <div className='history-modal'>
+        <div className={`history-modal ${closeHistoryModal}`}>
             <CloseBtn func={func} />
             <p className="history-modal__heading">{workoutName}</p>
 

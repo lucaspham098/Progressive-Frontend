@@ -4,9 +4,10 @@ import './WorkoutModal.scss'
 import axios from 'axios';
 import CloseBtn from '../CloseBtn/CloseBtn';
 
-const WorkoutModal = ({ func, handleChooseWorkout }) => {
+const WorkoutModal = ({ func, handleChooseWorkout, closeModal }) => {
 
     const [workoutList, setWorkoutList] = useState([])
+    const [modalName, setModalName] = useState('')
 
     useEffect(() => {
 
@@ -28,9 +29,16 @@ const WorkoutModal = ({ func, handleChooseWorkout }) => {
 
     }, [])
 
+    const handleModalCloseAnimation = () => {
+        setModalName('workout-modal--close')
+    }
+
     return (
-        <div className='workout-modal'>
-            <CloseBtn func={func} />
+        <div className={`workout-modal ${closeModal}`}>
+            <CloseBtn
+                func={func}
+            // onClick={handleModalCloseAnimation}
+            />
             <p className='workout-modal__heading'>Choose Workout</p>
             <div className="workout-modal__btn-container">
                 {workoutList && workoutList.map(item => {

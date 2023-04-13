@@ -8,7 +8,7 @@ import deleteicon from "../../assets/icons/delete.svg"
 import Overlay from '../../components/Overlay/Overlay';
 import arm from '../../assets/icons/flex.svg'
 import { useNavigate } from 'react-router-dom';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Legend, Tooltip } from 'recharts';
+import { LineChart, Line } from 'recharts';
 
 
 
@@ -26,6 +26,7 @@ const ExerciseProgressionPage = () => {
     const [modal, setModal] = useState(false)
     const [additionModal, setAdditiionModal] = useState(false)
     const [chartData, setChartData] = useState(null)
+    const [closeExerciseModal, setCloseExerciseModal] = useState('')
 
 
 
@@ -69,6 +70,7 @@ const ExerciseProgressionPage = () => {
         setExerciseID(event.currentTarget.id)
         setExerciseName(event.currentTarget.dataset.name)
         setModal(true)
+        setCloseExerciseModal('')
     }
 
     const handleAdd = () => {
@@ -119,23 +121,22 @@ const ExerciseProgressionPage = () => {
     }
 
     const handleCloseModal = () => {
-        setModal(false)
         setAdditiionModal(false)
     }
 
-    function formatDate(dateString) {
-        const date = new Date(dateString);
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        return date.toLocaleDateString('en-US', options);
+    const handleCloseExerciseModal = () => {
+        setCloseExerciseModal('exercise-modal--close')
+        setTimeout(() => {
+            setModal(false)
+        }, 200);
     }
-
 
     return (
         <div>
             <h1 className='exercises__title'>Your Exercises</h1>
             <button onClick={handleAdd} className='exercises__btn'>+ Add New Exercise</button>
 
-            {modal && <ExerciseModal id={exerciseID} name={exerciseName} func={handleCloseModal} />}
+            {modal && <ExerciseModal id={exerciseID} name={exerciseName} func={handleCloseExerciseModal} closeExerciseModal={closeExerciseModal} />}
 
             <div className="exercises__cards-container">
                 {chartData && exerciseList.map((exercise, index) => {
@@ -151,9 +152,7 @@ const ExerciseProgressionPage = () => {
                                     return dateA - dateB
                                 })}
                                     width={150} height={100} >
-                                    <Line dataKey='training_volume' stroke='#2196F3' strokeWidth={1} />
-                                    {/* <XAxis label="" />
-                                    <YAxis label="" /> */}
+                                    <Line dataKey='training_volume' stroke='#2196F3' strokeWidth={2} />
                                 </LineChart>
                             </div>
                             <div className='exercises__card-btn' onClick={handleClick} id={exercise.id} data-name={exercise.exercise_name}>

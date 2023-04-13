@@ -26,6 +26,7 @@ const WorkoutsPage = () => {
     const [removeFromWorkoutModal, setRemoveFromWorkoutModal] = useState(false)
     const [workoutIDExerciseAdd, setWorkoutIDExerciseAdd] = useState('')
     const [workoutIDRemoveExercise, setWorkoutIDRemoveExercise] = useState('')
+    const [closeHistoryModal, setCloseHistoryModel] = useState('')
 
     useEffect(() => {
         const token = sessionStorage.getItem('JWTtoken');
@@ -48,7 +49,7 @@ const WorkoutsPage = () => {
         setModal(true)
         setWorkoutName(event.currentTarget.dataset.name)
         setWorokoutID(event.currentTarget.id)
-        console.log(event.currentTarget.id)
+        setCloseHistoryModel('')
     }
 
     const handleAddExerciseClick = (event) => {
@@ -87,10 +88,17 @@ const WorkoutsPage = () => {
     }
 
     const handleCloseModal = () => {
-        setModal(false)
+
         setAddToWorkoutModal(false)
         setRemoveFromWorkoutModal(false)
         setAdditionModal(false)
+    }
+
+    const handleCloseHistoryModal = () => {
+        setCloseHistoryModel('history-modal--close')
+        setTimeout(() => {
+            setModal(false)
+        }, 200);
     }
 
     return (
@@ -104,7 +112,7 @@ const WorkoutsPage = () => {
                 })}
             </div>
 
-            {modal && <WorkoutHistoryModal workoutName={workoutName} workoutID={workoutID} func={handleCloseModal} />}
+            {modal && <WorkoutHistoryModal workoutName={workoutName} workoutID={workoutID} func={handleCloseHistoryModal} closeHistoryModal={closeHistoryModal} />}
             {modal && <Overlay />}
 
             {addToWorkoutModal && <AddExerciseToWorkoutModal workoutID={workoutIDExerciseAdd} func={handleCloseModal} />}

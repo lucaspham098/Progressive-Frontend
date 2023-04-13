@@ -7,7 +7,7 @@ import CloseBtn from '../CloseBtn/CloseBtn';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Legend, Tooltip } from 'recharts';
 
 
-const ExerciseModal = ({ id, name, func }) => {
+const ExerciseModal = ({ id, name, func, closeExerciseModal }) => {
 
     const [chartData, setChartData] = useState(null)
     const [exerciseData, setExerciseData] = useState([])
@@ -139,7 +139,7 @@ const ExerciseModal = ({ id, name, func }) => {
 
 
     return (
-        <div className='exercise-modal'>
+        <div className={`exercise-modal ${closeExerciseModal}`}>
             <h1 className='exercise-modal__title'>{name}</h1>
             <CloseBtn func={func} />
             <p className='exercise-modal__text'>Compare Most Recent Data to Previous Dates</p>
