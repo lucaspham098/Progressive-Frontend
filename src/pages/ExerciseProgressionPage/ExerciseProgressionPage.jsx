@@ -8,7 +8,8 @@ import deleteicon from "../../assets/icons/delete.svg"
 import Overlay from '../../components/Overlay/Overlay';
 import arm from '../../assets/icons/flex.svg'
 import { useNavigate } from 'react-router-dom';
-import LineChart from '../../components/LineChart/LineChart';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Legend, Tooltip } from 'recharts';
+
 
 
 const ExerciseProgressionPage = () => {
@@ -24,6 +25,7 @@ const ExerciseProgressionPage = () => {
     const [exerciseName, setExerciseName] = useState('')
     const [modal, setModal] = useState(false)
     const [additionModal, setAdditiionModal] = useState(false)
+    const [chartData, setChartData] = useState(null)
 
 
 
@@ -38,12 +40,30 @@ const ExerciseProgressionPage = () => {
             })
             .then((res) => {
                 setExerciseList(res.data)
+                const promises = res.data.map((exercise) => {
+                    return axios.get(`${API_URL}/exercises/id/${exercise.id}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+                });
+
+                Promise.all(promises)
+                    .then((responses) => {
+                        const newChartData = responses.map((res) => res.data);
+                        setChartData(newChartData);
+                    })
+                    .catch((err) => {
+                        console.log(err.response.data);
+                    });
             })
             .catch((err) => {
-                console.log(err.response.data)
-            })
+                console.log(err.response.data);
+            });
+    }, []);
 
-    }, [])
+
+
 
     const handleClick = (event) => {
         setExerciseID(event.currentTarget.id)
@@ -110,7 +130,6 @@ const ExerciseProgressionPage = () => {
     }
 
 
-    // const [chartData, setChartData] = useState([])
     return (
         <div>
             <h1 className='exercises__title'>Your Exercises</h1>
@@ -119,38 +138,24 @@ const ExerciseProgressionPage = () => {
             {modal && <ExerciseModal id={exerciseID} name={exerciseName} func={handleCloseModal} />}
 
             <div className="exercises__cards-container">
-                {exerciseList.map((exercise, index) => {
-                    // const token = sessionStorage.getItem('JWTtoken')
-
-                    // axios
-                    //     .get(`${API_URL}/exercises/id/${exercise.id}`, {
-                    //         headers: {
-                    //             Authorization: `Bearer ${token}`,
-                    //         },
-                    //     })
-                    //     .then((res) => {
-                    //         console.log(index)
-                    //         setChartData(prevChartData => {
-                    //             const newChartData = [...prevChartData]
-                    //             newChartData[index] = {
-                    //                 labels: res.data.reverse().map(item => formatDate(item.date)),
-                    //                 datasets: [{
-                    //                     label: "",
-                    //                     data: res.data.reverse().map(item => item.training_volume)
-                    //                 }]
-                    //             }
-                    //             return newChartData
-                    //         })
-                    //     })
-                    //     .catch(err => {
-                    //         console.log(err.response.data)
-                    //     }, [])
-
+                {chartData && exerciseList.map((exercise, index) => {
+                    console.log(chartData[0])
                     return (
                         <div key={exercise.id} id={exercise.id} className='exercises__card'>
                             <img src={deleteicon} alt="delete icon" className='exercises__delete' onClick={handleDelete} id={exercise.id} />
                             <p className="exercises__card-text">{exercise.exercise_name}</p>
-                            {/* <div className="exercise__card-chart-container">{chartData[index] && <LineChart chartdata={chartData[index]} />}</div> */}
+                            <div className="exercises__card-chart-container">
+                                <LineChart data={chartData[index].sort((a, b) => {
+                                    const dateA = new Date(a.date)
+                                    const dateB = new Date(b.date)
+                                    return dateA - dateB
+                                })}
+                                    width={150} height={100} >
+                                    <Line dataKey='training_volume' stroke='#2196F3' strokeWidth={1} />
+                                    {/* <XAxis label="" />
+                                    <YAxis label="" /> */}
+                                </LineChart>
+                            </div>
                             <div className='exercises__card-btn' onClick={handleClick} id={exercise.id} data-name={exercise.exercise_name}>
                                 <img className='exercises__card-icon' src={arm} alt="arm icon" />
                                 <p className='exercises__card-text--small'>View Progression</p>

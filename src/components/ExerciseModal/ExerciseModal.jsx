@@ -2,8 +2,10 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { API_URL } from '../../utils/utils';
 import './ExerciseModal.scss'
-import LineChart from '../LineChart/LineChart';
+
 import CloseBtn from '../CloseBtn/CloseBtn';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Legend, Tooltip } from 'recharts';
+
 
 const ExerciseModal = ({ id, name, func }) => {
 
@@ -41,8 +43,9 @@ const ExerciseModal = ({ id, name, func }) => {
 
     function displayDate(dateString) {
         const date = new Date(dateString);
-        const options = { month: 'long', day: 'numeric' };
-        return date.toLocaleDateString('en-US', options);
+        const options = { month: 'short', day: 'numeric' };
+        const formattedDate = date.toLocaleDateString('en-US', options);
+        return formattedDate;
     }
 
 
@@ -66,6 +69,7 @@ const ExerciseModal = ({ id, name, func }) => {
                 })
 
                 setExerciseData(dataSortedByDate)
+                console.log(dataChronological)
 
 
                 const dates = dataSortedByDate.map(item => {
@@ -77,13 +81,7 @@ const ExerciseModal = ({ id, name, func }) => {
                 setDateArray(dates.slice(1))
 
 
-                dataSortedByDate && setChartData({
-                    labels: dataChronological.map(item => displayDate(item.date)),
-                    datasets: [{
-                        label: "Training Volume (lbs)",
-                        data: dataChronological.map(item => item.training_volume)
-                    }]
-                })
+                dataSortedByDate && setChartData(dataChronological.map(item => { return { ...item, date: displayDate(item.date) } }))
 
 
                 if (dataSortedByDate.length > 0) {
@@ -101,8 +99,6 @@ const ExerciseModal = ({ id, name, func }) => {
             })
 
     }, [id])
-
-
 
     const handleDateChange = (event) => {
         console.log(event.target.value)
@@ -207,7 +203,15 @@ const ExerciseModal = ({ id, name, func }) => {
                 })}
             </div>
 
-            <div className="exercise-modal__chart-container">{chartData && <LineChart chartdata={chartData} />}</div>
+            <div className="exercise-modal__chart-container">{chartData &&
+                <LineChart data={chartData} width={375} height={250}>
+                    <Line dataKey='training_volume' stroke='#2196F3' strokeWidth={2} />
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                </LineChart>}
+            </div>
 
             {exerciseData &&
                 <table className='exercise-modal__table'>
