@@ -30,7 +30,9 @@ const WorkoutModal = ({ func, handleChooseWorkout }) => {
 
     return (
         <div className='workout-modal'>
-            <CloseBtn func={func} />
+            <div className="workout-modal__close-btn-container">
+                <CloseBtn func={func} />
+            </div>
             <p className='workout-modal__heading'>Choose Workout</p>
             <div className="workout-modal__btn-container">
                 {workoutList && workoutList.map(item => {

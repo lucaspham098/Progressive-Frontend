@@ -8,7 +8,7 @@ import deleteicon from "../../assets/icons/delete.svg"
 import Overlay from '../../components/Overlay/Overlay';
 import arm from '../../assets/icons/flex.svg'
 import { useNavigate } from 'react-router-dom';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Legend, Tooltip } from 'recharts';
+import { LineChart, Line } from 'recharts';
 
 
 
@@ -123,12 +123,6 @@ const ExerciseProgressionPage = () => {
         setAdditiionModal(false)
     }
 
-    function formatDate(dateString) {
-        const date = new Date(dateString);
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        return date.toLocaleDateString('en-US', options);
-    }
-
 
     return (
         <div>
@@ -152,8 +146,6 @@ const ExerciseProgressionPage = () => {
                                 })}
                                     width={150} height={100} >
                                     <Line dataKey='training_volume' stroke='#2196F3' strokeWidth={1} />
-                                    {/* <XAxis label="" />
-                                    <YAxis label="" /> */}
                                 </LineChart>
                             </div>
                             <div className='exercises__card-btn' onClick={handleClick} id={exercise.id} data-name={exercise.exercise_name}>

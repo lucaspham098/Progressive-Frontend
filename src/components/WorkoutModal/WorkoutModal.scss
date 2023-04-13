@@ -12,11 +12,15 @@
     width: 100vw;
     z-index: 999;
     background-color: white;
+    padding: 1rem 0;
 
+    &__close-btn-container {
+        margin-left: 1rem;
+    }
 
     &__heading {
         font-size: $modal-heading;
-        margin: 1.5rem;
+        margin: .5rem 0 1.5rem;
         text-align: center;
     }
 

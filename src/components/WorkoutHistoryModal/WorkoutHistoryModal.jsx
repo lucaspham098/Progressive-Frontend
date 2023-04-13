@@ -82,8 +82,14 @@ const WorkoutHistoryModal = ({ workoutName, workoutID, func }) => {
 
     return (
         <div className='history-modal'>
-            <CloseBtn func={func} />
-            <p className="history-modal__heading">{workoutName}</p>
+            <div className="history-modal__spacing" style={{ height: document.querySelector('.history-modal__heading')?.clientHeight + 24 }}>
+                <div className="history-modal__fixed-container" style={{ height: document.querySelector('.history-modal__heading')?.clientHeight + 32 }}>
+                    <div className='history-modal__btn-container'>
+                        <CloseBtn func={func} />
+                    </div>
+                    <p className="history-modal__heading">{workoutName}</p>
+                </div>
+            </div>
 
             {workoutArr && workoutArr.map((item, index) => {
                 return <DisplayTable title={displayDateFormat(item[0].date)} arr={item} key={index} />

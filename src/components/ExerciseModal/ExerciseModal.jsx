@@ -4,7 +4,7 @@ import { API_URL } from '../../utils/utils';
 import './ExerciseModal.scss'
 
 import CloseBtn from '../CloseBtn/CloseBtn';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Legend, Tooltip } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Legend, Tooltip } from 'recharts';
 
 
 const ExerciseModal = ({ id, name, func }) => {
@@ -140,8 +140,14 @@ const ExerciseModal = ({ id, name, func }) => {
 
     return (
         <div className='exercise-modal'>
-            <h1 className='exercise-modal__title'>{name}</h1>
-            <CloseBtn func={func} />
+            <div className="history-modal__spacing" style={{ height: document.querySelector('.exercise-modal__title')?.clientHeight + 24 }}>
+                <div className="history-modal__fixed-container" style={{ height: document.querySelector('.exercise-modal__title')?.clientHeight + 32 }}>
+                    <div className='history-modal__btn-container'>
+                        <CloseBtn func={func} />
+                    </div>
+                    <h1 className='exercise-modal__title'>{name}</h1>
+                </div>
+            </div>
             <p className='exercise-modal__text'>Compare Most Recent Data to Previous Dates</p>
             <p className='exercise-modal__table-label'> Most Recent Data From {recentDate}:</p>
             <table className='exercise-modal__table'>
