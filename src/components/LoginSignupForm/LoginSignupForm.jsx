@@ -143,9 +143,9 @@ const LoginSignupForm = () => {
                     <form className='form' onSubmit={handleLogin}>
                         <div className="form__input-container">
                             {loginError && <ErrorText message={loginErrorMessage} style='error--login' />}
-                            <input className='form__input' type="text" name='username' placeholder='username' onChange={handleLoginUserChange} />
+                            <input className='form__input' type="text" name='username' placeholder='Username' onChange={handleLoginUserChange} />
                             {loginUserError && <ErrorText message={loginUserErrorMessage} />}
-                            <input className='form__input' type="password" name='password' placeholder='password' onChange={handleLoginPassChange} />
+                            <input className='form__input' type="password" name='password' placeholder='Password' onChange={handleLoginPassChange} />
                             {loginPassError && <ErrorText message={loginPassErrorMessage} />}
                             <button className='form__btn'>Login</button>
                         </div>
@@ -155,10 +155,10 @@ const LoginSignupForm = () => {
                 {formTitle === 'Signup' &&
                     <form className='form' onSubmit={handleSignup}>
                         <div className="form__input-container">
-                            <input className='form__input' type="text" name='username' placeholder='username' onChange={handleSignupUserChange} />
-                            <input className='form__input' type="text" name='name' placeholder='name' onChange={handleSignupNameChange} />
-                            <input className='form__input' type="password" name='password' placeholder='password' onChange={handleSignupPassChange} />
-                            <input className='form__input' type="password" name='confirmPassword' placeholder='confirmPassword' onChange={handleSignupConfirmPassChange} />
+                            <input className='form__input' type="text" name='username' placeholder='Username' onChange={handleSignupUserChange} />
+                            <input className='form__input' type="text" name='name' placeholder='Name' onChange={handleSignupNameChange} />
+                            <input className='form__input' type="password" name='password' placeholder='Password' onChange={handleSignupPassChange} />
+                            <input className='form__input' type="password" name='confirmPassword' placeholder='Confirm Password' onChange={handleSignupConfirmPassChange} />
                             {signupPassError && <ErrorText message='Passwords do not match' />}
                             {!signupUser || !signupPass || !signupName ?
                                 <button className='form__btn form__btn--disabled' disabled>Signup</button> : <button className='form__btn'>Signup</button>}
