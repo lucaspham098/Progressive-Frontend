@@ -128,6 +128,12 @@ const LoginSignupForm = () => {
 
     return (
         <>
+            <div>
+                <div className="login-signup__logo-container">
+                    <img className='login-signup__logo' src={logo} alt="logo" />
+                    <p className='login-signup__logo-text'>PROGRESSIVE</p>
+                </div>
+            </div>
             <div className='form-container'>
                 <div className="form__title-container">
                     <h1 className='form__title'>{formTitle}</h1>
@@ -166,12 +172,7 @@ const LoginSignupForm = () => {
                         </div>
                     </form>}
             </div>
-            <div className='clear-background'>
-                <div className="login-signup__logo-container">
-                    <img className='login-signup__logo' src={logo} alt="logo" />
-                    <p className='login-signup__logo-text'>PROGRESSIVE</p>
-                </div>
-            </div>
+
 
         </>
     );

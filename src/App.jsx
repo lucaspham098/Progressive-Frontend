@@ -5,10 +5,8 @@ import Header from './components/Header/Header'
 import HomePage from './pages/HomePage/HomePage'
 import WorkoutsPage from './pages/WorkoutsPage/WorkoutsPage'
 import ExerciseProgressionPage from './pages/ExerciseProgressionPage/ExerciseProgressionPage'
+
 function App() {
-
-
-
 
   return (
     <BrowserRouter>
