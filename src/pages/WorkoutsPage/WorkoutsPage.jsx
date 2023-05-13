@@ -9,6 +9,7 @@ import RemoveExerciseFromWorkoutModal from '../../components/RemoveExerciseFromW
 import './WorkoutsPage.scss'
 import Overlay from '../../components/Overlay/Overlay';
 import { useNavigate } from 'react-router-dom';
+import DeleteModal from '../../components/DeleteModal/DeleteModal';
 
 const WorkoutsPage = () => {
     const navigate = useNavigate()
@@ -27,6 +28,9 @@ const WorkoutsPage = () => {
     const [workoutIDExerciseAdd, setWorkoutIDExerciseAdd] = useState('')
     const [workoutIDRemoveExercise, setWorkoutIDRemoveExercise] = useState('')
     const [closeHistoryModal, setCloseHistoryModel] = useState('')
+    const [deleteModal, setDeleteModal] = useState(false)
+    const [deleteName, setDeleteName] = useState('')
+    const [deleteID, setDeleteID] = useState('')
 
     useEffect(() => {
         const token = sessionStorage.getItem('JWTtoken');
@@ -88,7 +92,6 @@ const WorkoutsPage = () => {
     }
 
     const handleCloseModal = () => {
-
         setAddToWorkoutModal(false)
         setRemoveFromWorkoutModal(false)
         setAdditionModal(false)
@@ -101,6 +104,37 @@ const WorkoutsPage = () => {
         }, 200);
     }
 
+    const handleDeleteClick = (event) => {
+        setDeleteModal(true)
+        event.stopPropagation()
+        setDeleteName(event.target.name)
+        setDeleteID(event.target.id)
+    }
+
+    const handleDeleteModalClose = () => {
+        setDeleteModal(false)
+    }
+
+    const handleDelete = (event) => {
+        const token = sessionStorage.getItem('JWTtoken');
+        const id = event.target.id
+        axios
+            .delete(`${API_URL}/preset-workouts/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then(res => {
+                console.log(res.data)
+            })
+            .catch(err => {
+                console.log(err.response.data)
+            })
+
+        window.location.reload()
+
+    }
+
     return (
         <div>
             <h1 className='workouts__title'>Your Workouts</h1>
@@ -108,12 +142,15 @@ const WorkoutsPage = () => {
 
             <div className="workouts__cards-container">
                 {workouts && workouts.map(workout => {
-                    return <WorkoutCard name={workout.workout_name} id={workout.id} key={workout.id} handleClick={handleClick} handleAddExerciseClick={handleAddExerciseClick} handleRemoveExerciseClick={handleRemoveExerciseClick} />
+                    return <WorkoutCard name={workout.workout_name} id={workout.id} key={workout.id} handleClick={handleClick} handleAddExerciseClick={handleAddExerciseClick} handleRemoveExerciseClick={handleRemoveExerciseClick} handleDeleteClick={handleDeleteClick} handleDeleteModalClose={handleDeleteModalClose} />
                 })}
             </div>
 
             {modal && <WorkoutHistoryModal workoutName={workoutName} workoutID={workoutID} func={handleCloseHistoryModal} closeHistoryModal={closeHistoryModal} />}
             {modal && <Overlay />}
+
+            {deleteModal && <DeleteModal closeFunc={handleDeleteModalClose} name={deleteName} handleDelete={handleDelete} id={deleteID} />}
+            {deleteModal && <Overlay />}
 
             {addToWorkoutModal && <AddExerciseToWorkoutModal workoutID={workoutIDExerciseAdd} func={handleCloseModal} />}
             {addToWorkoutModal && <Overlay />}

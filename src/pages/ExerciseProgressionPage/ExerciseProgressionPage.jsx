@@ -9,6 +9,7 @@ import Overlay from '../../components/Overlay/Overlay';
 import arm from '../../assets/icons/flex.svg'
 import { useNavigate } from 'react-router-dom';
 import { LineChart, Line } from 'recharts';
+import DeleteModal from '../../components/DeleteModal/DeleteModal';
 
 
 
@@ -27,7 +28,9 @@ const ExerciseProgressionPage = () => {
     const [additionModal, setAdditiionModal] = useState(false)
     const [chartData, setChartData] = useState(null)
     const [closeExerciseModal, setCloseExerciseModal] = useState('')
-
+    const [deleteModal, setDeleteModal] = useState(false)
+    const [exerciseToDelete, setExerciseToDelete] = useState('')
+    const [exerciseIDToDelete, setExerciseIDToDelete] = useState('')
 
 
     useEffect(() => {
@@ -64,8 +67,6 @@ const ExerciseProgressionPage = () => {
     }, []);
 
 
-
-
     const handleClick = (event) => {
         setExerciseID(event.currentTarget.id)
         setExerciseName(event.currentTarget.dataset.name)
@@ -100,7 +101,6 @@ const ExerciseProgressionPage = () => {
     }
 
     const handleDelete = (event) => {
-        event.stopPropagation();
         const token = sessionStorage.getItem('JWTtoken');
         const id = event.target.id
         console.log(event.target.id)
@@ -116,7 +116,7 @@ const ExerciseProgressionPage = () => {
             .catch(err => {
                 console.log(err.response.data)
             })
-
+        event.preventDefault()
         window.location.reload()
     }
 
@@ -131,19 +131,29 @@ const ExerciseProgressionPage = () => {
         }, 200);
     }
 
+    const handleDeleteClick = (event) => {
+        setDeleteModal(true)
+        setExerciseToDelete(event.target.name)
+        setExerciseIDToDelete(event.target.id)
+    }
+
+    const handleCloseDeleteModal = () => {
+        setDeleteModal(false)
+    }
+
     return (
         <div>
             <h1 className='exercises__title'>Your Exercises</h1>
             <button onClick={handleAdd} className='exercises__btn'>+ Add New Exercise</button>
 
             {modal && <ExerciseModal id={exerciseID} name={exerciseName} func={handleCloseExerciseModal} closeExerciseModal={closeExerciseModal} />}
+            {deleteModal && <DeleteModal closeFunc={handleCloseDeleteModal} name={exerciseToDelete} handleDelete={handleDelete} id={exerciseIDToDelete} />}
 
             <div className="exercises__cards-container">
                 {chartData && exerciseList.map((exercise, index) => {
-                    console.log(chartData[0])
                     return (
                         <div key={exercise.id} id={exercise.id} className='exercises__card'>
-                            <img src={deleteicon} alt="delete icon" className='exercises__delete' onClick={handleDelete} id={exercise.id} />
+                            <img src={deleteicon} alt="delete icon" className='exercises__delete' onClick={handleDeleteClick} id={exercise.id} name={exercise.exercise_name} />
                             <p className="exercises__card-text">{exercise.exercise_name}</p>
                             <div className="exercises__card-chart-container">
                                 <LineChart data={chartData[index].sort((a, b) => {
@@ -167,6 +177,7 @@ const ExerciseProgressionPage = () => {
             {additionModal && <AdditionModal heading='Exercise' handleSubmit={handleSubmit} func={handleCloseModal} />}
             {modal && <Overlay />}
             {additionModal && <Overlay />}
+            {deleteModal && <Overlay />}
 
         </div>
     );

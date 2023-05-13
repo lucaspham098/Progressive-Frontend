@@ -4,10 +4,10 @@
 @use '../../styles/mixins/mixins' as *;
 
 .addition-modal {
-    position: absolute;
+    position: fixed;
     border-radius: $modal-radius;
     height: fit-content;
-    top: 30%;
+    top: 25%;
     z-index: 999;
     background-color: white;
     display: flex;
@@ -16,12 +16,11 @@
     padding: 1rem 3rem;
     margin: 0 $mobile-padding;
 
-
     &__text {
         font-size: 1.5rem;
         margin: .5rem 0 1rem;
+        text-align: center;
     }
-
 
     &__input {
         border-radius: 20px;

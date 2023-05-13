@@ -4,8 +4,9 @@ import { API_URL } from '../../utils/utils';
 import deleteicon from "../../assets/icons/delete.svg"
 import editicon from '../../assets/icons/edit.svg'
 import './WorkoutCard.scss';
+import DeleteModal from '../DeleteModal/DeleteModal';
 
-const ExerciseCard = ({ name, id, handleClick, handleAddExerciseClick, handleRemoveExerciseClick }) => {
+const ExerciseCard = ({ name, id, handleClick, handleAddExerciseClick, handleRemoveExerciseClick, handleDeleteClick }) => {
 
     const [loadWorkout, setLoadWorkout] = useState([])
 
@@ -27,31 +28,11 @@ const ExerciseCard = ({ name, id, handleClick, handleAddExerciseClick, handleRem
             })
     }, [])
 
-    const handleDelete = () => {
-        const token = sessionStorage.getItem('JWTtoken');
-
-        axios
-            .delete(`${API_URL}/preset-workouts/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
-            .then(res => {
-                console.log(res.data)
-            })
-            .catch(err => {
-                console.log(err.response.data)
-            })
-
-        window.location.reload()
-
-    }
-
 
     return (
         <div className='workout-card' onClick={handleClick} data-name={name} id={id}>
             <p className='workout-card__title' onClick={handleClick}>{name}</p>
-            <img src={deleteicon} alt="delete icon" onClick={handleDelete} className='workout-card__delete' />
+            <img src={deleteicon} alt="delete icon" onClick={handleDeleteClick} className='workout-card__delete' name={name} id={id} />
             <ul className="workout-card__list" onClick={handleClick}>
                 {loadWorkout && loadWorkout.map(item => {
                     return <li className='workout-card__list-item' key={item.exercise_id}>- {item.exercise_name}</li>
