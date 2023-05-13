@@ -132,6 +132,7 @@ const ExerciseProgressionPage = () => {
     }
 
     const handleDeleteClick = (event) => {
+        event.stopPropagation()
         setDeleteModal(true)
         setExerciseToDelete(event.target.name)
         setExerciseIDToDelete(event.target.id)
@@ -152,7 +153,7 @@ const ExerciseProgressionPage = () => {
             <div className="exercises__cards-container">
                 {chartData && exerciseList.map((exercise, index) => {
                     return (
-                        <div key={exercise.id} id={exercise.id} className='exercises__card'>
+                        <div key={exercise.id} id={exercise.id} className='exercises__card' onClick={handleClick} >
                             <img src={deleteicon} alt="delete icon" className='exercises__delete' onClick={handleDeleteClick} id={exercise.id} name={exercise.exercise_name} />
                             <p className="exercises__card-text">{exercise.exercise_name}</p>
                             <div className="exercises__card-chart-container">
@@ -165,7 +166,7 @@ const ExerciseProgressionPage = () => {
                                     <Line dataKey='training_volume' stroke='#2196F3' strokeWidth={2} />
                                 </LineChart>
                             </div>
-                            <div className='exercises__card-btn' onClick={handleClick} id={exercise.id} data-name={exercise.exercise_name}>
+                            <div className='exercises__card-btn' id={exercise.id} data-name={exercise.exercise_name}>
                                 <img className='exercises__card-icon' src={arm} alt="arm icon" />
                                 <p className='exercises__card-text--small'>View Progression</p>
                             </div>
