@@ -42,7 +42,19 @@ const WorkoutsPage = () => {
                 },
             })
             .then((res) => {
-                setWorkouts(res.data)
+                setWorkouts(res.data.sort((a, b) => {
+                    const A = a.workout_name.toUpperCase()
+                    const B = b.workout_name.toUpperCase()
+                    if (A < B) {
+                        return -1
+                    }
+                    if (A > B) {
+                        return 1
+                    }
+                    else {
+                        return 0
+                    }
+                }))
             })
             .catch((err) => {
                 console.log(err.response)
@@ -141,7 +153,7 @@ const WorkoutsPage = () => {
             <button className='workouts__btn' onClick={() => { setAdditionModal(true) }}>+ Add Workout</button>
 
             <div className="workouts__cards-container">
-                {workouts && workouts.map(workout => {
+                {workouts && workouts.sort().map(workout => {
                     return <WorkoutCard name={workout.workout_name} id={workout.id} key={workout.id} handleClick={handleClick} handleAddExerciseClick={handleAddExerciseClick} handleRemoveExerciseClick={handleRemoveExerciseClick} handleDeleteClick={handleDeleteClick} handleDeleteModalClose={handleDeleteModalClose} />
                 })}
             </div>

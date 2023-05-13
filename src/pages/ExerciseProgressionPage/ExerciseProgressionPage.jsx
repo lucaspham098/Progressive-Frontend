@@ -43,7 +43,20 @@ const ExerciseProgressionPage = () => {
                 },
             })
             .then((res) => {
-                setExerciseList(res.data)
+                console.log(res.data)
+                setExerciseList(res.data.sort((a, b) => {
+                    const A = a.exercise_name.toUpperCase()
+                    const B = b.exercise_name.toUpperCase()
+                    if (A < B) {
+                        return -1
+                    }
+                    if (A > B) {
+                        return 1
+                    }
+                    else {
+                        return 0
+                    }
+                }))
                 const promises = res.data.map((exercise) => {
                     return axios.get(`${API_URL}/exercises/id/${exercise.id}`, {
                         headers: {
