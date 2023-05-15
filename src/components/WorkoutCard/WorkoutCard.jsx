@@ -4,7 +4,6 @@ import { API_URL } from '../../utils/utils';
 import deleteicon from "../../assets/icons/delete.svg"
 import editicon from '../../assets/icons/edit.svg'
 import './WorkoutCard.scss';
-import DeleteModal from '../DeleteModal/DeleteModal';
 
 const ExerciseCard = ({ name, id, handleClick, handleAddExerciseClick, handleRemoveExerciseClick, handleDeleteClick }) => {
 
@@ -26,7 +25,7 @@ const ExerciseCard = ({ name, id, handleClick, handleAddExerciseClick, handleRem
             .catch(err => {
                 console.log(err.response)
             })
-    }, [])
+    }, [id])
 
 
     return (

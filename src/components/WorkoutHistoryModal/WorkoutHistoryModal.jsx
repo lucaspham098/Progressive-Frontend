@@ -72,7 +72,7 @@ const WorkoutHistoryModal = ({ workoutName, workoutID, func, closeHistoryModal }
                 console.log(err.response)
             })
 
-    }, [])
+    }, [workoutID])
 
     if (loading) {
         return <div>Loading...</div>;

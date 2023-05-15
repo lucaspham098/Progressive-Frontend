@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+
 import './NavModal.scss'
 import backbtn from '../../assets/icons/backbtn.svg'
 import { useNavigate } from 'react-router-dom';
@@ -32,7 +32,6 @@ const NavModal = ({ open, func }) => {
                     }}>Exercises</p>
                 </div>
                 <div className='nav-modal__link-container'>
-                    <p className='nav-modal__link'>Account</p>
                     <p className='nav-modal__link' onClick={handleSignout}>Sign Out</p>
                 </div>
             </div>
