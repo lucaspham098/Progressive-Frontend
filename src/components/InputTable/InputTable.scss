@@ -61,11 +61,13 @@
     &__btn-container {
         display: flex;
         justify-content: center;
-        margin-bottom: 2rem;
+        margin: 0 $mobile-padding 2rem;
+        gap: 1rem
     }
 
     &__btn {
         @include button;
-        width: 100%;
+        margin: 0;
+        flex: 1;
     }
 }

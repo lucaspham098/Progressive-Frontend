@@ -3,6 +3,7 @@ import axios from 'axios';
 import { API_URL } from '../../utils/utils';
 import './InputTable.scss'
 import ErrorText from '../ErrorText/ErrorText'
+import Timer from '../Timer/Timer';
 
 
 const InputTable = ({ workout_id }) => {
@@ -97,6 +98,7 @@ const InputTable = ({ workout_id }) => {
             </div>
             {submitError && <ErrorText message='Make sure all fields are filled' />}
             <div className="input-table__btn-container">
+                <Timer />
                 <button className='input-table__btn'>Finish Workout</button>
             </div>
         </form>

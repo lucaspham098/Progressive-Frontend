@@ -7,6 +7,7 @@ import Overlay from '../../components/Overlay/Overlay';
 import InputTable from '../../components/InputTable/InputTable';
 import DisplayTable from '../../components/DisplayTable/DisplayTable';
 import { useNavigate } from 'react-router-dom';
+import Timer from '../../components/Timer/Timer';
 
 const HomePage = () => {
     const navigate = useNavigate()
@@ -145,6 +146,7 @@ const HomePage = () => {
                     </div>
                     <InputTable workout_id={workoutID} />
                 </>}
+
 
             {completedWorkout.length > 0 &&
                 <>
