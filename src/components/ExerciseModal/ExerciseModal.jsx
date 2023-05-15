@@ -4,7 +4,7 @@ import { API_URL } from '../../utils/utils';
 import './ExerciseModal.scss'
 
 import CloseBtn from '../CloseBtn/CloseBtn';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Legend, Tooltip } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Legend, Tooltip } from 'recharts';
 
 
 const ExerciseModal = ({ id, name, func, closeExerciseModal }) => {
@@ -132,7 +132,7 @@ const ExerciseModal = ({ id, name, func, closeExerciseModal }) => {
             } else {
                 setProgress('revert');
             }
-    }, [recentWeight, recentSet1, recentSet2, recentSet3, previousWeight, previousSet1, previousSet2, previousSet3]);
+    }, [recentWeight, recentSet1, recentSet2, recentSet3, previousWeight, previousSet1, previousSet2, previousSet3, previousWorkout]);
 
 
 

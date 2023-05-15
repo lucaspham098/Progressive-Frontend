@@ -1,9 +1,9 @@
 import React from 'react';
 import './ErrorText.scss'
-const ErrorText = ({ message, style }) => {
+const ErrorText = ({ message, isLogin }) => {
     return (
         <div className='error-container'>
-            <p className={`${style} error`}>{message}</p>
+            <p className={`${isLogin} error`}>{message}</p>
         </div>
     );
 };

@@ -148,7 +148,7 @@ const LoginSignupForm = () => {
                 {formTitle === 'Login' &&
                     <form className='form' onSubmit={handleLogin}>
                         <div className="form__input-container">
-                            {loginError && <ErrorText message={loginErrorMessage} style='error--login' />}
+                            {loginError && <ErrorText message={loginErrorMessage} isLogin='error--login' />}
                             <input className='form__input' type="text" name='username' placeholder='Username' onChange={handleLoginUserChange} />
                             {loginUserError && <ErrorText message={loginUserErrorMessage} />}
                             <input className='form__input' type="password" name='password' placeholder='Password' onChange={handleLoginPassChange} />

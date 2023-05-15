@@ -7,7 +7,6 @@ import CloseBtn from '../CloseBtn/CloseBtn';
 const WorkoutModal = ({ func, handleChooseWorkout, closeModal }) => {
 
     const [workoutList, setWorkoutList] = useState([])
-    const [modalName, setModalName] = useState('')
 
     useEffect(() => {
 
@@ -29,15 +28,12 @@ const WorkoutModal = ({ func, handleChooseWorkout, closeModal }) => {
 
     }, [])
 
-    const handleModalCloseAnimation = () => {
-        setModalName('workout-modal--close')
-    }
+
 
     return (
         <div className={`workout-modal ${closeModal}`}>
             <CloseBtn
                 func={func}
-            // onClick={handleModalCloseAnimation}
             />
             <p className='workout-modal__heading'>Choose Workout</p>
             <div className="workout-modal__btn-container">
