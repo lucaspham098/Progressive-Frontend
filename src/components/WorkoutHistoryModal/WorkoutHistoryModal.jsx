@@ -47,16 +47,19 @@ const WorkoutHistoryModal = ({ workoutName, workoutID, func, closeHistoryModal }
                     index === self.findIndex((t) => t.date === obj.date)
                 );
                 console.log(res.data)
+                console.log(dates)
 
                 const dateArr = (dates.map(item => {
                     return formatDate(item.date)
                 }))
+                console.log(dateArr)
 
                 const requests = dateArr.map(item => axios.get(`${API_URL}/exercise-data/workouts/${workoutID}/${item}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 }))
+                console.log(requests)
                 Promise.all(requests)
                     .then((responses) => {
                         const data = responses.map((response) => response.data)
