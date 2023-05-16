@@ -110,7 +110,7 @@ const ExerciseProgressionPage = () => {
                 console.log(err.response.data)
             })
 
-        window.location.reload()
+        // window.location.reload()
     }
 
     const handleDelete = (event) => {
