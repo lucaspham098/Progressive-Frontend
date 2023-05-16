@@ -50,6 +50,7 @@ const LoginSignupForm = () => {
             .catch(err => {
                 console.log(err)
             })
+        navigate('/')
     }
 
     const handleLogin = (event) => {
