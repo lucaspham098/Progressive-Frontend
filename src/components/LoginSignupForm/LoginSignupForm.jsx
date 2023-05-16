@@ -46,11 +46,11 @@ const LoginSignupForm = () => {
             })
             .then(res => {
                 console.log(res)
+                navigate('/')
             })
             .catch(err => {
                 console.log(err)
             })
-        navigate('/')
     }
 
     const handleLogin = (event) => {
