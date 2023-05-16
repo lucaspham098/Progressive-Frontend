@@ -85,6 +85,7 @@ const WorkoutHistoryModal = ({ workoutName, workoutID, func, closeHistoryModal }
             <p className="history-modal__heading">{workoutName}</p>
 
             {workoutArr && workoutArr.map((item, index) => {
+                console.log(workoutArr)
                 return <DisplayTable title={displayDateFormat(item[0].date)} arr={item} key={index} />
             })}
         </div>
