@@ -4,7 +4,6 @@ import axios from 'axios';
 import { API_URL } from '../../utils/utils';
 import DisplayTable from '../DisplayTable/DisplayTable';
 import CloseBtn from '../CloseBtn/CloseBtn';
-import { empty } from 'uuidv4';
 import EmptyText from '../EmptyText/EmptyText';
 
 
