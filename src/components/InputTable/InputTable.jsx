@@ -44,6 +44,14 @@ const InputTable = ({ workout_id }) => {
             const set_3 = formData.get(`set3-${exercise_id}`);
             const total_reps = parseInt(set_1) + parseInt(set_2) + parseInt(set_3);
             const training_volume = weight_lbs * total_reps;
+
+            // const today = new Date();
+            // const timeZoneOffset = today.getTimezoneOffset();
+            // const dateBody = {
+            //     currentDate: today.toISOString(),
+            //     timeZoneOffset: timeZoneOffset
+            // };
+
             data.push({ exercise_id, weight_lbs, set_1, set_2, set_3, training_volume });
         }
         const token = sessionStorage.getItem('JWTtoken');

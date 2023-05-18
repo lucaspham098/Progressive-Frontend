@@ -105,18 +105,19 @@ const ExerciseProgressionPage = () => {
             })
             .then(res => {
                 console.log(res)
+                window.location.reload()
             })
             .catch(err => {
                 console.log(err.response.data)
             })
 
-        window.location.reload()
     }
 
     const handleDelete = (event) => {
         const token = sessionStorage.getItem('JWTtoken');
         const id = event.target.id
         console.log(event.target.id)
+        event.preventDefault()
         axios
             .delete(`${API_URL}/exercises/id/${id}`, {
                 headers: {
@@ -125,12 +126,12 @@ const ExerciseProgressionPage = () => {
             })
             .then(res => {
                 console.log(res)
+                window.location.reload()
+
             })
             .catch(err => {
                 console.log(err.response.data)
             })
-        event.preventDefault()
-        window.location.reload()
     }
 
     const handleCloseModal = () => {

@@ -31,9 +31,7 @@ const LoginSignupForm = () => {
             event.preventDefault()
             return setSignupPassError(true)
         }
-
         event.preventDefault()
-
         const token = sessionStorage.getItem('JWTtoken');
 
         axios
@@ -48,7 +46,7 @@ const LoginSignupForm = () => {
             })
             .then(res => {
                 console.log(res)
-                navigate('/')
+                window.location.reload()
             })
             .catch(err => {
                 console.log(err)

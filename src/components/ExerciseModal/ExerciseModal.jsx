@@ -60,6 +60,8 @@ const ExerciseModal = ({ id, name, func, closeExerciseModal }) => {
             })
             .then((res) => {
 
+                console.log(res)
+
                 const dataSortedByDate = [...res.data].sort((a, b) => {
                     return new Date(b.date) - new Date(a.date)
                 })
@@ -112,6 +114,7 @@ const ExerciseModal = ({ id, name, func, closeExerciseModal }) => {
                 },
             })
             .then(res => {
+                console.log(res)
                 setPreviousWorkout(res.data)
                 setPreviousWeight(res.data[0].weight_lbs)
                 setPreviousSet1(res.data[0].set_1)
@@ -178,8 +181,10 @@ const ExerciseModal = ({ id, name, func, closeExerciseModal }) => {
                 </div>
 
                 {previousWorkout && previousWorkout.map(workout => {
+                    console.log(previousWorkout)
+                    console.log('jiii')
                     return (
-                        <table className='exercise-modal__table'>
+                        <table className='exercise-modal__table' key={workout.id}>
                             <thead>
                                 <tr>
                                     <th>Weight (lbs)</th>

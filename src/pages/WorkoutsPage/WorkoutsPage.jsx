@@ -95,12 +95,13 @@ const WorkoutsPage = () => {
             })
             .then(res => {
                 console.log(res)
+                window.location.reload()
             })
             .catch(err => {
                 console.log(err.response.data)
             })
 
-        window.location.reload()
+
     }
 
     const handleCloseModal = () => {
@@ -137,13 +138,14 @@ const WorkoutsPage = () => {
                 },
             })
             .then(res => {
+                window.location.reload()
                 console.log(res.data)
+
             })
             .catch(err => {
                 console.log(err.response.data)
             })
 
-        window.location.reload()
 
     }
 

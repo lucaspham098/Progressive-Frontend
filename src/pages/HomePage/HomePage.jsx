@@ -61,6 +61,7 @@ const HomePage = () => {
             const formattedDate = `${year}-${month}-${day}`;
             return formattedDate;
         }
+        console.log(currentDateSearchFormat())
 
         axios
             .get(`${API_URL}/exercise-data/current-day/${currentDateSearchFormat()}`, {
@@ -70,6 +71,7 @@ const HomePage = () => {
             })
             .then(res => {
                 setCompletedWorkout(res.data)
+                console.log(res.data)
             })
             .catch(err => {
                 console.log(err)
