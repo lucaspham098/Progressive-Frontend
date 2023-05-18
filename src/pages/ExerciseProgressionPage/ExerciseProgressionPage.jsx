@@ -10,6 +10,7 @@ import arm from '../../assets/icons/flex.svg'
 import { useNavigate } from 'react-router-dom';
 import { LineChart, Line } from 'recharts';
 import DeleteModal from '../../components/DeleteModal/DeleteModal';
+import EmptyText from '../../components/EmptyText/EmptyText';
 
 
 
@@ -92,7 +93,6 @@ const ExerciseProgressionPage = () => {
     }
 
     const handleSubmit = (event) => {
-        event.preventDefault()
         setAdditiionModal(false)
 
         const token = sessionStorage.getItem('JWTtoken');
@@ -165,9 +165,10 @@ const ExerciseProgressionPage = () => {
             {deleteModal && <DeleteModal closeFunc={handleCloseDeleteModal} name={exerciseToDelete} handleDelete={handleDelete} id={exerciseIDToDelete} />}
 
             <div className="exercises__cards-container">
+                {exerciseList.length === 0 && <EmptyText text={'No exercises created. Create some exercises.'} />}
                 {chartData && exerciseList.map((exercise, index) => {
                     return (
-                        <div key={exercise.id} id={exercise.id} className='exercises__card' onClick={handleClick} >
+                        <div key={exercise.id} id={exercise.id} data-name={exercise.exercise_name} className='exercises__card' onClick={handleClick} >
                             <img src={deleteicon} alt="delete icon" className='exercises__delete' onClick={handleDeleteClick} id={exercise.id} name={exercise.exercise_name} />
                             <p className="exercises__card-text">{exercise.exercise_name}</p>
                             <div className="exercises__card-chart-container">

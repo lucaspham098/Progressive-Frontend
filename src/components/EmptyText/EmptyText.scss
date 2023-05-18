@@ -1,0 +1,20 @@
+@use '../../styles/partials/colours' as *;
+@use '../../styles/partials/spacing' as *;
+@use '../../styles/partials/sizing' as *;
+@use '../../styles/mixins/mixins' as *;
+
+.empty-text {
+    font-size: 1.25rem;
+
+    &__container {
+        margin-top: 2rem;
+        padding: 0 $mobile-padding;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+
+        &--modal {
+            margin-top: 10rem;
+        }
+    }
+}

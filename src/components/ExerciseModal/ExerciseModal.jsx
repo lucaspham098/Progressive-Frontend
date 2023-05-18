@@ -2,9 +2,9 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { API_URL } from '../../utils/utils';
 import './ExerciseModal.scss'
-
 import CloseBtn from '../CloseBtn/CloseBtn';
 import { LineChart, Line, XAxis, YAxis, Legend, Tooltip } from 'recharts';
+import EmptyText from '../EmptyText/EmptyText';
 
 
 const ExerciseModal = ({ id, name, func, closeExerciseModal }) => {
@@ -59,9 +59,6 @@ const ExerciseModal = ({ id, name, func, closeExerciseModal }) => {
                 },
             })
             .then((res) => {
-
-                console.log(res)
-
                 const dataSortedByDate = [...res.data].sort((a, b) => {
                     return new Date(b.date) - new Date(a.date)
                 })
@@ -71,8 +68,6 @@ const ExerciseModal = ({ id, name, func, closeExerciseModal }) => {
                 })
 
                 setExerciseData(dataSortedByDate)
-                console.log(dataChronological)
-
 
                 const dates = dataSortedByDate.map(item => {
                     return {
@@ -145,106 +140,108 @@ const ExerciseModal = ({ id, name, func, closeExerciseModal }) => {
         <div className={`exercise-modal ${closeExerciseModal}`}>
             <h1 className='exercise-modal__title'>{name}</h1>
             <CloseBtn func={func} />
-            <p className='exercise-modal__text'>Compare Most Recent Data to Previous Dates</p>
-            <p className='exercise-modal__table-label'> Most Recent Data From {recentDate}:</p>
-            <table className='exercise-modal__table'>
-                <thead>
-                    <tr>
-                        <th>Weight (lbs)</th>
-                        <th>Set 1</th>
-                        <th>Set 2</th>
-                        <th>Set 3</th>
-                        <th>Training Volume (lbs)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr className={progress}>
-                        <td >{recentWeight}</td>
-                        <td >{recentSet1}</td>
-                        <td >{recentSet2}</td>
-                        <td >{recentSet3}</td>
-                        <td >{recentTrainingVolume}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div>
-                <div className="exercise-modal__select-container">
-                    <p>Data From: </p>
-                    <select name="" id="" onChange={handleDateChange} defaultValue=''>
-                        <option disabled value=''>Please select date</option>
-                        {dateArray.map(date => {
-                            return (
-                                <option key={date.date} value={date.date}>{date.date}</option>
-                            )
-                        })}
-                    </select>
-                </div>
-
-                {previousWorkout && previousWorkout.map(workout => {
-                    console.log(previousWorkout)
-                    console.log('jiii')
-                    return (
-                        <table className='exercise-modal__table' key={workout.id}>
-                            <thead>
-                                <tr>
-                                    <th>Weight (lbs)</th>
-                                    <th>Set 1</th>
-                                    <th>Set 2</th>
-                                    <th>Set 3</th>
-                                    <th>Training Volume (lbs)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td >{workout.weight_lbs}</td>
-                                    <td >{workout.set_1}</td>
-                                    <td >{workout.set_2}</td>
-                                    <td >{workout.set_3}</td>
-                                    <td >{workout.training_volume}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    )
-                })}
-            </div>
-
-            <div className="exercise-modal__chart-container">{chartData &&
-                <LineChart data={chartData} width={375} height={250}>
-                    <Line dataKey='training_volume' stroke='#2196F3' strokeWidth={2} />
-                    <XAxis dataKey="date" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                </LineChart>}
-            </div>
-
-            {exerciseData &&
+            {exerciseData.length === 0 && < EmptyText text={`No data recorded for ${name}. Complete a workout that includes ${name} first`} modifier={'empty-text__container--modal'} />}
+            {exerciseData.length > 0 && <>
+                <p className='exercise-modal__text'>Compare Most Recent Data to Previous Dates</p>
+                <p className='exercise-modal__table-label'> Most Recent Data From {recentDate}:</p>
                 <table className='exercise-modal__table'>
                     <thead>
                         <tr>
-                            <th>Date</th>
                             <th>Weight (lbs)</th>
                             <th>Set 1</th>
                             <th>Set 2</th>
                             <th>Set 3</th>
-                            <th>Training Volume</th>
+                            <th>Training Volume (lbs)</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {exerciseData.map(item => {
-                            return (
-                                <tr key={item.date}>
-                                    <td>{displayDate(item.date)}</td>
-                                    <td>{item.weight_lbs}</td>
-                                    <td>{item.set_1}</td>
-                                    <td>{item.set_2}</td>
-                                    <td>{item.set_3}</td>
-                                    <td>{item.training_volume}</td>
-                                </tr>
-                            )
-                        })}
+                        <tr className={progress}>
+                            <td >{recentWeight}</td>
+                            <td >{recentSet1}</td>
+                            <td >{recentSet2}</td>
+                            <td >{recentSet3}</td>
+                            <td >{recentTrainingVolume}</td>
+                        </tr>
                     </tbody>
-                </table>}
+                </table>
+                <div>
+                    <div className="exercise-modal__select-container">
+                        <p>Data From: </p>
+                        <select name="" id="" onChange={handleDateChange} defaultValue=''>
+                            <option disabled value=''>Please select date</option>
+                            {dateArray.map(date => {
+                                return (
+                                    <option key={date.date} value={date.date}>{date.date}</option>
+                                )
+                            })}
+                        </select>
+                    </div>
+
+                    {previousWorkout && previousWorkout.map(workout => {
+                        return (
+                            <table className='exercise-modal__table' key={workout.id}>
+                                <thead>
+                                    <tr>
+                                        <th>Weight (lbs)</th>
+                                        <th>Set 1</th>
+                                        <th>Set 2</th>
+                                        <th>Set 3</th>
+                                        <th>Training Volume (lbs)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td >{workout.weight_lbs}</td>
+                                        <td >{workout.set_1}</td>
+                                        <td >{workout.set_2}</td>
+                                        <td >{workout.set_3}</td>
+                                        <td >{workout.training_volume}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        )
+                    })}
+                </div>
+
+                <div className="exercise-modal__chart-container">{chartData &&
+                    <LineChart data={chartData} width={375} height={250}>
+                        <Line dataKey='training_volume' stroke='#2196F3' strokeWidth={2} />
+                        <XAxis dataKey="date" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                    </LineChart>}
+                </div>
+
+                {exerciseData &&
+                    <table className='exercise-modal__table'>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Weight (lbs)</th>
+                                <th>Set 1</th>
+                                <th>Set 2</th>
+                                <th>Set 3</th>
+                                <th>Training Volume</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {exerciseData.map(item => {
+                                return (
+                                    <tr key={item.date}>
+                                        <td>{displayDate(item.date)}</td>
+                                        <td>{item.weight_lbs}</td>
+                                        <td>{item.set_1}</td>
+                                        <td>{item.set_2}</td>
+                                        <td>{item.set_3}</td>
+                                        <td>{item.training_volume}</td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>}
+            </>}
+
 
         </div>
     );

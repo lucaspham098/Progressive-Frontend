@@ -3,6 +3,7 @@ import { API_URL } from '../../utils/utils';
 import './WorkoutModal.scss'
 import axios from 'axios';
 import CloseBtn from '../CloseBtn/CloseBtn';
+import EmptyText from '../EmptyText/EmptyText';
 
 const WorkoutModal = ({ func, handleChooseWorkout, closeModal }) => {
 
@@ -37,6 +38,7 @@ const WorkoutModal = ({ func, handleChooseWorkout, closeModal }) => {
             />
             <p className='workout-modal__heading'>Choose Workout</p>
             <div className="workout-modal__btn-container">
+                {workoutList.length === 0 && <EmptyText text='You have no workouts created. Create some on the workouts page.' />}
                 {workoutList && workoutList.map(item => {
                     return <button className='workout-modal__btn' key={item.id} id={item.id} onClick={handleChooseWorkout}>{item.workout_name}</button>
                 })}

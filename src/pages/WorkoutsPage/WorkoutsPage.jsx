@@ -10,6 +10,8 @@ import './WorkoutsPage.scss'
 import Overlay from '../../components/Overlay/Overlay';
 import { useNavigate } from 'react-router-dom';
 import DeleteModal from '../../components/DeleteModal/DeleteModal';
+import EmptyText from '../../components/EmptyText/EmptyText';
+
 
 const WorkoutsPage = () => {
     const navigate = useNavigate()
@@ -82,7 +84,7 @@ const WorkoutsPage = () => {
     }
 
     const handleSubmit = (event) => {
-        event.preventDefault()
+        console.log(event)
         setAdditionModal(false)
 
         const token = sessionStorage.getItem('JWTtoken');
@@ -155,6 +157,7 @@ const WorkoutsPage = () => {
             <button className='workouts__btn' onClick={() => { setAdditionModal(true) }}>+ Add Workout</button>
 
             <div className="workouts__cards-container">
+                {workouts.length === 0 && <EmptyText text='No workouts created. Create some workouts and add some exercises to them.' />}
                 {workouts && workouts.sort().map(workout => {
                     return <WorkoutCard name={workout.workout_name} id={workout.id} key={workout.id} handleClick={handleClick} handleAddExerciseClick={handleAddExerciseClick} handleRemoveExerciseClick={handleRemoveExerciseClick} handleDeleteClick={handleDeleteClick} handleDeleteModalClose={handleDeleteModalClose} />
                 })}

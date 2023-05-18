@@ -4,6 +4,8 @@ import axios from 'axios';
 import { API_URL } from '../../utils/utils';
 import DisplayTable from '../DisplayTable/DisplayTable';
 import CloseBtn from '../CloseBtn/CloseBtn';
+import { empty } from 'uuidv4';
+import EmptyText from '../EmptyText/EmptyText';
 
 
 const WorkoutHistoryModal = ({ workoutName, workoutID, func, closeHistoryModal }) => {
@@ -87,7 +89,7 @@ const WorkoutHistoryModal = ({ workoutName, workoutID, func, closeHistoryModal }
         <div className={`history-modal ${closeHistoryModal}`}>
             <CloseBtn func={func} />
             <p className="history-modal__heading">{workoutName}</p>
-
+            {workoutArr.length === 0 && <EmptyText text={`No data recorded for ${workoutName}. Complete ${workoutName} workout first.`} modifier={'empty-text__container--modal'} />}
             {workoutArr && workoutArr.map((item, index) => {
                 return <DisplayTable title={displayDateFormat(item[0].date)} arr={item} key={index} />
             })}

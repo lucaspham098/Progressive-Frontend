@@ -3,6 +3,9 @@
 @use '../../styles/partials/sizing' as *;
 
 .error {
+    &--addition-modal {
+        left: -3.5rem;
+    }
 
     color: $error-red;
     position: relative;
@@ -16,5 +19,7 @@
         margin-bottom: 0.625rem;
         font-size: 1rem;
     }
+
+
 
 }
