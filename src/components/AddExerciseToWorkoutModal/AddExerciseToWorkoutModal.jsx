@@ -3,6 +3,7 @@ import './AddExerciseToWorkoutModal.scss'
 import { API_URL } from '../../utils/utils';
 import axios from 'axios';
 import CloseBtn from '../CloseBtn/CloseBtn';
+import EmptyText from '../EmptyText/EmptyText'
 
 const AddExerciseToWorkoutModal = ({ workoutID, func }) => {
 
@@ -56,12 +57,12 @@ const AddExerciseToWorkoutModal = ({ workoutID, func }) => {
             })
             .then(res => {
                 console.log(res)
+                window.location.reload()
             })
             .catch(err => {
                 console.log(err.response.data)
             })
 
-        window.location.reload()
 
     }
 
@@ -69,6 +70,8 @@ const AddExerciseToWorkoutModal = ({ workoutID, func }) => {
         <div className='add-exercise-modal'>
             <CloseBtn func={func} />
             <p className='add-exercise-modal__title'>Choose Which Exercises to Add</p>
+            {availableExercises.length === 0 && <EmptyText text={'No available exercises to add.'} modifier={'empty-text__container--higher'} />}
+
             <div className="add-exercise-modal__exercise-container">
                 {availableExercises && availableExercises.map(item => {
                     return (
@@ -76,7 +79,7 @@ const AddExerciseToWorkoutModal = ({ workoutID, func }) => {
                     )
                 })}
             </div>
-            <button onClick={handleAdd} className='add-exercise-modal__btn'>Add</button>
+            {listOfExercises.length === 0 ? <button disabled className='add-exercise-modal__btn--disabled'>Add</button> : <button onClick={handleAdd} className='add-exercise-modal__btn'>Add</button>}
         </div>
     );
 };

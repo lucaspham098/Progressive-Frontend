@@ -74,7 +74,7 @@ const RemoveExerciseFromWorkoutModal = ({ workoutID, func }) => {
                     )
                 })}
             </div>
-            <button onClick={handleRemove} className='add-exercise-modal__btn'>Remove</button>
+            {listToRemove.length === 0 ? <button disabled className='add-exercise-modal__btn--disabled'>Remove</button> : <button onClick={handleRemove} className='add-exercise-modal__btn'>Remove</button>}
         </div>
     );
 };

@@ -57,6 +57,13 @@
     &__btn {
         @include button;
         width: 72%;
+
+        &--disabled {
+            @include button;
+            background-color: #9ba4ba;
+            color: black;
+            width: 72%;
+        }
     }
 
 }
