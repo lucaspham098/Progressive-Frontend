@@ -12,6 +12,11 @@
         z-index: 10;
         overflow: hidden;
 
+        @include desktop {
+            width: 35rem;
+            margin: 5rem auto 0;
+        }
+
     }
 
     &__title-container {
@@ -46,6 +51,7 @@
         cursor: pointer;
         transition: background 0.5s;
         width: 50%;
+        text-align: center;
     }
 
 

@@ -1,6 +1,7 @@
 @use '../../styles/partials/colours' as *;
 @use '../../styles/partials/spacing' as *;
 @use '../../styles/partials/sizing' as *;
+@use '../../styles/mixins/mixins' as *;
 
 .nav-modal {
     background-color: $blue;
@@ -10,6 +11,10 @@
     width: 10rem;
     z-index: 10;
     transform: translateX(-100%);
+
+    @include desktop {
+        width: 15rem;
+    }
 
     @keyframes moveRight {
         to {
@@ -38,14 +43,22 @@
         margin-left: 7.75rem;
         margin-top: 1.5rem;
         cursor: pointer;
+
+        @include desktop {
+            margin-left: 12rem;
+        }
     }
 
     &__flex-container {
         display: flex;
         flex-direction: column;
         height: 100%;
-        gap: 23rem;
+        gap: 60vh;
         margin-top: 2rem;
+
+        @include desktop {
+            margin-left: 2rem;
+        }
     }
 
     &__link-container {

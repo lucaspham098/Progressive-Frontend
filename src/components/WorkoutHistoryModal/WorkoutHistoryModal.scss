@@ -1,6 +1,7 @@
 @use '../../styles/partials/colours' as *;
 @use '../../styles/partials/spacing' as *;
 @use '../../styles/partials/sizing' as *;
+@use '../../styles/mixins/mixins' as *;
 
 .history-modal {
     position: fixed;
@@ -24,6 +25,13 @@
     @keyframes moveDown2 {
         to {
             transform: translateY(100%);
+        }
+    }
+
+    &__desktop-container {
+        @include desktop {
+            width: $desktop-width;
+            margin: 0 auto;
         }
     }
 

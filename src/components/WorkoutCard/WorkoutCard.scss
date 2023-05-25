@@ -1,6 +1,7 @@
 @use '../../styles/partials/colours' as *;
 @use '../../styles/partials/spacing' as *;
 @use '../../styles/partials/sizing' as *;
+@use '../../styles/mixins/mixins' as *;
 
 .workout-card {
     position: relative;
@@ -13,6 +14,10 @@
     padding: 0.5rem;
     height: fit-content;
     cursor: pointer;
+
+    @include desktop {
+        width: 32%;
+    }
 
     &:nth-of-type(even) {
         background-color: rgba(84, 185, 241, 0.4);

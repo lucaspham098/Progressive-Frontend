@@ -120,41 +120,44 @@ const HomePage = () => {
 
     return (
         <div className='home'>
-            <p className='home__date'>{date}</p>
-            <h1 className='home__title'>Hello {user}</h1>
 
-            {!inProgress && completedWorkout.length === 0 &&
-                <>
-                    <p className='home__text'>No Workout Completed Today</p>
-                    <div className="home__btn-container">
-                        <button className='home__btn' onClick={handleOpenModal}>Do a Workout Today</button>
-                    </div>
-                </>}
+            <div className="home__desktop-container">
+                <p className='home__date'>{date}</p>
+                <h1 className='home__title'>Hello {user}</h1>
+                {!inProgress && completedWorkout.length === 0 &&
+                    <>
+                        <p className='home__text'>No Workout Completed Today</p>
+                        <div className="home__btn-container">
+                            <button className='home__btn' onClick={handleOpenModal}>Do a Workout Today</button>
+                        </div>
+                    </>}
+            </div>
 
             {modal && <WorkoutModal func={handleCloseModal} handleChooseWorkout={handleChooseWorkout} closeModal={closeModal} />}
             {modal && <Overlay />}
 
-            {inProgress &&
-                <>
-                    <p className='home__text'>Workout In Progress</p>
-                    <div className="home__select-container">
-                        <select className='home__select' name="" id="" onChange={handleWorkoutChange} defaultValue=''>
-                            <option disabled value=''>Switch Workouts</option>
-                            {workoutList.map(workout => {
-                                return (<option key={workout.id} value={workout.id}>{workout.workout_name}</option>)
-                            })}
-                        </select>
-                    </div>
-                    <InputTable workout_id={workoutID} />
-                </>}
+            <div className="home__desktop-container">
+                {inProgress &&
+                    <>
+                        <p className='home__text'>Workout In Progress</p>
+                        <div className="home__select-container">
+                            <select className='home__select' name="" id="" onChange={handleWorkoutChange} defaultValue=''>
+                                <option disabled value=''>Switch Workouts</option>
+                                {workoutList.map(workout => {
+                                    return (<option key={workout.id} value={workout.id}>{workout.workout_name}</option>)
+                                })}
+                            </select>
+                        </div>
+                        <InputTable workout_id={workoutID} />
+                    </>}
+                {completedWorkout.length > 0 &&
+                    <>
+                        <p className='home__text'>Workout Completed Today</p>
+                        <DisplayTable title={completedWorkout[0].workout_name} arr={completedWorkout} />
+                    </>
+                }
+            </div>
 
-
-            {completedWorkout.length > 0 &&
-                <>
-                    <p className='home__text'>Workout Completed Today</p>
-                    <DisplayTable title={completedWorkout[0].workout_name} arr={completedWorkout} />
-                </>
-            }
 
         </div>
     );

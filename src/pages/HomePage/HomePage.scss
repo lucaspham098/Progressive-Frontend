@@ -5,6 +5,13 @@
 
 .home {
 
+    &__desktop-container {
+        @include desktop {
+            width: $desktop-width;
+            margin: 0 auto;
+        }
+    }
+
     &__date {
         margin-top: 2rem;
         margin-left: $mobile-padding;

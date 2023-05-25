@@ -153,14 +153,19 @@ const WorkoutsPage = () => {
 
     return (
         <div>
-            <h1 className='workouts__title'>Your Workouts</h1>
-            <button className='workouts__btn' onClick={() => { setAdditionModal(true) }}>+ Add Workout</button>
+            <div className="workouts__desktop-container">
+                <h1 className='workouts__title'>Your Workouts</h1>
+                <button className='workouts__btn' onClick={() => { setAdditionModal(true) }}>+ Add Workout</button>
 
-            <div className="workouts__cards-container">
-                {workouts.length === 0 && <EmptyText text='No workouts created. Create some workouts and add some exercises to them.' />}
-                {workouts && workouts.sort().map(workout => {
-                    return <WorkoutCard name={workout.workout_name} id={workout.id} key={workout.id} handleClick={handleClick} handleAddExerciseClick={handleAddExerciseClick} handleRemoveExerciseClick={handleRemoveExerciseClick} handleDeleteClick={handleDeleteClick} handleDeleteModalClose={handleDeleteModalClose} />
-                })}
+                <div className="workouts__cards-container">
+
+                    {workouts.length === 0 && <EmptyText text='No workouts created. Create some workouts and add some exercises to them.' />}
+                    {workouts && workouts.sort().map(workout => {
+                        return <WorkoutCard name={workout.workout_name} id={workout.id} key={workout.id} handleClick={handleClick} handleAddExerciseClick={handleAddExerciseClick} handleRemoveExerciseClick={handleRemoveExerciseClick} handleDeleteClick={handleDeleteClick} handleDeleteModalClose={handleDeleteModalClose} />
+                    })}
+
+                </div>
+
             </div>
 
             {modal && <WorkoutHistoryModal workoutName={workoutName} workoutID={workoutID} func={handleCloseHistoryModal} closeHistoryModal={closeHistoryModal} />}

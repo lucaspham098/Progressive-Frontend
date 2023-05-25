@@ -88,10 +88,14 @@ const WorkoutHistoryModal = ({ workoutName, workoutID, func, closeHistoryModal }
         <div className={`history-modal ${closeHistoryModal}`}>
             <CloseBtn func={func} />
             <p className="history-modal__heading">{workoutName}</p>
-            {workoutArr.length === 0 && <EmptyText text={`No data recorded for ${workoutName}. Complete ${workoutName} workout first.`} modifier={'empty-text__container--modal'} />}
-            {workoutArr && workoutArr.map((item, index) => {
-                return <DisplayTable title={displayDateFormat(item[0].date)} arr={item} key={index} />
-            })}
+
+            <div className="history-modal__desktop-container">
+                {workoutArr.length === 0 && <EmptyText text={`No data recorded for ${workoutName}. Complete ${workoutName} workout first.`} modifier={'empty-text__container--modal'} />}
+                {workoutArr && workoutArr.map((item, index) => {
+                    return <DisplayTable title={displayDateFormat(item[0].date)} arr={item} key={index} />
+                })}
+            </div>
+
         </div>
     );
 };

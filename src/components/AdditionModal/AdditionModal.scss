@@ -8,6 +8,8 @@
     border-radius: $modal-radius;
     height: fit-content;
     top: 25%;
+    left: 0;
+    right: 0;
     z-index: 999;
     background-color: white;
     display: flex;
@@ -15,6 +17,13 @@
     align-items: center;
     padding: 1rem 3rem;
     margin: 0 $mobile-padding;
+
+
+    @include desktop {
+        left: 50%;
+        transform: translateX(-50%);
+        width: $desktop-small-modal;
+    }
 
     &__text {
         font-size: 1.5rem;

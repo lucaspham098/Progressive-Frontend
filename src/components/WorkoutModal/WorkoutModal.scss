@@ -49,5 +49,10 @@
 
     &__btn {
         @include button;
+
+        @include desktop {
+            width: $desktop-width;
+            margin: 0 auto;
+        }
     }
 }

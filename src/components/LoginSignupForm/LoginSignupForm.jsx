@@ -81,12 +81,12 @@ const LoginSignupForm = () => {
                 console.log(res.data)
                 sessionStorage.setItem("JWTtoken", res.data.token)
                 navigate('/')
-
+                console.log('sent')
             })
             .catch(err => {
-                console.log(err)
+                console.log(err.response.data)
                 setLoginError(true)
-                setLoginErrorMessage('Invalid Username or Password')
+                setLoginErrorMessage(err.response.data)
             })
 
 

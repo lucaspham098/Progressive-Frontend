@@ -1,8 +1,17 @@
 @use '../../styles/partials/colours' as *;
 @use '../../styles/partials/spacing' as *;
 @use '../../styles/partials/sizing' as *;
+@use '../../styles/mixins/mixins' as *;
 
 .exercises {
+
+    &__desktop-container {
+        @include desktop {
+            width: $desktop-width;
+            margin: 0 auto;
+        }
+    }
+
     &__title {
         margin: 2rem $mobile-padding 0;
     }
@@ -24,6 +33,12 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
+
+        @include desktop {
+            gap: 1rem;
+            justify-content: initial;
+
+        }
     }
 
     &__card {
@@ -40,6 +55,10 @@
 
         &:nth-of-type(even) {
             background-color: rgba(84, 185, 241, 0.4);
+        }
+
+        @include desktop {
+            width: 32%;
         }
     }
 
@@ -69,7 +88,8 @@
     &__card-chart-container {
         border-bottom: 1px solid rgb(146, 146, 146);
         border-left: 1px solid rgb(146, 146, 146);
-        margin-top: .75rem;
+        width: 10rem;
+        margin: .75rem auto 0;
     }
 
     &__card-icon {

@@ -4,6 +4,14 @@
 @use '../../styles/mixins/mixins' as *;
 
 .workouts {
+
+    &__desktop-container {
+        @include desktop {
+            width: $desktop-width;
+            margin: 0 auto;
+        }
+    }
+
     &__title {
         margin: 2rem $mobile-padding 0;
     }
@@ -25,5 +33,12 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
+
+
+        @include desktop {
+            gap: 1rem;
+            justify-content: initial;
+
+        }
     }
 }

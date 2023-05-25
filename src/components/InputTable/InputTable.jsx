@@ -4,6 +4,7 @@ import { API_URL } from '../../utils/utils';
 import './InputTable.scss'
 import ErrorText from '../ErrorText/ErrorText'
 import Timer from '../Timer/Timer';
+import EmptyText from '../EmptyText/EmptyText'
 
 
 const InputTable = ({ workout_id }) => {
@@ -76,40 +77,43 @@ const InputTable = ({ workout_id }) => {
 
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div className="input-table__container">
-                {workout.length > 0 && <div className='input-table__title'>{workout[0].workout_name}</div>}
-                <table className='input-table'>
-                    <thead className='input-table__head'>
-                        <tr >
-                            <th>Exercise</th>
-                            <th>Weight (lbs)</th>
-                            <th>Set 1</th>
-                            <th>Set 2</th>
-                            <th>Set 3</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {workout.map(workout => {
-                            return (
-                                <tr key={workout.exercise_id} exercise_id={workout.exercise_id}>
-                                    <td>{workout.exercise_name}</td>
-                                    <td><input className='input-table__input' type="number" name={`weight-${workout.exercise_id}`} /></td>
-                                    <td><input className='input-table__input' type="number" name={`set1-${workout.exercise_id}`} /></td>
-                                    <td><input className='input-table__input' type="number" name={`set2-${workout.exercise_id}`} /></td>
-                                    <td><input className='input-table__input' type="number" name={`set3-${workout.exercise_id}`} /></td>
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </table>
-            </div>
-            {submitError && <ErrorText message='Make sure all fields are filled' />}
-            <div className="input-table__btn-container">
-                <Timer />
-                <button className='input-table__btn'>Finish Workout</button>
-            </div>
-        </form>
+        <>
+            {workout.length > 0 ? <form onSubmit={handleSubmit}>
+                <div className="input-table__container">
+                    {workout.length > 0 && <div className='input-table__title'>{workout[0].workout_name}</div>}
+                    <table className='input-table'>
+                        <thead className='input-table__head'>
+                            <tr >
+                                <th>Exercise</th>
+                                <th>Weight (lbs)</th>
+                                <th>Set 1</th>
+                                <th>Set 2</th>
+                                <th>Set 3</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {workout.map(workout => {
+                                return (
+                                    <tr key={workout.exercise_id} exercise_id={workout.exercise_id}>
+                                        <td>{workout.exercise_name}</td>
+                                        <td><input className='input-table__input' type="number" name={`weight-${workout.exercise_id}`} /></td>
+                                        <td><input className='input-table__input' type="number" name={`set1-${workout.exercise_id}`} /></td>
+                                        <td><input className='input-table__input' type="number" name={`set2-${workout.exercise_id}`} /></td>
+                                        <td><input className='input-table__input' type="number" name={`set3-${workout.exercise_id}`} /></td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+                {submitError && <ErrorText message='Make sure all fields are filled' />}
+                <div className="input-table__btn-container">
+                    <Timer />
+                    <button className='input-table__btn'>Finish Workout</button>
+                </div>
+            </form> : <EmptyText text={'No exercises assigned to this workout. Add exercises to this workout first.'} />}
+
+        </>
     );
 };
 

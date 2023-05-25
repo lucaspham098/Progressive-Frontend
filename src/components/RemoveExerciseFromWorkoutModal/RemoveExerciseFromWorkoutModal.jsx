@@ -3,6 +3,7 @@ import { API_URL } from '../../utils/utils';
 import axios from 'axios';
 import './RemoveExerciseFromWorkoutModal.scss'
 import CloseBtn from '../CloseBtn/CloseBtn';
+import EmptyText from '../EmptyText/EmptyText';
 
 const RemoveExerciseFromWorkoutModal = ({ workoutID, func }) => {
 
@@ -67,6 +68,7 @@ const RemoveExerciseFromWorkoutModal = ({ workoutID, func }) => {
         <div className='remove-exercise-modal'>
             <CloseBtn func={func} />
             <p className='remove-exercise-modal__title'>Choose Which Exercises to Remove</p>
+            {exerciseList.length === 0 && <EmptyText text={'No exercises in workout to remove.'} modifier={'empty-text__container--higher'} />}
             <div className="remove-exercise-modal__exercise-container">
                 {exerciseList && exerciseList.map(item => {
                     return (
