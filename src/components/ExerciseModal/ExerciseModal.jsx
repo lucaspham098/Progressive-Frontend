@@ -19,10 +19,7 @@ const ExerciseModal = ({ id, name, func, closeExerciseModal }) => {
     const [recentTrainingVolume, setRecentTrainingVolume] = useState('')
     const [dateArray, setDateArray] = useState([])
     const [previousWorkout, setPreviousWorkout] = useState(null)
-    const [previousWeight, setPreviousWeight] = useState('')
-    const [previousSet1, setPreviousSet1] = useState('')
-    const [previousSet2, setPreviousSet2] = useState('')
-    const [previousSet3, setPreviousSet3] = useState('')
+    const [previouseTrainingVolume, setPreviousTriainingVolume] = useState('')
     const [progress, setProgress] = useState('')
 
     function formatDate(dateString) {
@@ -111,10 +108,7 @@ const ExerciseModal = ({ id, name, func, closeExerciseModal }) => {
             .then(res => {
                 console.log(res)
                 setPreviousWorkout(res.data)
-                setPreviousWeight(res.data[0].weight_lbs)
-                setPreviousSet1(res.data[0].set_1)
-                setPreviousSet2(res.data[0].set_2)
-                setPreviousSet3(res.data[0].set_3)
+                setPreviousTriainingVolume(res.data[0].training_volume)
             })
             .catch(err => {
                 console.log(err)
@@ -124,13 +118,14 @@ const ExerciseModal = ({ id, name, func, closeExerciseModal }) => {
 
 
     useEffect(() => {
+        console.log(previousWorkout)
         if (!!previousWorkout)
-            if ((recentWeight * (recentSet1 + recentSet2 + recentSet3)) > (previousWeight * (previousSet1 + previousSet2 + previousSet3))) {
+            if (recentTrainingVolume > previouseTrainingVolume) {
                 setProgress('progress');
             } else {
                 setProgress('revert');
             }
-    }, [recentWeight, recentSet1, recentSet2, recentSet3, previousWeight, previousSet1, previousSet2, previousSet3, previousWorkout]);
+    }, [previousWorkout, previouseTrainingVolume, recentTrainingVolume]);
 
 
 
