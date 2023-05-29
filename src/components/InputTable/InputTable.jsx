@@ -46,12 +46,10 @@ const InputTable = ({ workout_id }) => {
             const total_reps = parseInt(set_1) + parseInt(set_2) + parseInt(set_3);
             const training_volume = weight_lbs * total_reps;
 
-            // const today = new Date();
-            // const timeZoneOffset = today.getTimezoneOffset();
-            // const dateBody = {
-            //     currentDate: today.toISOString(),
-            //     timeZoneOffset: timeZoneOffset
-            // };
+            if (!weight_lbs || !set_1 || !set_2 || !set_3) {
+                setSubmitError(true)
+                return
+            }
 
             data.push({ exercise_id, weight_lbs, set_1, set_2, set_3, training_volume });
         }
