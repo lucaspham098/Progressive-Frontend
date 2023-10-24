@@ -4,36 +4,58 @@ import { API_URL } from '../../utils/utils';
 import axios from 'axios';
 import CloseBtn from '../CloseBtn/CloseBtn';
 import EmptyText from '../EmptyText/EmptyText'
+import { uuid } from 'uuidv4';
 
 const AddExerciseToWorkoutModal = ({ workoutID, func }) => {
-
+    const { v4: uuidv4 } = require('uuid');
+    const [exerciseInWorkout, setExerciseInWorkout] = useState([])
     const [availableExercises, setAvailableExercises] = useState([])
     const [listOfExercises, setListOfExercises] = useState([])
 
     useEffect(() => {
         const token = sessionStorage.getItem('JWTtoken');
 
-        axios
-            .get(`${API_URL}/exercises/no-workout`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
+        const requests = [
+            axios
+                .get(`${API_URL}/exercises/no-workout/${workoutID}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }),
+            axios
+                .get(`${API_URL}/preset-workouts/${workoutID}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+        ]
+
+        Promise.all(requests)
             .then((res) => {
-                setAvailableExercises(res.data)
+                const [firstReq, secondReq] = res
+
+                const availableExercises = firstReq.data.map(item => {
+                    if (!secondReq.data.find(secondItem => secondItem.exercise_id === item.exercise_id)) {
+                        return item
+                    }
+                }).filter(item => item)
+                console.log(availableExercises)
+
+                // setExerciseInWorkout(secondReq.data)
+                setAvailableExercises(availableExercises)
             })
             .catch(err => {
                 console.log(err)
             })
 
-    })
+    }, [])
 
     const handleSelect = (event) => {
         const id = event.target.id;
         if (listOfExercises.some(exercise => exercise.id === id)) {
             console.log(`Exercise ${id} already exists in list.`);
         } else {
-            setListOfExercises([...listOfExercises, { id: id }]);
+            setListOfExercises([...listOfExercises, { id: uuidv4(), exercise_id: id }]);
         }
         event.target.classList.add('add-exercise-modal__exercise--selected')
     }
@@ -50,7 +72,7 @@ const AddExerciseToWorkoutModal = ({ workoutID, func }) => {
         console.log(reqBody)
 
         axios
-            .patch(`${API_URL}/exercises`, reqBody, {
+            .post(`${API_URL}/exercises/add-to-workout`, reqBody, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -75,7 +97,7 @@ const AddExerciseToWorkoutModal = ({ workoutID, func }) => {
             <div className="add-exercise-modal__exercise-container">
                 {availableExercises && availableExercises.map(item => {
                     return (
-                        <p key={item.id} id={item.id} onClick={handleSelect} className='add-exercise-modal__exercise'>{item.exercise_name}</p>
+                        <p key={item.exercise_id} id={item.exercise_id} onClick={handleSelect} className='add-exercise-modal__exercise'>{item.exercise_name}</p>
                     )
                 })}
             </div>

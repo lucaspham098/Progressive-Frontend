@@ -32,7 +32,7 @@ const RemoveExerciseFromWorkoutModal = ({ workoutID, func }) => {
         if (listToRemove.some(exercise => exercise.id === id)) {
             console.log(`Exercise ${id} already exists in list.`);
         } else {
-            setListToRemove([...listToRemove, { id: id }]);
+            setListToRemove([...listToRemove, { exercise_id: id }]);
         }
         event.target.classList.add('remove-exercise-modal__exercise--selected')
     }
@@ -43,12 +43,14 @@ const RemoveExerciseFromWorkoutModal = ({ workoutID, func }) => {
         const reqBody = listToRemove.map(item => {
             return {
                 ...item,
-                workout_id: null
+                workout_id: workoutID
             }
         })
 
+        const stringReqBody = JSON.stringify(reqBody)
+        console.log(stringReqBody)
         axios
-            .patch(`${API_URL}/exercises`, reqBody, {
+            .delete(`${API_URL}/exercises/delete-from-workout/${JSON.stringify(reqBody)}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
