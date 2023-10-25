@@ -92,7 +92,9 @@ const AddExerciseToWorkoutModal = ({ workoutID, func }) => {
             })
             .then(res => {
                 console.log(res)
-                window.location.reload()
+                setTimeout(() => {
+                    window.location.reload()
+                }, 50);
             })
             .catch(err => {
                 console.log(err.response.data)

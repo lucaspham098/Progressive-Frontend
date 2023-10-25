@@ -62,7 +62,9 @@ const RemoveExerciseFromWorkoutModal = ({ workoutID, func }) => {
                 console.log(err.response.data)
             })
 
-        window.location.reload()
+        setTimeout(() => {
+            window.location.reload()
+        }, 50);
 
     }
 
