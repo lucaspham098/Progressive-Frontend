@@ -34,14 +34,27 @@ const AddExerciseToWorkoutModal = ({ workoutID, func }) => {
             .then((res) => {
                 const [firstReq, secondReq] = res
 
-                const availableExercises = firstReq.data.map(item => {
+                console.log(firstReq.data)
+                console.log(secondReq.data)
+
+                let availableExercises = firstReq.data.map(item => {
                     if (!secondReq.data.find(secondItem => secondItem.exercise_id === item.exercise_id)) {
                         return item
                     }
                 }).filter(item => item)
+
+
+                for (let i = 0; i < availableExercises.length - 1;) {
+                    if (availableExercises[i].exercise_id === availableExercises[i + 1].exercise_id) {
+                        availableExercises.splice(i + 1, 1)
+                    } else {
+                        i++
+                    }
+                }
+
+
                 console.log(availableExercises)
 
-                // setExerciseInWorkout(secondReq.data)
                 setAvailableExercises(availableExercises)
             })
             .catch(err => {
@@ -52,7 +65,7 @@ const AddExerciseToWorkoutModal = ({ workoutID, func }) => {
 
     const handleSelect = (event) => {
         const id = event.target.id;
-        if (listOfExercises.some(exercise => exercise.id === id)) {
+        if (listOfExercises.some(exercise => exercise.exercise_id === id)) {
             console.log(`Exercise ${id} already exists in list.`);
         } else {
             setListOfExercises([...listOfExercises, { id: uuidv4(), exercise_id: id }]);

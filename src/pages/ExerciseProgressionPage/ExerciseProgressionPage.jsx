@@ -160,6 +160,7 @@ const ExerciseProgressionPage = () => {
         <div>
             <div className='exercises__desktop-container'>
                 <h1 className='exercises__title'>Your Exercises</h1>
+                <p className='exercises__text'>Click Card To View Exercise Progression & History</p>
                 <button onClick={handleAdd} className='exercises__btn'>+ Add New Exercise</button>
 
                 <div className="exercises__cards-container">

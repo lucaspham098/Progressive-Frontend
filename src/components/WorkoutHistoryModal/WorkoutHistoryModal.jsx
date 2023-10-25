@@ -47,15 +47,13 @@ const WorkoutHistoryModal = ({ workoutName, workoutID, func, closeHistoryModal }
                 const dates = res.data.filter((obj, index, self) =>
                     index === self.findIndex((t) => t.date === obj.date)
                 );
-                // console.log(res.data)
-                // console.log(dates)
 
                 const dateArr = (dates.map(item => {
                     return formatDate(item.date)
                 })).sort()
                 console.log(dateArr)
 
-                const requests = dateArr.map(item => axios.get(`${API_URL}/exercise-data/workouts/${workoutID}/${item}`, {
+                const requests = dateArr.map(date => axios.get(`${API_URL}/exercise-data/workouts/${workoutID}/${date}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -65,7 +63,23 @@ const WorkoutHistoryModal = ({ workoutName, workoutID, func, closeHistoryModal }
                     .then((responses) => {
                         const data = responses.map((response) => response.data)
                         // console.log(data)
-                        setWorkoutArr(data.reverse())
+                        const filteredData = data.filter(item => item.length > 0)
+                        filteredData.forEach(item => {
+                            item.sort((a, b) => {
+                                const nameA = a.exercise_name.toLowerCase();
+                                const nameB = b.exercise_name.toLowerCase();
+                                if (nameA < nameB) {
+                                    return -1;
+                                }
+                                if (nameA > nameB) {
+                                    return 1;
+                                }
+                                return 0;
+                            })
+                        })
+
+                        console.log(filteredData)
+                        setWorkoutArr(filteredData.reverse())
                         setLoading(false);
                         // console.log(responses)
                     })

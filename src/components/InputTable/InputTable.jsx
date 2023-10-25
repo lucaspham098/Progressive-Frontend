@@ -26,6 +26,18 @@ const InputTable = ({ workout_id }) => {
             }
             )
             .then((res) => {
+                res.data.sort((a, b) => {
+                    const nameA = a.exercise_name.toLowerCase();
+                    const nameB = b.exercise_name.toLowerCase();
+
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                    return 0;
+                })
                 setWorkout(res.data)
             })
             .catch((err) => {

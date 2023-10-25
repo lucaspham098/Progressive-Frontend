@@ -155,6 +155,7 @@ const WorkoutsPage = () => {
         <div>
             <div className="workouts__desktop-container">
                 <h1 className='workouts__title'>Your Workouts</h1>
+                <p className='workouts__text'>Click Card To View Workout History</p>
                 <button className='workouts__btn' onClick={() => { setAdditionModal(true) }}>+ Add Workout</button>
 
                 <div className="workouts__cards-container">

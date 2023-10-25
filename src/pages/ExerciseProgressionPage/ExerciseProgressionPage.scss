@@ -16,6 +16,11 @@
         margin: 2rem $mobile-padding 0;
     }
 
+    &__text {
+        margin: .5rem $mobile-padding;
+        font-size: .8rem;
+    }
+
     &__btn {
         background-color: white;
         border: none;
