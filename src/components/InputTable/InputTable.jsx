@@ -49,9 +49,11 @@ const InputTable = ({ workout_id }) => {
         event.preventDefault();
         const formData = new FormData(event.target);
         const data = [];
+        const workoutID = workout_id
         for (let i = 0; i < workout.length; i++) {
             const exercise_id = workout[i].exercise_id;
             const weight_lbs = formData.get(`weight-${exercise_id}`);
+            const workout_id = workoutID
             const set_1 = formData.get(`set1-${exercise_id}`);
             const set_2 = formData.get(`set2-${exercise_id}`);
             const set_3 = formData.get(`set3-${exercise_id}`);
@@ -63,7 +65,7 @@ const InputTable = ({ workout_id }) => {
                 return
             }
 
-            data.push({ exercise_id, weight_lbs, set_1, set_2, set_3, training_volume });
+            data.push({ exercise_id, weight_lbs, workout_id, set_1, set_2, set_3, training_volume });
         }
         const token = sessionStorage.getItem('JWTtoken');
 
