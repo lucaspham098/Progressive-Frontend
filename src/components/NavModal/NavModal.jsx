@@ -1,7 +1,7 @@
 
 import './NavModal.scss'
 import backbtn from '../../assets/icons/backbtn.svg'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const NavModal = ({ open, func }) => {
     const navigate = useNavigate()
@@ -18,18 +18,15 @@ const NavModal = ({ open, func }) => {
             <img className='nav-modal__btn' src={backbtn} alt="back button" onClick={() => { func() }} />
             <div className="nav-modal__flex-container">
                 <div className='nav-modal__link-container'>
-                    <p className='nav-modal__link' onClick={() => {
-                        navigate('/')
+                    <Link className='nav-modal__link' to='/' onClick={() => {
                         func()
-                    }}>Home</p>
-                    <p className='nav-modal__link' onClick={() => {
-                        navigate('/workouts')
+                    }}>Home</Link>
+                    <Link className='nav-modal__link' to="/workouts" onClick={() => {
                         func()
-                    }}>Workouts</p>
-                    <p className='nav-modal__link' onClick={() => {
-                        navigate('/exercises')
+                    }}>Workouts</Link>
+                    <Link className='nav-modal__link' to='/exercises' onClick={() => {
                         func()
-                    }}>Exercises</p>
+                    }}>Exercises</Link>
                 </div>
                 <div className='nav-modal__link-container'>
                     <p className='nav-modal__link' onClick={handleSignout}>Sign Out</p>
