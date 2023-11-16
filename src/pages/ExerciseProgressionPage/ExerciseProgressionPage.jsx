@@ -35,6 +35,10 @@ const ExerciseProgressionPage = () => {
 
 
     useEffect(() => {
+
+        document.title = 'Progressive | Exercises';
+
+
         const token = sessionStorage.getItem('JWTtoken');
 
         axios

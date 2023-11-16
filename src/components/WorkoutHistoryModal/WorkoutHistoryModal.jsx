@@ -15,7 +15,7 @@ const WorkoutHistoryModal = ({ workoutName, workoutID, func, closeHistoryModal }
     function formatDate(dateString) {
         const dateObject = new Date(dateString);
 
-        const year = dateObject.getFullYear();
+      const year = dateObject.getFullYear();
         const month = String(dateObject.getMonth() + 1).padStart(2, '0');
         const day = String(dateObject.getDate()).padStart(2, '0');
 
@@ -24,7 +24,7 @@ const WorkoutHistoryModal = ({ workoutName, workoutID, func, closeHistoryModal }
         return formattedDate;
     }
 
-    function displayDateFormat(dateString) {
+     function displayDateFormat(dateString) {
         const date = new Date(dateString);
         const options = {
             year: 'numeric',

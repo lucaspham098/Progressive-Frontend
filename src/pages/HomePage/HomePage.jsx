@@ -26,6 +26,7 @@ const HomePage = () => {
 
 
     useEffect(() => {
+
         const token = sessionStorage.getItem('JWTtoken');
 
         axios

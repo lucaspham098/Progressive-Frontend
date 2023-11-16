@@ -35,6 +35,10 @@ const WorkoutsPage = () => {
     const [deleteID, setDeleteID] = useState('')
 
     useEffect(() => {
+
+        document.title = 'Progressive | Workouts';
+
+
         const token = sessionStorage.getItem('JWTtoken');
 
         axios
