@@ -135,6 +135,8 @@ const WorkoutsPage = () => {
     }
 
     const handleDelete = (event) => {
+        event.preventDefault()
+
         const token = sessionStorage.getItem('JWTtoken');
         const id = event.target.id
         axios
