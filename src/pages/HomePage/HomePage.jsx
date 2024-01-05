@@ -7,6 +7,7 @@ import Overlay from '../../components/Overlay/Overlay';
 import InputTable from '../../components/InputTable/InputTable';
 import DisplayTable from '../../components/DisplayTable/DisplayTable';
 import { useNavigate } from 'react-router-dom';
+import ExerciseHistoryModal from '../../components/ExerciseHistoryModal/ExerciseHistoryModal';
 
 const HomePage = () => {
     const navigate = useNavigate()
@@ -23,6 +24,11 @@ const HomePage = () => {
     const [inProgress, setInProgress] = useState(false)
     const [completedWorkout, setCompletedWorkout] = useState([])
     const [closeModal, setCloseModal] = useState('')
+    const [exerciseHistoryModal, setExerciseHistoryModal] = useState(false)
+    const [exerciseHistory, setExerciseHistory] = useState([])
+    const [exerciseName, setExerciseName] = useState('')
+    const [closeExerciseHistoryModal, setCloseExerciseHistoryModal] = useState('')
+
 
 
     useEffect(() => {
@@ -118,6 +124,37 @@ const HomePage = () => {
         setWorkoutID(event.target.value)
     }
 
+    const getExerciseHistory = (exerciseId) => {
+
+        const token = sessionStorage.getItem('JWTtoken');
+
+        axios
+            .get(`${API_URL}/exercises/id/${exerciseId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then((res) => {
+                const dataChronological = [...res.data].sort((a, b) => {
+                    return new Date(b.date) - new Date(a.date)
+                })
+                console.log(dataChronological)
+                setExerciseHistory(dataChronological)
+                setExerciseHistoryModal(true)
+            })
+            .catch((err) => {
+                console.error(err)
+            })
+    }
+
+    const handleCloseExerciseHistoryModal = () => {
+        setCloseExerciseHistoryModal('exercise-history-modal--close')
+        setTimeout(() => {
+            setExerciseHistoryModal(false)
+            setCloseExerciseHistoryModal('')
+        }, 200);
+    }
+
 
     return (
         <div className='home'>
@@ -135,7 +172,17 @@ const HomePage = () => {
             </div>
 
             {modal && <WorkoutModal func={handleCloseModal} handleChooseWorkout={handleChooseWorkout} closeModal={closeModal} />}
-            {modal && <Overlay />}
+            {modal && < Overlay />}
+
+            {exerciseHistoryModal &&
+                <ExerciseHistoryModal
+                    exerciseHistory={exerciseHistory}
+                    exerciseName={exerciseName}
+                    func={handleCloseExerciseHistoryModal}
+                    closeExerciseHistoryModal={closeExerciseHistoryModal}
+                />
+            }
+            {exerciseHistoryModal && <Overlay />}
 
             <div className="home__desktop-container">
                 {inProgress &&
@@ -149,7 +196,7 @@ const HomePage = () => {
                                 })}
                             </select>
                         </div>
-                        <InputTable workout_id={workoutID} />
+                        <InputTable workout_id={workoutID} getExerciseHistory={getExerciseHistory} setExerciseName={setExerciseName} />
                     </>}
                 {completedWorkout.length > 0 &&
                     <>

@@ -7,7 +7,8 @@ import Timer from '../Timer/Timer';
 import EmptyText from '../EmptyText/EmptyText'
 
 
-const InputTable = ({ workout_id }) => {
+
+const InputTable = ({ workout_id, getExerciseHistory, setExerciseName }) => {
 
     const [workout, setWorkout] = useState([])
     const [submitError, setSubmitError] = useState(false)
@@ -44,6 +45,9 @@ const InputTable = ({ workout_id }) => {
                 console.log(err.response.data)
             })
     }, [workout_id])
+
+
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -90,7 +94,9 @@ const InputTable = ({ workout_id }) => {
 
     return (
         <>
+
             {workout.length > 0 ? <form onSubmit={handleSubmit}>
+                <p className='input-table__text'>Click on exercise name to view exercise history</p>
                 <div className="input-table__container">
                     {workout.length > 0 && <div className='input-table__title'>{workout[0].workout_name}</div>}
                     <table className='input-table'>
@@ -107,7 +113,13 @@ const InputTable = ({ workout_id }) => {
                             {workout.map(workout => {
                                 return (
                                     <tr key={workout.exercise_id} exercise_id={workout.exercise_id}>
-                                        <td>{workout.exercise_name}</td>
+                                        <td className='input-table__exercise-name' onClick={() => {
+                                            setExerciseName(workout.exercise_name)
+                                            getExerciseHistory(workout.exercise_id)
+                                        }}
+                                        >
+                                            {workout.exercise_name}
+                                        </td>
                                         <td><input className='input-table__input' type="number" name={`weight-${workout.exercise_id}`} /></td>
                                         <td><input className='input-table__input' type="number" name={`set1-${workout.exercise_id}`} /></td>
                                         <td><input className='input-table__input' type="number" name={`set2-${workout.exercise_id}`} /></td>
