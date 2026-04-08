@@ -4,9 +4,11 @@ import './WorkoutModal.scss'
 import axios from 'axios';
 import CloseBtn from '../CloseBtn/CloseBtn';
 import EmptyText from '../EmptyText/EmptyText';
+import Spinner from '../Spinner/Spinner';
 
 const WorkoutModal = ({ func, handleChooseWorkout, closeModal }) => {
 
+    const [loading, setLoading] = useState(true)
     const [workoutList, setWorkoutList] = useState([])
 
     useEffect(() => {
@@ -21,6 +23,7 @@ const WorkoutModal = ({ func, handleChooseWorkout, closeModal }) => {
             })
             .then((res) => {
                 setWorkoutList(res.data)
+                setLoading(false)
                 console.log(res.data)
             })
             .catch(err => {
@@ -37,12 +40,18 @@ const WorkoutModal = ({ func, handleChooseWorkout, closeModal }) => {
                 func={func}
             />
             <p className='workout-modal__heading'>Choose Workout</p>
-            <div className="workout-modal__btn-container">
-                {workoutList.length === 0 && <EmptyText text='You have no workouts created. Create some on the workouts page.' />}
-                {workoutList && workoutList.map(item => {
-                    return <button className='workout-modal__btn' key={item.id} id={item.id} onClick={handleChooseWorkout}>{item.workout_name}</button>
-                })}
-            </div>
+
+            {loading ?
+                <Spinner />
+                :
+                <div className="workout-modal__btn-container">
+                    {workoutList.length === 0 && <EmptyText text='You have no workouts created. Create some on the workouts page.' />}
+                    {workoutList && workoutList.map(item => {
+                        return <button className='workout-modal__btn' key={item.id} id={item.id} onClick={handleChooseWorkout}>{item.workout_name}</button>
+                    })}
+                </div>
+            }
+
         </div>
     );
 };

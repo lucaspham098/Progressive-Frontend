@@ -5,18 +5,22 @@ import './InputTable.scss'
 import ErrorText from '../ErrorText/ErrorText'
 import Timer from '../Timer/Timer';
 import EmptyText from '../EmptyText/EmptyText'
+import Spinner from '../Spinner/Spinner';
 
 
 
-const InputTable = ({ workout_id, getExerciseHistory, setExerciseName }) => {
+const InputTable = ({ workout_id, setExerciseName, setExerciseHistoryModal, setExerciseId }) => {
 
+    const [loading, setLoading] = useState(true)
     const [workout, setWorkout] = useState([])
+    const [submitting, setSubmitting] = useState(false)
     const [submitError, setSubmitError] = useState(false)
 
     useEffect(() => {
 
         if (!workout_id) return
 
+        setLoading(true)
         const token = sessionStorage.getItem('JWTtoken');
 
         axios
@@ -40,6 +44,7 @@ const InputTable = ({ workout_id, getExerciseHistory, setExerciseName }) => {
                     return 0;
                 })
                 setWorkout(res.data)
+                setLoading(false)
             })
             .catch((err) => {
                 console.log(err.response.data)
@@ -68,7 +73,7 @@ const InputTable = ({ workout_id, getExerciseHistory, setExerciseName }) => {
                 setSubmitError(true)
                 return
             }
-
+            setSubmitting(true)
             data.push({ exercise_id, weight_lbs, workout_id, set_1, set_2, set_3, training_volume });
         }
         const token = sessionStorage.getItem('JWTtoken');
@@ -94,48 +99,65 @@ const InputTable = ({ workout_id, getExerciseHistory, setExerciseName }) => {
 
     return (
         <>
-
-            {workout.length > 0 ? <form onSubmit={handleSubmit}>
-                <p className='input-table__text'>Click on exercise name to view exercise history</p>
-                <div className="input-table__container">
-                    {workout.length > 0 && <div className='input-table__title'>{workout[0].workout_name}</div>}
-                    <table className='input-table'>
-                        <thead className='input-table__head'>
-                            <tr >
-                                <th>Exercise</th>
-                                <th>Weight (lbs)</th>
-                                <th>Set 1</th>
-                                <th>Set 2</th>
-                                <th>Set 3</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {workout.map(workout => {
-                                return (
-                                    <tr key={workout.exercise_id} exercise_id={workout.exercise_id}>
-                                        <td className='input-table__exercise-name' onClick={() => {
-                                            setExerciseName(workout.exercise_name)
-                                            getExerciseHistory(workout.exercise_id)
-                                        }}
-                                        >
-                                            {workout.exercise_name}
-                                        </td>
-                                        <td><input className='input-table__input' type="number" name={`weight-${workout.exercise_id}`} /></td>
-                                        <td><input className='input-table__input' type="number" name={`set1-${workout.exercise_id}`} /></td>
-                                        <td><input className='input-table__input' type="number" name={`set2-${workout.exercise_id}`} /></td>
-                                        <td><input className='input-table__input' type="number" name={`set3-${workout.exercise_id}`} /></td>
+            {loading ?
+                <Spinner />
+                :
+                <>
+                    {workout.length > 0 ? <form onSubmit={handleSubmit}>
+                        <p className='input-table__text'>Click on exercise name to view exercise history</p>
+                        <div className="input-table__container">
+                            {workout.length > 0 && <div className='input-table__title'>{workout[0].workout_name}</div>}
+                            <table className='input-table'>
+                                <thead className='input-table__head'>
+                                    <tr >
+                                        <th>Exercise</th>
+                                        <th>Weight (lbs)</th>
+                                        <th>Set 1</th>
+                                        <th>Set 2</th>
+                                        <th>Set 3</th>
                                     </tr>
-                                )
-                            })}
-                        </tbody>
-                    </table>
-                </div>
-                {submitError && <ErrorText message='Make sure all fields are filled' />}
-                <div className="input-table__btn-container">
-                    <Timer />
-                    <button className='input-table__btn'>Finish Workout</button>
-                </div>
-            </form> : <EmptyText text={'No exercises assigned to this workout. Add exercises to this workout first.'} />}
+                                </thead>
+                                <tbody>
+                                    {workout.map(workout => {
+                                        return (
+                                            <tr key={workout.exercise_id} exercise_id={workout.exercise_id}>
+                                                <td className='input-table__exercise-name' onClick={() => {
+                                                    setExerciseName(workout.exercise_name)
+                                                    setExerciseId(workout.exercise_id)
+                                                    setExerciseHistoryModal(true)
+                                                }}
+                                                >
+                                                    {workout.exercise_name}
+                                                </td>
+                                                <td><input className='input-table__input' type="number" name={`weight-${workout.exercise_id}`} /></td>
+                                                <td><input className='input-table__input' type="number" name={`set1-${workout.exercise_id}`} /></td>
+                                                <td><input className='input-table__input' type="number" name={`set2-${workout.exercise_id}`} /></td>
+                                                <td><input className='input-table__input' type="number" name={`set3-${workout.exercise_id}`} /></td>
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                        {submitError && <ErrorText message='Make sure all fields are filled' />}
+                        <div className="input-table__btn-container">
+                            <Timer />
+                            <button
+                                className="input-table__btn"
+                                type="submit"
+                                disabled={submitting}
+                            >
+                                {submitting ? (
+                                    <span className="loading-text">Submitting</span>
+                                ) : (
+                                    'Finish Workout'
+                                )}
+                            </button>
+                        </div>
+                    </form> : <EmptyText text={'No exercises assigned to this workout. Add exercises to this workout first.'} />
+                    }
+                </>
+            }
 
         </>
     );

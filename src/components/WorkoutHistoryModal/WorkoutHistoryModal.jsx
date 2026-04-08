@@ -5,6 +5,7 @@ import { API_URL } from '../../utils/utils';
 import DisplayTable from '../DisplayTable/DisplayTable';
 import CloseBtn from '../CloseBtn/CloseBtn';
 import EmptyText from '../EmptyText/EmptyText';
+import Spinner from '../Spinner/Spinner';
 
 
 const WorkoutHistoryModal = ({ workoutName, workoutID, func, closeHistoryModal }) => {
@@ -15,7 +16,7 @@ const WorkoutHistoryModal = ({ workoutName, workoutID, func, closeHistoryModal }
     function formatDate(dateString) {
         const dateObject = new Date(dateString);
 
-      const year = dateObject.getFullYear();
+        const year = dateObject.getFullYear();
         const month = String(dateObject.getMonth() + 1).padStart(2, '0');
         const day = String(dateObject.getDate()).padStart(2, '0');
 
@@ -24,7 +25,7 @@ const WorkoutHistoryModal = ({ workoutName, workoutID, func, closeHistoryModal }
         return formattedDate;
     }
 
-     function displayDateFormat(dateString) {
+    function displayDateFormat(dateString) {
         const date = new Date(dateString);
         const options = {
             year: 'numeric',
@@ -93,22 +94,21 @@ const WorkoutHistoryModal = ({ workoutName, workoutID, func, closeHistoryModal }
 
     }, [workoutID])
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
-
-
     return (
         <div className={`history-modal ${closeHistoryModal}`}>
             <CloseBtn func={func} />
             <p className="history-modal__heading">{workoutName}</p>
 
-            <div className="history-modal__desktop-container">
-                {workoutArr.length === 0 && <EmptyText text={`No data recorded for ${workoutName}. Complete ${workoutName} workout first.`} modifier={'empty-text__container--modal'} />}
-                {workoutArr && workoutArr.map((item, index) => {
-                    return <DisplayTable title={displayDateFormat(item[0].date)} arr={item} key={index} />
-                })}
-            </div>
+            {loading ?
+                <Spinner />
+                :
+                <div className="history-modal__desktop-container">
+                    {workoutArr.length === 0 && <EmptyText text={`No data recorded for ${workoutName}. Complete ${workoutName} workout first.`} modifier={'empty-text__container--modal'} />}
+                    {workoutArr && workoutArr.map((item, index) => {
+                        return <DisplayTable title={displayDateFormat(item[0].date)} arr={item} key={index} />
+                    })}
+                </div>
+            }
 
         </div>
     );

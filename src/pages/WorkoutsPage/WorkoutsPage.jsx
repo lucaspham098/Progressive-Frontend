@@ -11,6 +11,7 @@ import Overlay from '../../components/Overlay/Overlay';
 import { useNavigate } from 'react-router-dom';
 import DeleteModal from '../../components/DeleteModal/DeleteModal';
 import EmptyText from '../../components/EmptyText/EmptyText';
+import Spinner from '../../components/Spinner/Spinner';
 
 
 const WorkoutsPage = () => {
@@ -20,6 +21,7 @@ const WorkoutsPage = () => {
         navigate('/login-signup')
     }
 
+    const [loading, setLoading] = useState(true)
     const [workouts, setWorkouts] = useState([])
     const [modal, setModal] = useState(false)
     const [workoutName, setWorkoutName] = useState('')
@@ -49,6 +51,7 @@ const WorkoutsPage = () => {
             })
             .then((res) => {
                 setWorkouts(res.data.sort((a, b) => {
+                    setLoading(false)
                     const A = a.workout_name.toUpperCase()
                     const B = b.workout_name.toUpperCase()
                     if (A < B) {
@@ -164,14 +167,29 @@ const WorkoutsPage = () => {
                 <p className='workouts__text'>Click Card To View Workout History</p>
                 <button className='workouts__btn' onClick={() => { setAdditionModal(true) }}>+ Add Workout</button>
 
-                <div className="workouts__cards-container">
+                {loading ?
+                    <Spinner />
+                    :
+                    <>
+                        <div className="workouts__cards-container">
 
-                    {workouts.length === 0 && <EmptyText text='No workouts created. Create some workouts and add some exercises to them.' />}
-                    {workouts && workouts.sort().map(workout => {
-                        return <WorkoutCard name={workout.workout_name} id={workout.id} key={workout.id} handleClick={handleClick} handleAddExerciseClick={handleAddExerciseClick} handleRemoveExerciseClick={handleRemoveExerciseClick} handleDeleteClick={handleDeleteClick} handleDeleteModalClose={handleDeleteModalClose} />
-                    })}
+                            {workouts.length === 0 && <EmptyText text='No workouts created. Create some workouts and add some exercises to them.' />}
+                            {workouts && workouts.sort().map(workout => {
+                                return <WorkoutCard
+                                    name={workout.workout_name}
+                                    id={workout.id}
+                                    key={workout.id}
+                                    handleClick={handleClick}
+                                    handleAddExerciseClick={handleAddExerciseClick}
+                                    handleRemoveExerciseClick={handleRemoveExerciseClick}
+                                    handleDeleteClick={handleDeleteClick}
+                                    handleDeleteModalClose={handleDeleteModalClose}
+                                />
+                            })}
 
-                </div>
+                        </div>
+                    </>
+                }
 
             </div>
 

@@ -9,7 +9,6 @@ const ExerciseCard = ({ name, id, handleClick, handleAddExerciseClick, handleRem
 
     const [loadWorkout, setLoadWorkout] = useState([])
 
-
     useEffect(() => {
         const token = sessionStorage.getItem('JWTtoken');
 

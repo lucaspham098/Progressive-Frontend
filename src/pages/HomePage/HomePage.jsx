@@ -25,8 +25,8 @@ const HomePage = () => {
     const [completedWorkout, setCompletedWorkout] = useState([])
     const [closeModal, setCloseModal] = useState('')
     const [exerciseHistoryModal, setExerciseHistoryModal] = useState(false)
-    const [exerciseHistory, setExerciseHistory] = useState([])
     const [exerciseName, setExerciseName] = useState('')
+    const [exerciseId, setExerciseId] = useState('')
     const [closeExerciseHistoryModal, setCloseExerciseHistoryModal] = useState('')
 
 
@@ -124,29 +124,6 @@ const HomePage = () => {
         setWorkoutID(event.target.value)
     }
 
-    const getExerciseHistory = (exerciseId) => {
-
-        const token = sessionStorage.getItem('JWTtoken');
-
-        axios
-            .get(`${API_URL}/exercises/id/${exerciseId}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
-            .then((res) => {
-                const dataChronological = [...res.data].sort((a, b) => {
-                    return new Date(b.date) - new Date(a.date)
-                })
-                console.log(dataChronological)
-                setExerciseHistory(dataChronological)
-                setExerciseHistoryModal(true)
-            })
-            .catch((err) => {
-                console.error(err)
-            })
-    }
-
     const handleCloseExerciseHistoryModal = () => {
         setCloseExerciseHistoryModal('exercise-history-modal--close')
         setTimeout(() => {
@@ -176,7 +153,7 @@ const HomePage = () => {
 
             {exerciseHistoryModal &&
                 <ExerciseHistoryModal
-                    exerciseHistory={exerciseHistory}
+                    exerciseId={exerciseId}
                     exerciseName={exerciseName}
                     func={handleCloseExerciseHistoryModal}
                     closeExerciseHistoryModal={closeExerciseHistoryModal}
@@ -196,7 +173,12 @@ const HomePage = () => {
                                 })}
                             </select>
                         </div>
-                        <InputTable workout_id={workoutID} getExerciseHistory={getExerciseHistory} setExerciseName={setExerciseName} />
+                        <InputTable
+                            workout_id={workoutID}
+                            setExerciseHistoryModal={setExerciseHistoryModal}
+                            setExerciseName={setExerciseName}
+                            setExerciseId={setExerciseId}
+                        />
                     </>}
                 {completedWorkout.length > 0 &&
                     <>

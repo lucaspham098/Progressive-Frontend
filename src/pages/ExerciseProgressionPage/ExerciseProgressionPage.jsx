@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { LineChart, Line } from 'recharts';
 import DeleteModal from '../../components/DeleteModal/DeleteModal';
 import EmptyText from '../../components/EmptyText/EmptyText';
+import Spinner from '../../components/Spinner/Spinner';
 
 
 
@@ -22,6 +23,7 @@ const ExerciseProgressionPage = () => {
         navigate('/login-signup')
     }
 
+    const [loading, setLoading] = useState(true)
     const [exerciseList, setExerciseList] = useState([])
     const [exerciseID, setExerciseID] = useState('')
     const [exerciseName, setExerciseName] = useState('')
@@ -74,6 +76,7 @@ const ExerciseProgressionPage = () => {
                     .then((responses) => {
                         const newChartData = responses.map((res) => res.data);
                         setChartData(newChartData);
+                        setLoading(false);
                     })
                     .catch((err) => {
                         console.log(err.response.data);
@@ -167,32 +170,37 @@ const ExerciseProgressionPage = () => {
                 <p className='exercises__text'>Click Card To View Exercise Progression & History</p>
                 <button onClick={handleAdd} className='exercises__btn'>+ Add New Exercise</button>
 
-                <div className="exercises__cards-container">
-                    {exerciseList.length === 0 && <EmptyText text={'No exercises created. Create some exercises.'} />}
-                    {chartData && exerciseList.map((exercise, index) => {
-                        return (
-                            <div key={exercise.id} id={exercise.id} data-name={exercise.exercise_name} className='exercises__card' onClick={handleClick} >
-                                <img src={deleteicon} alt="delete icon" className='exercises__delete' onClick={handleDeleteClick} id={exercise.id} name={exercise.exercise_name} />
-                                <p className="exercises__card-text">{exercise.exercise_name}</p>
-                                <div className="exercises__card-chart-container">
-                                    <LineChart data={chartData[index].sort((a, b) => {
-                                        const dateA = new Date(a.date)
-                                        const dateB = new Date(b.date)
-                                        return dateA - dateB
-                                    })}
-                                        width={150}
-                                        height={100} >
-                                        <Line dataKey='training_volume' stroke='#2196F3' strokeWidth={2} />
-                                    </LineChart>
+                {loading ?
+                    <Spinner />
+                    :
+                    <div className="exercises__cards-container">
+                        {exerciseList.length === 0 && <EmptyText text={'No exercises created. Create some exercises.'} />}
+                        {chartData && exerciseList.map((exercise, index) => {
+                            return (
+                                <div key={exercise.id} id={exercise.id} data-name={exercise.exercise_name} className='exercises__card' onClick={handleClick} >
+                                    <img src={deleteicon} alt="delete icon" className='exercises__delete' onClick={handleDeleteClick} id={exercise.id} name={exercise.exercise_name} />
+                                    <p className="exercises__card-text">{exercise.exercise_name}</p>
+                                    <div className="exercises__card-chart-container">
+                                        <LineChart data={chartData[index].sort((a, b) => {
+                                            const dateA = new Date(a.date)
+                                            const dateB = new Date(b.date)
+                                            return dateA - dateB
+                                        })}
+                                            width={150}
+                                            height={100} >
+                                            <Line dataKey='training_volume' stroke='#2196F3' strokeWidth={2} />
+                                        </LineChart>
+                                    </div>
+                                    <div className='exercises__card-btn' id={exercise.id} data-name={exercise.exercise_name}>
+                                        <img className='exercises__card-icon' src={arm} alt="arm icon" />
+                                        <p className='exercises__card-text--small'>View Progression</p>
+                                    </div>
                                 </div>
-                                <div className='exercises__card-btn' id={exercise.id} data-name={exercise.exercise_name}>
-                                    <img className='exercises__card-icon' src={arm} alt="arm icon" />
-                                    <p className='exercises__card-text--small'>View Progression</p>
-                                </div>
-                            </div>
-                        )
-                    })}
-                </div>
+                            )
+                        })}
+                    </div>
+                }
+
             </div>
 
             {modal && <ExerciseModal id={exerciseID} name={exerciseName} func={handleCloseExerciseModal} closeExerciseModal={closeExerciseModal} />}
